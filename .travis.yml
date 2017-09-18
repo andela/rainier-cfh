@@ -1,27 +1,3 @@
 language: node_js
 node_js:
-    - "6.11.2"
-install:
-    - npm install
-branches:
-  only:
-    - chore/151168124/integrate-travis-with-readme-badge
-script: 
-  - npm test
-cache:
-  directories:
-    -node_modules
-services:
-  - mongodb
-sudo: false  
-env:
-  - NODE_ENV=test
-before_script:
-  - sleep 15
-after_success:
-  - npm run coveralls
-after_script:
-  - nyc npm test && nyc report --reporter=text-lcov | coveralls
-notifications:
-  webhooks: https://coveralls.io/webhook?repo_token=ZxG8OIzaPY9iMBN5BR4vzBI9DCoq1kyYx
-email: false
+    - "stable"

@@ -13,17 +13,9 @@
     "npm": "1.2.x"
   },
   "scripts": {
-<<<<<<< HEAD
     "start": "node node_modules/gulp/bin/gulp",
     "test": "node node_modules/gulp/bin/gulp test",
     "postinstall": "node node_modules/grunt-cli/bin/grunt install"
-=======
-    "start": "node node_modules/grunt-cli/bin/grunt",
-    "test": "node node_modules/grunt-cli/bin/grunt test",
-    "postinstall": "node node_modules/grunt-cli/bin/grunt install",
-    "cover": "istanbul cover _mocha",
-    "coveralls":"npm run cover -- test/**/ --report lcovonly && cat ./coverage/lcov.info | coveralls"
->>>>>>> chore(flight): #151168128 integrate coveralls code coverage service
   },
   "dependencies": {
     "async": "~0.2.9",

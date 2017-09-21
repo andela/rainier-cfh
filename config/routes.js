@@ -1,5 +1,7 @@
 var async = require('async');
-
+/*
+eslint-disable
+*/
 module.exports = function (app, passport, auth) {
     //User Routes
     var users = require('../app/controllers/users');
@@ -16,10 +18,10 @@ module.exports = function (app, passport, auth) {
     // Donation Routes
     app.post('/donations', users.addDonation);
 
-    app.post('/users/session', passport.authenticate('local', {
-        failureRedirect: '/signin',
-        failureFlash: 'Invalid email or password.'
-    }), users.session);
+    // app.post('/users/session', passport.authenticate('local', {
+    //     failureRedirect: '/signin',
+    //     failureFlash: 'Invalid email or password.'
+    // }), users.session);
 
     app.get('/users/me', users.me);
     app.get('/users/:userId', users.show);

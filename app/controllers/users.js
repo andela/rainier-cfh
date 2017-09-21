@@ -84,7 +84,7 @@ exports.checkAvatar = function (req, res) {
 exports.create = (req, res, next) => {
   if (!req.body.name || !req.body.password || !req.body.email) {
     return res.status(400).json({
-      message: 'Field cannot be empty'
+      error: 'Field cannot be empty'
     });
   }
 
@@ -98,8 +98,7 @@ exports.create = (req, res, next) => {
       user.provider = 'local';
       user.save((err) => {
         if (err) {
-          return res.status(400).json({
-            message: 'error',
+          return res.render('/#!/signup?error=unknown', {
             errors: err.errors,
             user
           });
@@ -107,6 +106,7 @@ exports.create = (req, res, next) => {
         req.logIn(user, (err) => {
           if (err) return next(err);
           const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '10h' });
+
           res.status(200).json({
             message: 'User created successfully',
             token
@@ -115,7 +115,7 @@ exports.create = (req, res, next) => {
       });
     } else {
       return res.status(409).json({
-        message: 'User already exists'
+        error: 'User already exists'
       });
     }
   });
@@ -141,8 +141,8 @@ exports.login = (req, res) => {
         email: user.email,
         userId: user.id,
       }, process.env.JWT_SECRET, {
-        expiresIn: '10h'
-      });
+          expiresIn: '10h'
+        });
       return res.send({
         success: true,
         message: 'Login successful',

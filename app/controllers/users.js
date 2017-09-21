@@ -76,6 +76,9 @@ exports.checkAvatar = function(req, res) {
 /**
  * Create user
  */
+/*
+eslint-disable
+*/
 exports.create = function(req, res) {
   if (req.body.name && req.body.password && req.body.email) {
     User.findOne({

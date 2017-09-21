@@ -1,6 +1,6 @@
 var async = require('async');
 
-module.exports = function(app, passport, auth) {
+module.exports = function (app, passport, auth) {
     //User Routes
     var users = require('../app/controllers/users');
     app.get('/signin', users.signin);
@@ -9,7 +9,8 @@ module.exports = function(app, passport, auth) {
     app.get('/signout', users.signout);
 
     //Setting up the users api
-    app.post('/users', users.create);
+    app.post('/api/auth/signup', users.create);
+    app.post('/api/auth/login', users.login);
     app.post('/users/avatars', users.avatars);
 
     // Donation Routes

@@ -8,6 +8,19 @@ dotenv.config();
 const User = mongoose.model('User');
 const avatars = require('./avatars').all();
 
+/**
+* Logout
+*/
+
+exports.signout = (req, res) => {
+  req.logout();
+  res.redirect('/');
+};
+
+/**
+ * Sign Up
+ */
+
 exports.signup = (req, res, next) => {
   if (!req.body.name || !req.body.password || !req.body.email) {
     return res.status(400).json({

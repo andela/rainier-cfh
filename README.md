@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/andela/rainier-cfh/badge.svg?branch=staging)](https://coveralls.io/github/andela/rainier-cfh?branch=staging)
+
 Cards for Humanity - [http://cfh.io](http://cfh.io)
 ===========
 [![Build Status](https://travis-ci.org/andela/rainier-cfh.svg?branch=chore%2F151168124%2Fintegrate-travis-with-readme-badge)](https://travis-ci.org/andela/rainier-cfh)
@@ -14,6 +16,7 @@ Cards for Humanity was created at [Hack Reactor](http://www.hackreactor.com) by:
 
 About the Game
 -------------
+
 The game is simple - each player is given 10 answer cards which are used to fill in the question card. For each round, one player is the "Card Czar". Their sole job is to select a submitted answer card that they think best fits the question. Whoever's card is selected wins a point for the round.
 
 Cards Against Humanity is open-source and licensed under Creative Commons. The idea for Cards for Humanity was to create a web version of the game we love so much, while still doing something good for humanity. To achieve this we integrated the option to donate to the Make a Wish Foundation.

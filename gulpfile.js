@@ -47,7 +47,9 @@ gulp.task('server', ['lint'], () => (
   gulp.src('server.js')
     .pipe(newer('dist'))
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(babel({
+      plugins: ['transform-runtime']
+    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'))
 ));
@@ -84,7 +86,9 @@ gulp.task('public:js', ['lint'], () => (
   gulp.src('public/**/*.js')
     .pipe(newer('dist/public'))
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(babel({
+      plugins: ['transform-runtime']
+    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist/public'))
 ));

@@ -5,10 +5,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 require('dotenv').config();
 var express = require('express'),
-    fs = require('fs'),
-    passport = require('passport'),
-    logger = require('mean-logger'),
-    io = require('socket.io');
+  fs = require('fs'),
+  passport = require('passport'),
+  logger = require('mean-logger'),
+  io = require('socket.io');
 
 /**
  * Main application entry file.
@@ -18,9 +18,9 @@ var express = require('express'),
 //Load configurations
 //if test env, load example file
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
-    config = require('./config/config'),
-    auth = require('./config/middlewares/authorization'),
-    mongoose = require('mongoose');
+  config = require('./config/config'),
+  auth = require('./config/middlewares/authorization'),
+  mongoose = require('mongoose');
 
 //Bootstrap db connection
 var db = mongoose.connect(config.db);
@@ -54,8 +54,8 @@ app.use(function (req, res, next) {
 //express settings
 require('./config/express')(app, passport, mongoose);
 
-//Bootstrap routes
-require('./config/routes')(app, passport, auth);
+//Bootstrap
+// require('./config/routes')(app, passport, auth);
 require('./config/routes2')(app, passport, auth);
 
 //Start the app by listening on <port>

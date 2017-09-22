@@ -1,7 +1,5 @@
 const async = require('async');
-/*
-eslint-disable
-*/
+
 module.exports = function (app, passport, auth) {
   //User Routes
   const users = require('../app/controllers/userAuth');

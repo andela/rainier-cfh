@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-// const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -77,33 +76,3 @@ exports.login = (req, res) => {
   });
 };
 
-// passport.authenticate('local', (err, user) => {
-//   if (err) {
-//     return res.status(401).send({
-//       error: 'An error occurred'
-//     });
-//   }
-
-//   if (!user) {
-//     return res.status(401).send({
-//       message: 'Incorrect email or password'
-//     });
-//   }
-
-//   const passwordMatched = bcrypt.compareSync(req.body.password, user.hashed_password);
-//   if (!passwordMatched) {
-//     return res.status(409).send({
-//       message: 'Invalid credentials'
-//     });
-//   }
-//   const token = jwt.sign({
-//     email: user.email,
-//     userId: user.id,
-//   }, process.env.JWT_SECRET, {
-//     expiresIn: '10h'
-//   });
-//   return res.send({
-//     user,
-//     token
-//   });
-// });

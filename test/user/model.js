@@ -62,7 +62,7 @@ describe('POST: /api/auth/signup', () => {
         .post('/api/auth/login')
         .expect(400)
         .end((err, res) => {
-          expect(res.body.message).toBe('Field cannot be empty');
+          expect(res.body.message).toBe('All Fields are required');
           done();
         });
     });
@@ -74,7 +74,7 @@ describe('POST: /api/auth/signup', () => {
         })
         .expect(400)
         .end((err, res) => {
-          expect(res.body.message).toBe('Field cannot be empty');
+          expect(res.body.message).toBe('All Fields are required');
           done();
         });
     });
@@ -86,7 +86,7 @@ describe('POST: /api/auth/signup', () => {
         })
         .expect(401)
         .end((err, res) => {
-          expect(res.body.message).toBe('Field cannot be empty');
+          expect(res.body.message).toBe('All Fields are required');
           done();
         });
     });

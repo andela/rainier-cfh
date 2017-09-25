@@ -3,12 +3,17 @@
  */
 var mongoose = require('mongoose'),
     async = require('async'),
-    Question = mongoose.model('Question'),
+    Question = require('../models/question'),
     _ = require('underscore');
 
 
 /**
- * Find question by id
+ * [description]
+ * @param  {Object}   req  [description]
+ * @param  {Object}   res  [description]
+ * @param  {Function} next [description]
+ * @param  {Integer}   id   [description]
+ * @return {[type]}        [description]
  */
 exports.question = function(req, res, next, id) {
     Question.load(id, function(err, question) {

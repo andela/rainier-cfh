@@ -12,8 +12,8 @@ const _ = require('underscore');
  * @param  {Object}   req  [description]
  * @param  {Object}   res  [description]
  * @param  {Function} next [description]
- * @param  {Integer}   id   [description]
- * @return {undefined}        calls the next function in the middlewae chain
+ * @param  {Integer}   id  [description]
+ * @return {mixed}         calls the next function in the middlewae chain
  */
 export const answer = (req, res, next, id) => {
   Answer.load(id, (err, answer) => {
@@ -26,9 +26,9 @@ export const answer = (req, res, next, id) => {
 
 /**
  * [show description]
- * @param  {Object} req [description]
- * @param  {Object} res [description]
- * @return {[type]}     [description]
+ * @param  {Object} req express http request object
+ * @param  {Object} res expressnhttp response object
+ * @return {mixed} calls method on res
  */
 export const show = (req, res) => {
   res.jsonp(req.answer);
@@ -36,9 +36,9 @@ export const show = (req, res) => {
 
 /**
  * [all description]
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Object} req express http request object
+ * @param  {Object} res expressnhttp response object
+ * @return {void}
  */
 export const all = (req, res) => {
   Answer.find({ official: true }).select('-_id').exec((err, answers) => {
@@ -53,15 +53,14 @@ export const all = (req, res) => {
 };
 
 /**
- * [allAnswersForGame description]
- * @param  {Function} cb [description]
- * @return {[type]}      [description]
+ * all Answers For Game
+ * @param  {Function} cb callback function
+ * @return {mixed}       calls cb
  */
 exports.allAnswersForGame = (cb) => {
   Answer.find({ official: true }).select('-_id').exec((err, answers) => {
     if (err) {
       console.log(err);
-      throw err;
     } else {
       cb(answers);
     }

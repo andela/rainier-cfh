@@ -1,7 +1,6 @@
 const bower = require('gulp-bower');
 const newer = require('gulp-newer');
 const gulp = require('gulp');
-const livereload = require('gulp-livereload');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const nodemon = require('gulp-nodemon');
@@ -13,12 +12,12 @@ const htmlclean = require('gulp-htmlclean');
 
 
 gulp.task('watch', () => {
-  gulp.watch('app/views/**', livereload());
-  gulp.watch('public/js/**', livereload());
-  gulp.watch('app/**/*.js', livereload());
-  gulp.watch('public/views/**', livereload());
+  gulp.watch('app/views/**/*', ['jade']);
+  gulp.watch('public/js/**', ['public:js']);
+  gulp.watch('app/**/*.js', ['transpile-app']);
+  gulp.watch('public/views/**/*', ['html']);
   gulp.watch('public/css/common.scss', ['sass']);
-  gulp.watch('public/css/**', livereload());
+  gulp.watch('public/css/**/*', ['css']);
 });
 
 
@@ -79,18 +78,18 @@ gulp.task('html', ['lint', 'images'], () => (
   gulp.src('public/views/**/*.html')
     .pipe(newer('dist/public/views/**/*.html'))
     .pipe(htmlclean())
-    .pipe(gulp.dest('dist/public'))
+    .pipe(gulp.dest('dist/public/views'))
 ));
 
 gulp.task('public:js', ['lint'], () => (
-  gulp.src('public/**/*.js')
-    .pipe(newer('dist/public'))
+  gulp.src('public/js/**/*.js')
+    .pipe(newer('dist/public/js'))
     .pipe(sourcemaps.init())
     .pipe(babel({
       plugins: ['transform-runtime']
     }))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('dist/public'))
+    .pipe(gulp.dest('dist/public/js'))
 ));
 
 gulp.task('config:js', ['lint'], () => (
@@ -106,23 +105,24 @@ gulp.task('config:json', ['lint'], () => (
     .pipe(gulp.dest('dist/config'))
 ));
 
-gulp.task('nodemon', () => {
+gulp.task('nodemon', ['watch', 'build'], () => (
   nodemon({
-    script: 'server.js',
+    script: 'dist/server.js',
     ext: 'js',
     ignore: ['README.md', 'node_modules/**', '.DS_Store'],
-    watch: ['app', 'config'],
+    watch: ['app', 'config', 'public'],
+    task: ['watch', 'build'],
     env: {
       PORT: 3000,
     }
-  });
-});
+  })
+));
 
-gulp.task('sass', () => {
+gulp.task('sass', () => (
   gulp.src('public/css/common/scss')
     .pipe(sass())
-    .pipe(gulp.dest('public/css/'));
-});
+    .pipe(gulp.dest('public/css/'))
+));
 
 
 gulp.task('mochaTest', () => {
@@ -133,44 +133,50 @@ gulp.task('mochaTest', () => {
 });
 
 
-gulp.task('angular', () => {
+gulp.task('angular', () => (
   gulp.src('bower_components/angular/**/*.js')
-    .pipe(gulp.dest('public/lib/angular'));
-});
+    .pipe(gulp.dest('public/lib/angular'))
+));
 
-gulp.task('angular-bootstrap', () => {
+gulp.task('angular-bootstrap', () => (
   gulp.src('bower_components/angular-bootstrap/**/*')
-    .pipe(gulp.dest('public/lib/angular-bootstrap'));
-});
+    .pipe(gulp.dest('public/lib/angular-bootstrap'))
+));
 
-gulp.task('angularUtils', () => {
+gulp.task('angularUtils', () => (
   gulp.src('bower_components/angular-ui-utils/modules/route/route.js')
-    .pipe(gulp.dest('public/lib/angular-ui-utils/modules'));
-});
+    .pipe(gulp.dest('public/lib/angular-ui-utils/modules'))
+));
 
-gulp.task('bootstrap', () => {
+gulp.task('bootstrap', () => (
   gulp.src('bower_components/bootstrap/**/*')
-    .pipe(gulp.dest('public/lib/bootstrap'));
-});
+    .pipe(gulp.dest('public/lib/bootstrap'))
+));
 
-gulp.task('jquery', () => {
-  gulp.src('bower_components/juery/**/*')
-    .pipe(gulp.dest('public/lib/jquery'));
-});
+gulp.task('jquery', () => (
+  gulp.src('bower_components/jquery/**/*')
+    .pipe(gulp.dest('public/lib/jquery'))
+));
 
-gulp.task('underscore', () => {
+gulp.task('underscore', () => (
   gulp.src('bower_components/underscore/**/*')
-    .pipe(gulp.dest('public/lib/underscore'));
-});
+    .pipe(gulp.dest('public/lib/underscore'))
+));
 
-gulp.task('bower', () => {
-  bower().pipe(gulp.dest('./bower_components'));
+gulp.task('bower', () => (
+  bower().pipe(gulp.dest('./bower_components'))
+));
+
+gulp.task('move:lib', () => {
+  gulp.src('public/lib/**/*')
+    .pipe(gulp.dest('dist/public/lib'));
 });
 
 gulp.task('test', ['mochaTest']);
+
 gulp.task('default', [
-  'nodemon',
   'watch',
+  'nodemon',
   'sass',
   'angular',
   'bootstrap',
@@ -179,13 +185,22 @@ gulp.task('default', [
   'angularUtils',
   'angular-bootstrap'
 ]);
+
 gulp.task('build', [
   'transpile-app',
   'server',
   'jade',
   'config:js',
   'config:json',
+  'public:js',
   'css',
   'images',
-  'html'
+  'html',
+  'angular',
+  'bootstrap',
+  'jquery',
+  'underscore',
+  'angularUtils',
+  'angular-bootstrap',
+  'move:lib'
 ]);

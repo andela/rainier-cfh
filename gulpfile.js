@@ -10,7 +10,7 @@ gulp.task('watch', () => {
   gulp.watch('app/views/**', livereload());
   gulp.watch('public/js/**', livereload());
   gulp.watch('app/**/*.js', livereload());
-  gulp.watch('public/views/**', livereload());
+  gulp.watch('public/views/**/*', livereload());
   gulp.watch('public/css/common.scss', ['sass']);
   gulp.watch('public/css/**', livereload());
 });

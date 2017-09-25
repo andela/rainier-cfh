@@ -1,3 +1,4 @@
+/*eslint-disable */
 /**
  * Module dependencies.
  */
@@ -11,13 +12,13 @@ const app = require('../../server');
 const User = mongoose.model('User');
 const request = supertest(app);
 
-//Globals
-var user;
+// Globals
+let user;
 
 // The tests
-describe('<Unit Test>', function () {
-  describe('Model User:', function () {
-    before(function (done) {
+describe('<Unit Test>', () => {
+  describe('Model User:', () => {
+    before((done) => {
       user = new User({
         name: 'Full name',
         email: 'test@test.com',
@@ -28,12 +29,10 @@ describe('<Unit Test>', function () {
       done();
     });
 
-    describe('Method Save', function () {
-
-
-      it('should be able to show an error when try to save witout name', function (done) {
+    describe('Method Save', () => {
+      it('should be able to show an error when try to save witout name', (done) => {
         user.name = '';
-        return user.save(function (err) {
+        return user.save((err) => {
           should.exist(err);
           done();
         });

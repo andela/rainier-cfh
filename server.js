@@ -56,7 +56,7 @@ require('./config/express')(app, passport, mongoose);
 
 //Bootstrap
 // require('./config/routes')(app, passport, auth);
-require('./config/routes2')(app, passport, auth);
+require('./config/routes')(app, passport, auth);
 
 //Start the app by listening on <port>
 var port = config.port;

@@ -1,9 +1,15 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-User = mongoose.model('User');
-var avatars = require('./avatars').all();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const User = mongoose.model('User');
+const avatars = require('./avatars').all();
 
 /**
 * Auth callback
@@ -35,11 +41,12 @@ if (!req.user) {
 };
 
 /**
-* Logout
+* Signout
 */
-exports.signout = function(req, res) {
-req.logout();
-res.redirect('/');
+
+exports.signout = (req, res) => {
+  req.logout();
+  res.redirect('/');
 };
 
 /**
@@ -74,40 +81,79 @@ if (req.user && req.user._id) {
 };
 
 /**
-* Create user
-*/
-/*
-eslint-disable
-*/
-exports.create = function(req, res) {
-if (req.body.name && req.body.password && req.body.email) {
+ * Sign Up
+ */
+
+exports.signup = (req, res, next) => {
+  if (!req.body.name || !req.body.password || !req.body.email) {
+    return res.status(400).json({
+      error: 'All fields are required'
+    });
+  }
+
   User.findOne({
     email: req.body.email
-  }).exec(function(err,existingUser) {
+  }).exec((err, existingUser) => {
     if (!existingUser) {
-      var user = new User(req.body);
+      const user = new User(req.body);
       // Switch the user's avatar index to an actual avatar url
       user.avatar = avatars[user.avatar];
       user.provider = 'local';
-      user.save(function(err) {
+      user.save((err) => {
         if (err) {
           return res.render('/#!/signup?error=unknown', {
             errors: err.errors,
-            user: user
+            user
           });
         }
-        req.logIn(user, function(err) {
+        req.logIn(user, (err) => {
           if (err) return next(err);
-          return res.redirect('/#!/');
+          const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '10h' });
+
+          res.status(200).json({
+            token,
+            user
+          });
         });
       });
     } else {
-      return res.redirect('/#!/signup?error=existinguser');
+      return res.status(409).json({
+        error: 'User already exists'
+      });
     }
   });
-} else {
-  return res.redirect('/#!/signup?error=incomplete');
-}
+};
+
+/**
+ * Sign In
+ */
+
+exports.login = (req, res) => {
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).json({
+      message: 'All Fields are required'
+    });
+  }
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (!err) {
+      const passwordMatched = bcrypt.compareSync(req.body.password, user.hashed_password);
+      if (!passwordMatched) {
+        return res.status(409).send({
+          message: 'Invalid credentials'
+        });
+      }
+      const token = jwt.sign({
+        email: user.email,
+        userId: user.id,
+      }, process.env.JWT_SECRET, {
+        expiresIn: '10h'
+      });
+      return res.send({
+        user,
+        token
+      });
+    }
+  });
 };
 
 /**

@@ -1,4 +1,3 @@
-/*eslint-disable */
 /**
  * Module dependencies.
  */
@@ -25,10 +24,8 @@ describe('<Unit Test>', () => {
         username: 'user',
         password: 'password'
       });
-
       done();
     });
-
     describe('Method Save', () => {
       it('should be able to show an error when try to save witout name', (done) => {
         user.name = '';
@@ -38,7 +35,6 @@ describe('<Unit Test>', () => {
         });
       });
     });
-
     after(function (done) {
       done();
     });

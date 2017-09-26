@@ -78,6 +78,9 @@
         <div class="text-center text-danger" ng-show="!searchedUsers.length && searchText">
           No users found
         </div>
+        <div class="text-center text-success" ng-show="sentEmailInvite">
+            Email invites successfully sent
+          </div>
         <div ng-show='searchedUsers.length'>
             <div class="row">
               <div class="col-sm-6">
@@ -98,7 +101,7 @@
                 <ul>
                    <li ng-repeat="inviteUser in inviteUsers">{{inviteUser.name}}</li>
                  </ul>
-                 <button class="btn btn-sm btn-danger" ng-show="inviteUsers.length">Invite friends</button>
+                 <button class="btn btn-sm btn-danger" ng-show="inviteUsers.length" ng-click="sendInvite()">Invite friends</button>
               </div>
             </div>
             

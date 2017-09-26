@@ -5,6 +5,7 @@ angular.module('mean.system')
       $scope.searchText = '';
       $scope.searchedUsers = [];
       $scope.inviteUsers = [];
+      $scope.sentEmailInvite = false;
       $scope.searchError = false;
       $scope.hasPickedCards = false;
       $scope.winningCardPicked = false;
@@ -122,6 +123,7 @@ angular.module('mean.system')
 
       // search users to invite 
       $scope.searchInviteUsers = () => {
+        $scope.sentEmailInvite = false;
          $http.post('/api/search/users', { query: $scope.searchText })
           .then((response) => {
             $scope.searchedUsers = response.data;
@@ -157,7 +159,14 @@ angular.module('mean.system')
       };
       // send invite to users//  
       $scope.sendInvite = () =>{
-         console.log('invite sent to friends')
+         const usersEmail = $scope.inviteUsers.map((user)=>user.email)
+         console.log(usersEmail);
+
+         $scope.sentEmailInvite = true;
+
+         $scope.searchText = '';
+         $scope.searchedUsers = [];
+         $scope.inviteUsers = [];
       }
       
       $scope.checkUserIsInvited = (email) => {

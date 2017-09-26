@@ -3,9 +3,11 @@ angular.module('mean.system')
   .controller('GameController', ['$scope', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
     function ($scope, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {
       $scope.searchText = '';
+      $scope.inviteEmailBody = `Your friend has requested you play Card for Humanity together please 
+                                follow the link to play`;
       $scope.searchedUsers = [];
       $scope.inviteUsers = [];
-      $scope.sentEmailInvite = false;
+      $scope.sentEmailMessage = false;
       $scope.searchError = false;
       $scope.hasPickedCards = false;
       $scope.winningCardPicked = false;
@@ -159,14 +161,22 @@ angular.module('mean.system')
       };
       // send invite to users//  
       $scope.sendInvite = () =>{
-         const usersEmail = $scope.inviteUsers.map((user)=>user.email)
-         console.log(usersEmail);
-
-         $scope.sentEmailInvite = true;
-
+         const gameLink = document.URL; 
+         const usersEmail = $scope.inviteUsers.map((user) => user.email);
+         const message = `${$scope.inviteEmailBody} ${gameLink} `;
+         
+         //backend http request to send emails to invited users
+         $http.post('/api/invite/send', { emails:usersEmail,message:message })
+         .then(() => {
+            $scope.sentEmailInvite = true;
+         });
+         //garbage collection 
          $scope.searchText = '';
          $scope.searchedUsers = [];
          $scope.inviteUsers = [];
+         
+
+         
       }
       
       $scope.checkUserIsInvited = (email) => {

@@ -36,9 +36,10 @@ exports.search = (req, res) => {
     });
 };
 
+// send email invite to users
 exports.sendInviteEmail = (req, res) => {
-  const { email, message } = req.body;
-  // creates a transporter //
+  const { emails, message } = req.body;
+  // creates a transporter to send email //
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -54,11 +55,11 @@ exports.sendInviteEmail = (req, res) => {
 
   const mailOptions = {
     from: '"CFH" <invite@CFH.com',
-    to: email,
+    to: emails,
     subject: 'Cfh Game Invite',
     text: message
   };
-
+  // transporter sending the email 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       return res.send({

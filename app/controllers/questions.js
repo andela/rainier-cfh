@@ -1,55 +1,70 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-    async = require('async'),
-    Question = mongoose.model('Question'),
-    _ = require('underscore');
+const mongoose = require('mongoose'),
+  async = require('async'),
+  Question = require('../models/question'),
+  _ = require('underscore');
 
 
 /**
- * Find question by id
+ *
+ * @param  {Object}   req  express http request object
+ * @param  {Object}   res  express http response object
+ * @param  {Function} next [description]
+ * @param  {Integer}   id  [description]
+ * @return {mixed}         calls the next middleware in the stack
  */
-exports.question = function(req, res, next, id) {
-    Question.load(id, function(err, question) {
-        if (err) return next(err);
-        if (!question) return next(new Error('Failed to load question ' + id));
-        req.question = question;
-        next();
-    });
+exports.question = (req, res, next, id) => {
+  Question.load(id, (err, question) => {
+    if (err) return next(err);
+    if (!question) return next(new Error(`Failed to load question ${id}`));
+    req.question = question;
+    next();
+  });
 };
 
 /**
  * Show an question
+ * @param  {Object}   req  express http request object
+ * @param  {Object}   res  express http response object
+ * @return {mixed}         calls method on res
  */
-exports.show = function(req, res) {
-    res.jsonp(req.question);
+exports.show = (req, res) => {
+  res.jsonp(req.question);
 };
 
 /**
  * List of Questions
+ * @param  {Object}   req  express http request object
+ * @param  {Object}   res  express http response object
+ * @return {mixed}         calls method on res
  */
-exports.all = function(req, res) {
-    Question.find({official:true, numAnswers: {$lt : 3}}).select('-_id').exec(function(err, questions) {
-        if (err) {
-            res.render('error', {
-                status: 500
-            });
-        } else {
-            res.jsonp(questions);
-        }
+exports.all = (req, res) => {
+  Question.find({ official: true, numAnswers: { $lt: 3 } }).select('-_id')
+    .exec((err, questions) => {
+      if (err) {
+        res.render('error', {
+          status: 500
+        });
+      } else {
+        res.jsonp(questions);
+      }
     });
 };
 
 /**
  * List of Questions (for Game class)
+ * @param  {Function} cb callback function
+ * @return {mixed}       calls cb
  */
-exports.allQuestionsForGame = function(cb) {
-    Question.find({official:true, numAnswers: {$lt : 3}}).select('-_id').exec(function(err, questions) {
-        if (err) {
-            console.log(err);
-        } else {
-            cb(questions);
-        }
+exports.allQuestionsForGame = (cb) => {
+  Question.find({ official: true, numAnswers: { $lt: 3 } }).select('-_id')
+    .exec((err, questions) => {
+      if (err) {
+        console.log(err);
+      } else {
+        cb(questions);
+      }
     });
 };

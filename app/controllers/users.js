@@ -135,7 +135,7 @@ exports.signup = (req, res, next) => {
   });
 };
 
- * Check avatar - Confirm if the user who logged in via passport
+ /* Check avatar - Confirm if the user who logged in via passport
  * already has an avatar. If they don't have one, redirect them
  * to our Choose an Avatar page.
  */

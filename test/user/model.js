@@ -1,31 +1,6 @@
-/*eslint-disable */
 /**
  * Module dependencies.
  */
-<<<<<<< HEAD
-let should = require('should'),
-  app = require('../../server'),
-  mongoose = require('mongoose'),
-  User = mongoose.model('User');
-
-// Globals
-let user;
-
-// The tests
-describe('<Unit Test>', () => {
-  describe('Model User:', () => {
-    before((done) => {
-      user = new User({
-        name: 'Full name',
-        email: 'test@test.com',
-        username: 'user',
-        password: 'password'
-      });
-
-      done();
-    });
-
-=======
 const supertest = require('supertest');
 const mongoose = require('mongoose');
 const should = require('should');
@@ -51,7 +26,6 @@ describe('<Unit Test>', () => {
       });
       done();
     });
->>>>>>> develop
     describe('Method Save', () => {
       it('should be able to show an error when try to save witout name', (done) => {
         user.name = '';
@@ -61,14 +35,6 @@ describe('<Unit Test>', () => {
         });
       });
     });
-<<<<<<< HEAD
-    describe('Search User:', () => {
-        
-    });
-
-    after((done) => {
-      done();
-=======
     after(function (done) {
       done();
     });
@@ -118,7 +84,6 @@ describe('POST: /api/auth/signup', () => {
           expect(res.body.message).toBe('All Fields are required');
           done();
         });
->>>>>>> develop
     });
   });
 });

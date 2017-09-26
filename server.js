@@ -26,6 +26,7 @@ const env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
 
 // Bootstrap db connection
 const db = mongoose.connect(config.db);
+// const db = mongoose.connect('mongodb://localhost/rainier-cfh');
 
 // Bootstrap models
 const modelsPath = path.resolve(__dirname, 'app/models');

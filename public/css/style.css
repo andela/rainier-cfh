@@ -1,6 +1,64 @@
- .clear {
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Satisfy');
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+html {
+  font-family: "Montserrat", sans-serif;
+}
+header .nav-wrapper a {
+font-family: 'Satisfy'
+}
+
+.tabs .indicator {
+background-color: #D81B60 !important;
+}
+
+.account {
+margin-top: 50px;
+height: 750px;
+}
+
+.account h5 {
+padding: 20px 0px;
+}
+
+.account .signup {
+padding: 0px 80px;
+}
+
+.account .signup .signin {
+ margin-bottom: 50px;
+}
+
+.account .button button {
+padding: 0px 70px;
+background-color: #e53935 !important;
+margin: 30px 0px 35px 0px;
+}
+
+.account p {
+padding-bottom: 5px;
+}
+
+.account .provider button {
+margin-bottom: 30px !important;
+background-color: transparent !important;
+width: 220px !important;
+color: #000 !important;
+}
+
+.account .provider .hr {
+  margin-top: 30px;
+  }
+
+.navbar-fixed a {
+color: #e53935;
+}
+/*END*/
+
+/* .clear {
    clear:both;
- }
+ } 
 
  .uppercase {
    text-transform: uppercase;
@@ -124,11 +182,11 @@
    color: white;
    font-family: arial;
    margin-bottom: -13px;
-}
+}*/
 
 
  /**** Links ****/
- a {
+ /* a {
    color: #60B197;
    -webkit-transition: color 0.5s ease;
    -moz-transition: color 0.5s ease;
@@ -149,11 +207,11 @@
 
  p a:hover {
    color: #2ecc71;
- }
+ } */
 
 
  /**** Top Bar ****/
-#menu-container {
+/* #menu-container {
    width: 100%;
    -webkit-border-radius: 8px;
    -moz-border-radius: 8px;
@@ -263,14 +321,14 @@
    text-transform: uppercase;
    position: relative;
    z-index:1000;
- }
+ }*/
 
 
 
 
  /**** LANDING ****/
 
- #main-text {
+ /*#main-text {
    margin: 5px;
  }
 
@@ -346,11 +404,11 @@
 
 #navver {
    height: 60px;
-}
+} */
 
 
  /**** Section Title ****/
- .wpb-section-title {
+ /* .wpb-section-title {
    background-color: #24272a;
    height: 100px;
  }
@@ -414,10 +472,10 @@
    margin-right: 10px;
    padding: 0.1em 35px;
    cursor: pointer;
- }
+ }*/
 
  /**** About Us ****/
-#main-bod {
+/*#main-bod {
    max-width: 1400px;
    margin: 0px auto;
 }
@@ -540,10 +598,10 @@
    float: left;
    margin: 2px 5px;
    border-radius: 8px;
- }
+ } */
 
  /**** Portfolio ****/
- .wpb-portfolio-list .wpb-portfolio-item {
+ /* .wpb-portfolio-list .wpb-portfolio-item {
    margin-left: 10px;
    list-style-type: none;
    width: 30%;
@@ -605,10 +663,10 @@
 
  .wpb-portfolio-details p {
    color:#515e65 !important;
- }
+ }*/
 
  /**** Portfolio ****/
- .wpb-portfolio-body {
+ /*.wpb-portfolio-body {
 
  }
 
@@ -658,12 +716,12 @@
    -ms-transition: background-color 0.5s ease;
    -o-transition:  background-color 0.5s ease;
    transition:  background-color 0.5s ease;
- }
+ } */
 
 
 
  /**** Team List ****/
- .wpb-team-list .wpb-team-item {
+ /* .wpb-team-list .wpb-team-item {
    margin-left: 0px;
    margin-right: 10px;
  }
@@ -727,7 +785,7 @@
  .wpb-team-item .wpb-team-thumbnail .wpb-team-overlay>div div.content a {
    color: #ffffff !important;
 
- }
+ } */
 
 
  .wpb-team-item .wpb-team-thumbnail .wpb-team-overlay>div div.content i {

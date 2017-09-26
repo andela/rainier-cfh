@@ -5,9 +5,40 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User');
 var avatars = require('./avatars').all();
 
+exports.search = (req, res) => {
+  const { query } = req.body;
+
+  // throws error if user does enter query string
+  if (!query || query.trim() === '') {
+    return res.status(202).send({
+      message: 'Please enter a search query'
+    });
+  }
+  User
+    .find({
+      $or: [
+        { username: { $regex: `.*${query}.*` } }, // regex to return users' username or name that match the query string
+        { name: { $regex: `.*${query}.*` } }
+      ]
+    })
+    .select('name username email')
+    .sort('name')
+    .limit(20)
+    .exec((err, users) => {
+      if (err) {
+        return res.status(400).send({ message: 'Error retrieving user' });
+      }
+      if (!users.length) {
+        return res.status(202).send({ message: 'No users found' });
+      }
+      return res.status(200).send(users);
+    });
+};
+
 /**
  * Auth callback
  */
+
 exports.authCallback = function(req, res, next) {
   res.redirect('/chooseavatars');
 };

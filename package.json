@@ -18,7 +18,6 @@
     "postinstall": "node node_modules/grunt-cli/bin/grunt install",
     "cover": "istanbul cover _mocha",
     "coveralls": "npm run cover -- test/**/ --report lcovonly && cat ./coverage/lcov.info | coveralls"
-
   },
   "dependencies": {
     "angular-mocks": "^1.6.6",

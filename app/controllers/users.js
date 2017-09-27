@@ -6,9 +6,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 require('dotenv').config();
-// const dotenv = require('dotenv');
-
-// dotenv.config();
 
 const User = mongoose.model('User');
 const avatars = require('./avatars').all();

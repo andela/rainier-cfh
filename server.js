@@ -2,9 +2,6 @@
  * Module dependencies.
  */
 const path = require('path');
-const dotenv = require('dotenv');
-
-dotenv.config();
 require('dotenv').config();
 const express = require('express'),
   fs = require('fs'),
@@ -66,6 +63,7 @@ const server = app.listen(port);
 const ioObj = io.listen(server, { log: false });
 // game logic handled here
 require('./config/socket/socket')(ioObj);
+
 process.stdout.write(`Express app started on port ${port}`);
 
 // Initializing logger

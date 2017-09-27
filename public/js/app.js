@@ -12,7 +12,7 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
             templateUrl: '/views/privacy.html',
           }).
           when('/bottom', {
-            templateUrl: '/views/bottom.html'
+            templateUrl: '/views/bottom.html',
           }).
           when('/signin', {
             templateUrl: '/views/signin.html'

@@ -1,14 +1,18 @@
-
 /**
  * Module dependencies.
  */
+let mongoose = require('mongoose'),
+  User = mongoose.model('User');
+const avatars = require('./avatars').all();
+const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
-const User = mongoose.model('User');
-const avatars = require('./avatars').all();
+
+
+
 
 // authenticated route to search for users with name or username
 exports.search = (req, res) => {
@@ -16,7 +20,7 @@ exports.search = (req, res) => {
 
   // throws error if user does enter query string
   if (!query || query.trim() === '') {
-    return res.status(402).send({
+    return res.status(202).send({
       message: 'Please enter a search query'
     });
   }
@@ -35,24 +39,57 @@ exports.search = (req, res) => {
         return res.status(400).send({ message: 'Error retrieving user' });
       }
       if (!users.length) {
-        return res.status(402).send({ message: 'No users found' });
+        return res.status(202).send({ message: 'No users found' });
       }
       return res.status(200).send(users);
     });
+};
+
+// send email invite to users
+exports.sendInviteEmail = (req, res) => {
+  const { emails, message } = req.body;
+  // creates a transporter to send email //
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: process.env.EMAIL_PORT,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    },
+    tls: { rejectUnauthorized: false }
+ });
+
+  const mailOptions = {
+    from: '"CFH" <invite@CFH.com',
+    to: emails,
+    subject: 'Cfh Game Invite',
+    text: message
+  };
+  // transporter sending the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.send({
+        message: 'Unable to send email something went wrong'
+      });
+    }
+
+    return res.status(200).send({
+      message: 'Email sent successfully'
+    });
+  });
 };
 
 /**
  * Auth callback
  */
 
+
 exports.authCallback = (req, res, next) => {
   res.redirect('/chooseavatars');
 };
 
-/**
-* Show login form
-*/
-
+// Show login form
 exports.signin = (req, res) => {
   if (!req.user) {
     res.redirect('/#!/signin?error=invalid');
@@ -126,6 +163,17 @@ exports.signup = (req, res, next) => {
               user
             });
           });
+
+        }
+        req.logIn(user, (err) => {
+          if (err) return next(err);
+          const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '10h' });
+
+          res.status(200).json({
+            token,
+            user
+          });
+
         });
       } else {
         return res.status(409).json({
@@ -137,6 +185,7 @@ exports.signup = (req, res, next) => {
 
 /*
  * Check avatar - Confirm if the user who logged in via passport
+
  * already has an avatar. If they don't have one, redirect them
  * to our Choose an Avatar page.
  */
@@ -154,7 +203,7 @@ exports.checkAvatar = (req, res) => {
         }
       });
   } else {
-    // If user doesn't even exist, redirect to /
+    // If user doesnt even exist, redirect to
     res.redirect('/');
   }
 };

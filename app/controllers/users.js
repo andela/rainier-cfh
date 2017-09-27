@@ -135,7 +135,7 @@ exports.signup = (req, res, next) => {
   });
 };
 
- * Check avatar - Confirm if the user who logged in via passport
+ /* Check avatar - Confirm if the user who logged in via passport
  * already has an avatar. If they don't have one, redirect them
  * to our Choose an Avatar page.
  */
@@ -194,7 +194,6 @@ exports.create = function (req, res) {
 /**
  * Sign In
  */
-
 exports.login = (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({
@@ -222,7 +221,6 @@ exports.login = (req, res) => {
     }
   });
 };
-
 exports.avatars = function (req, res) {
   // Update the current user's profile to include the avatar choice they've made
   if (req.user && req.user._id && req.body.avatar !== undefined &&

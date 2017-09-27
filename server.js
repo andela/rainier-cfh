@@ -2,9 +2,7 @@
  * Module dependencies.
  */
 const path = require('path');
-const dotenv = require('dotenv');
 
-dotenv.config();
 require('dotenv').config();
 const express = require('express'),
   fs = require('fs'),

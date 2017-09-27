@@ -191,7 +191,7 @@ angular.module('mean.system')
         var gameEnded = true;
         var timePlayed = new Date().toUTCString();
         var loggedInUserID = user._id;
-        var gameDetails = {
+        var gameData = {
         gameId,
         gameRound,
         gameOwner,

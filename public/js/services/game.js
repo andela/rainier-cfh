@@ -1,3 +1,4 @@
+/*eslint-disable */
 angular.module('mean.system')
   .factory('game', ['socket', '$timeout', function (socket, $timeout) {
 
@@ -12,7 +13,7 @@ angular.module('mean.system')
     table: [],
     czar: null,
     playerMinLimit: 3,
-    playerMaxLimit: 6,
+    playerMaxLimit: 12,
     pointLimit: null,
     state: null,
     round: 0,
@@ -186,7 +187,9 @@ angular.module('mean.system')
   };
 
   game.startGame = function() {
+
     socket.emit('startGame');
+    
   };
 
   game.leaveGame = function() {

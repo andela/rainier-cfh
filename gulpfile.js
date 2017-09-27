@@ -1,10 +1,15 @@
 const bower = require('gulp-bower');
+const newer = require('gulp-newer');
 const gulp = require('gulp');
-const livereload = require('gulp-livereload');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const nodemon = require('gulp-nodemon');
 const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
+const imagemin = require('gulp-imagemin');
+const htmlclean = require('gulp-htmlclean');
+
 
 gulp.task('watch', () => {
   gulp.watch('app/views/**/*', ['jade']);
@@ -24,8 +29,8 @@ gulp.task('lint', () => (
     'test/**/*.js'
   ])
     .pipe(eslint())
-    // .pipe(eslint.format())
-    // .pipe(eslint.failAfterError())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
 ));
 
 gulp.task('transpile-app', ['lint'], () => (
@@ -102,15 +107,16 @@ gulp.task('config:json', ['lint'], () => (
 
 gulp.task('nodemon', ['watch', 'build'], () => (
   nodemon({
-    script: 'server.js',
+    script: 'dist/server.js',
     ext: 'js',
     ignore: ['README.md', 'node_modules/**', '.DS_Store'],
-    watch: ['app', 'config'],
+    watch: ['app', 'config', 'public'],
+    task: ['watch', 'build'],
     env: {
       PORT: 3000,
     }
-  });
-});
+  })
+));
 
 gulp.task('sass', () => (
   gulp.src('public/css/**/*.scss')
@@ -118,14 +124,6 @@ gulp.task('sass', () => (
     .pipe(gulp.dest('dist/public/css/'))
 ));
 
-gulp.task('lint', () => {
-  gulp.src([
-    'gulpfile.js',
-    'public/js/**/*.js',
-    'app/**/*.js',
-    'test/**/*.js'
-  ]).pipe(eslint());
-});
 
 gulp.task('mochaTest', () => {
   gulp.src(['test/**/*.js'])
@@ -135,39 +133,74 @@ gulp.task('mochaTest', () => {
 });
 
 
-gulp.task('angular', () => {
+gulp.task('angular', () => (
   gulp.src('bower_components/angular/**/*.js')
-    .pipe(gulp.dest('public/lib/angular'));
-});
+    .pipe(gulp.dest('public/lib/angular'))
+));
 
-gulp.task('angular-bootstrap', () => {
+gulp.task('angular-bootstrap', () => (
   gulp.src('bower_components/angular-bootstrap/**/*')
-    .pipe(gulp.dest('public/lib/angular-bootstrap'));
-});
+    .pipe(gulp.dest('public/lib/angular-bootstrap'))
+));
 
-gulp.task('angularUtils', () => {
+gulp.task('angularUtils', () => (
   gulp.src('bower_components/angular-ui-utils/modules/route/route.js')
-    .pipe(gulp.dest('public/lib/angular-ui-utils/modules'));
-});
+    .pipe(gulp.dest('public/lib/angular-ui-utils/modules'))
+));
 
-gulp.task('bootstrap', () => {
+gulp.task('bootstrap', () => (
   gulp.src('bower_components/bootstrap/**/*')
-    .pipe(gulp.dest('public/lib/bootstrap'));
-});
+    .pipe(gulp.dest('public/lib/bootstrap'))
+));
 
-gulp.task('jquery', () => {
-  gulp.src('bower_components/juery/**/*')
-    .pipe(gulp.dest('public/lib/jquery'));
-});
+gulp.task('jquery', () => (
+  gulp.src('bower_components/jquery/**/*')
+    .pipe(gulp.dest('public/lib/jquery'))
+));
 
-gulp.task('underscore', () => {
+gulp.task('underscore', () => (
   gulp.src('bower_components/underscore/**/*')
-    .pipe(gulp.dest('public/lib/underscore'));
-});
+    .pipe(gulp.dest('public/lib/underscore'))
+));
 
-gulp.task('bower', () => {
-  bower().pipe(gulp.dest('./bower_components'));
+gulp.task('bower', () => (
+  bower().pipe(gulp.dest('./bower_components'))
+));
+
+gulp.task('move:lib', () => {
+  gulp.src('public/lib/**/*')
+    .pipe(gulp.dest('dist/public/lib'));
 });
 
 gulp.task('test', ['mochaTest']);
-gulp.task('default', ['nodemon', 'watch', 'sass', 'angular', 'bootstrap', 'jquery', 'underscore', 'angularUtils', 'angular-bootstrap']);
+
+gulp.task('default', [
+  'watch',
+  'nodemon',
+  'sass',
+  'angular',
+  'bootstrap',
+  'jquery',
+  'underscore',
+  'angularUtils',
+  'angular-bootstrap'
+]);
+
+gulp.task('build', [
+  'transpile-app',
+  'server',
+  'jade',
+  'config:js',
+  'config:json',
+  'public:js',
+  'css',
+  'images',
+  'html',
+  'angular',
+  'bootstrap',
+  'jquery',
+  'underscore',
+  'angularUtils',
+  'angular-bootstrap',
+  'move:lib'
+]);

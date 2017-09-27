@@ -1,71 +1,82 @@
-<div id="main-bod" ng-controller="IndexController">
-  <!-- Fixed Logo & Menu Bar Start -->
-  <div id="top-part">
-    <div class="wpb-top-bar">
-      <div class="mod-contain" id="navver">
-        <div class="row">
-          <!-- Logo -->
-          <div class="wpb-logo-container">
-            <div id="landing-logo"> 
-              <span id="first-word">Cards</span>
-              <span id="second-word"> for</span> 
-              <span id="third-word">Humanity</span> 
-            </div> 
-            <div class="col-md-9 wpb-menu-container">
-              <ul class="wpb-main-menu">
-                <li><a href="/">Home</a></li>
-              </ul>
-            </div>
-          </div>      
-        </div>
-      </div>
-    </div>
-  </div>
-<!-- Fixed Logo & Menu Bar End -->
-
-<!-- Landing Start -->
-<div class="wpb-teaser parallax-background" id="homer">
-  <div class="background-opacity"></div> 
-  <div class="modified-container">
-    <div class="row" id="main-text"> 
-    <!-- Teaser Text Start -->
-    <div id="landing-logo">
-      <h2 id="slogan">Sign in with:</h2>
-      <div id="login-buttons">
-        <a href="/auth/facebook"><img class="login-item" src="/img/icons/facebook.png"></a>
-        <a href="/auth/github"><img class="login-item" src="/img/icons/github.png"></a>
-        <a href="/auth/twitter"><img class="login-item" src="/img/icons/twitter.png"></a>
-        <a href="/auth/google"><img class="login-item" src="/img/icons/google.png"></a>
-      </div>
-      <p id="create">Or log in below:</p>
-
-      <div class="sign-body">
-        <div class="more-sign">
-          <div class="sign-error" ng-show="showError() === 'invalid'">
-            Please check your username/password and try again.
+<body>
+  <header>
+    <div class="row navbar-fixed">
+      <nav>
+          <div class="nav-wrapper #ffffff white">
+            <a href="#" class="center brand-logo">Cards for Humanity</a>
           </div>
-          <form class="signup form-horizontal" action="/users/session" method="post">
-            <div class="control-group">
-              <label for="email" class="control-label"></label>
-              <div class="controls">
-                <input class="input-info" id="email" type="text" name="email" placeholder="Email" required novalidate />
+        </nav>
+    </div>
+  </header>
+
+  <div class="container">
+      <div class="row">
+        <div class="col l8 offset-l2 s12">
+          <div  class="z-depth-1 account">
+            <div class="row">
+              <div class="col s12">
+                <h5 class="center">Sign Into Your Account</h5>
+                <form>
+                  <div class="row signup">
+                    <div class="input-field col s12">
+                      <input class="validate" type="text" name="email" id="email" required />
+                      <label for="email">Email</label>
+                    </div>
+                  </div>
+                  <div class="row signup">
+                    <div class="input-field col s12">
+                      <input class="validate signin" type="password" name="password" id="password" required />
+                      <label for="password">Password</label>
+                    </div>
+                  </div>
+                  <div class="row center button">
+                    <button class="btn-large waves-effect waves-light" type="submit" name="action">SIGNIN</button>
+                  </div>
+                </form>
+                <p class="center">or signin with one of this services</p>
+                <div class="provider">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col s12">
+                        <div class="col s6">
+                          <button class="btn btn-large" type="button" name="action">
+                            <img src="../img/facebook.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
+                            facebook
+                          </button>
+                        </div>
+                        <div class="col s6">
+                          <button class="btn btn-large" type="button" name="action">
+                            <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
+                            twitter
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col s12">
+                        <div class="col s6">
+                          <button class="btn btn-large" type="button" name="action">
+                            <img src="../img/google.png" width="50px" height="50px" class="left" />
+                            Google
+                          </button>
+                        </div>
+                        <div class="col s6">
+                          <button class="btn btn-large brand-btn" type="button" name="action">
+                            <img src="../img/github2.png" width="50px" height="50px" class="left" />
+                            Github
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col s12 hr center">
+                        <hr/>
+                        <p>Don't have an account? <a href="/#!/signup">  Sign Up</a></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="control-group">
-              <label for="password" class="control-label"></label>
-              <div class="controls">
-                <input class="input-info" id="password" type="password" name="password" placeholder="Password" required novalidate />
-              </div>
-            </div>
-            <div class="form-actions top-margin">
-              <button id="sign-up-btn-other" type='submit'>Sign In</button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
-    </div>
-    </div>
   </div>
-</div>
+</body>
 

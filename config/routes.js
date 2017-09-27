@@ -1,5 +1,5 @@
 var async = require('async');
-var game = require('../app/controllers/game');
+var gameData = require('../app/controllers/game');
 
 module.exports = function(app, passport, auth) {
     //User Routes
@@ -17,7 +17,7 @@ module.exports = function(app, passport, auth) {
     app.post('/donations', users.addDonation);
 
     // Game session route
-    app.post('/api/games/:id/start', game.saveGame);
+    app.post('/api/games/:id/start', gameData.saveGame);
 
     app.post('/users/session', passport.authenticate('local', {
         failureRedirect: '/signin',

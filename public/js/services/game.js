@@ -200,8 +200,8 @@ angular.module('mean.system')
         gameEnded,
         timePlayed
         };
-        if (gameDetails.gameOwner.userID === loggedInUserID) {
-          $http.post(`/api/games/${game.gameID}/start`, gameDetails);
+        if (gameData.gameOwner.userID === loggedInUserID) {
+          $http.post(`/api/games/${game.gameID}/start`, gameData);
         }
         }
       game.players[game.playerIndex].hand = [];

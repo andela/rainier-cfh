@@ -1,19 +1,15 @@
-/*eslint-disable */
 /**
  * Module dependencies.
  */
 let mongoose = require('mongoose'),
-const User = mongoose.model('User');
+  User = mongoose.model('User');
 const avatars = require('./avatars').all();
 const nodemailer = require('nodemailer');
-
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 dotenv.config();
-
 
 
 // authenticated route to search for users with name or username
@@ -53,21 +49,22 @@ exports.sendInviteEmail = (req, res) => {
   // creates a transporter to send email //
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
+    port: process.env.EMAIL_PORT,
     secure: false,
     auth: {
-      user: 'abiliyok@gmail.com',
-      pass: 'tiesan123'
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     },
-    tls:{rejectUnauthorized: false }});
-   
-    const mailOptions = {
+    tls: { rejectUnauthorized: false }
+ });
+
+  const mailOptions = {
     from: '"CFH" <invite@CFH.com',
     to: emails,
     subject: 'Cfh Game Invite',
     text: message
   };
-  // transporter sending the email 
+  // transporter sending the email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       return res.send({
@@ -89,7 +86,7 @@ exports.authCallback = function (req, res, next) {
   res.redirect('/chooseavatars');
 };
 
-//Show login form
+// Show login form
 exports.signin = (req, res) => {
   if (!req.user) {
     res.redirect('/#!/signin?error=invalid');
@@ -160,7 +157,7 @@ exports.signup = (req, res, next) => {
           res.status(200).json({
             token,
             user
-             });
+          });
         });
       });
     } else {
@@ -171,7 +168,7 @@ exports.signup = (req, res, next) => {
   });
 };
 
- /* Check avatar - Confirm if the user who logged in via passport
+/* Check avatar - Confirm if the user who logged in via passport
  * already has an avatar. If they don't have one, redirect them
  * to our Choose an Avatar page.
  */
@@ -188,7 +185,7 @@ exports.checkAvatar = function (req, res) {
         }
       });
   } else {
-    // If user doesnt even exist, redirect to 
+    // If user doesnt even exist, redirect to
     res.redirect('/');
   }
 };
@@ -216,7 +213,7 @@ exports.create = function (req, res) {
           req.logIn(user, (err) => {
             if (err) return next(err);
             return res.redirect('/#!/');
-         });
+          });
         });
       } else {
         return res.redirect('/#!/signup?error=existinguser');

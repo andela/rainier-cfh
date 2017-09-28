@@ -1,7 +1,6 @@
 /*eslint-disable */
 angular.module('mean.system')
-  .factory('game', ['socket', '$timeout', function (socket, $timeout) {
-
+  .factory('game', ['socket', '$timeout', '$http', function (socket, $timeout, $http) {
   var game = {
     id: null, // This player's socket ID, so we know who this player is
     gameID: null,
@@ -65,6 +64,10 @@ angular.module('mean.system')
     game.playerMaxLimit = data.playerMaxLimit;
     game.pointLimit = data.pointLimit;
     game.timeLimits = data.timeLimits;
+  });
+
+  socket.on('gamestarted', function () {
+    game.state = 'game started';
   });
 
   socket.on('gameUpdate', function(data) {
@@ -169,6 +172,39 @@ angular.module('mean.system')
         game.joinOverride = true;
       }, 15000);
     } else if (data.state === 'game dissolved' || data.state === 'game ended') {
+      if (data.state !== 'game dissovled') {
+        let gamePlayers = [];
+        Object.keys(game.players).map(player => gamePlayers.push({
+          username: game.players[player].username,
+          points: game.players[player].points,
+          userID: game.players[player].userID,
+        }));
+        var gameWinner = {
+        username: game.players[game.gameWinner].username,
+        userID: game.players[game.gameWinner].userID
+        };
+        var gameOwner = {
+        username: game.players[0].username,
+        userID: game.players[0].userID,
+        };
+        var gameRound = game.round;
+        var gameId = game.gameID;
+        var gameEnded = true;
+        var timePlayed = new Date().toUTCString();
+        var loggedInUserID = user._id;
+        var gameData = {
+        gameId,
+        gameRound,
+        gameOwner,
+        gameWinner,
+        gamePlayers,
+        gameEnded,
+        timePlayed
+        };
+        if (gameData.gameOwner.userID === loggedInUserID) {
+          $http.post(`/api/games/${game.gameID}/start`, gameData);
+        }
+        }
       game.players[game.playerIndex].hand = [];
       game.time = 0;
     }

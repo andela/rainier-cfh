@@ -163,17 +163,6 @@ exports.signup = (req, res, next) => {
               user
             });
           });
-
-        }
-        req.logIn(user, (err) => {
-          if (err) return next(err);
-          const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '10h' });
-
-          res.status(200).json({
-            token,
-            user
-          });
-
         });
       } else {
         return res.status(409).json({

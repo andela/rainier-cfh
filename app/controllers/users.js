@@ -245,8 +245,8 @@ exports.login = (req, res) => {
     if (!err) {
       const passwordMatched = bcrypt.compareSync(req.body.password, user.hashed_password);
       if (!passwordMatched) {
-        return res.status(409).send({
-          message: 'Invalid credentials'
+        return res.status(401).send({
+          error: 'Username or password incorrect',
         });
       }
       const token = jwt.sign({
@@ -255,10 +255,12 @@ exports.login = (req, res) => {
       }, process.env.JWT_SECRET, {
         expiresIn: '10h'
       });
-      return res.send({
+      res.send({
         user,
         token
       });
+    } else {
+      res.send({ error: 'could not login user' });
     }
   });
 };

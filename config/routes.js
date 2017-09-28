@@ -1,4 +1,5 @@
 const async = require('async');
+const game = require('../app/controllers/game');
 
 module.exports = (app, passport, auth) => {
   // User Routes
@@ -8,15 +9,17 @@ module.exports = (app, passport, auth) => {
   app.get('/chooseavatars', users.checkAvatar);
   app.get('/signout', users.signout);
   app.post('/api/search/users', users.search);
+  app.post('/api/invite/send',users.sendInviteEmail);
 
   // Setting up the users api
   app.post('/api/auth/signup', users.signup);
   app.post('/api/auth/login', users.login);
   app.post('/users', users.create);
   app.post('/users/avatars', users.avatars);
-
   // Donation Routes
   app.post('/donations', users.addDonation);
+
+  app.post('/api/games/:id/start', game.saveGame);
 
   app.post('/users/session', passport.authenticate('local', {
     failureRedirect: '/signin',

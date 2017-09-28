@@ -1,3 +1,4 @@
+/*eslint-disable */
 angular.module('mean.system')
   .factory('Global', [function() {
     var _this = this;

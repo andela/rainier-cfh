@@ -17,4 +17,4 @@ const GameSchema = new Schema({
   timePlayed: { type: Date, default: new Date().toUTCString() }
 });
 
-mongoose.model('Game', GameSchema);
+module.exports = mongoose.model('Game', GameSchema);

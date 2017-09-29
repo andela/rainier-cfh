@@ -1,26 +1,48 @@
 <div id="question-container-inner">
-  <div class="card longBlack">
+  <div class="longBlack">
     <span ng-bind-html-unsafe="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'"></span>
 
     <div id="notifications" ng-if="game.notification" ng-animate="{enter:'animated fadeInLeft', leave:'animated fadeOut'}">{{game.notification}}</div>
 
-    <div id="startGame" ng-show="game.state === 'awaiting players'">
-      <div id="finding-players">Finding Players</div>
-      <div id="player-count-container">
-        <div id="player-count">{{game.players.length}} / {{game.playerMaxLimit}} </div>
-        <div id="the-word-players"> Players </div>
-      </div>
-      <div id="loading-container">
-        <div id="loading-gif"><img ng-src="../img/loader.gif"/></div>
-      </div>
-      <div id="start-game-container" ng-click="startGame()" ng-show="(game.playerIndex === 0 || game.joinOverride)">
-        <div id='start-game-button'>
-          Start Game</br>with {{game.players.length}} players
+    <div class="row" id="startGame" ng-show="game.state === 'awaiting players'">
+      <div class="col s4 center">
+        <div class="space-beneath" id="finding-players">
+          Finding Players
+        </div>
+        <div class="" id="loading-container center">
+          <div class="preloader-wrapper big active">
+             <div class="spinner-layer spinner-red-only">
+               <div class="circle-clipper left">
+                 <div class="circle"></div>
+               </div><div class="gap-patch">
+                 <div class="circle"></div>
+               </div><div class="circle-clipper right">
+                 <div class="circle"></div>
+               </div>
+             </div>
+           </div>
         </div>
       </div>
-      <div ng-show="(game.playerIndex === 0 || game.joinOverride)">
-        <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#searchModal">
-            Invite people to join
+      <div class="col s8">
+        <div class="col s6" id="player-count-container">
+          <div id="player-count">
+            {{game.players.length}} / {{game.playerMaxLimit}}
+          </div>
+          <div id="the-word-players">
+            Players
+          </div>
+        </div>
+
+        <div class="col s6" id="start-game-container" ng-click="startGame()" ng-show="(game.playerIndex === 0 || game.joinOverride)">
+          <div id='start-game-button' class="">
+            <span>Start Game</br>with {{game.players.length}} players</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 center" ng-show="(game.playerIndex === 0 || game.joinOverride)">
+        <button class="btn black" data-toggle="modal" data-target="#searchModal">
+          Invite people to join
         </button>
       </div>
       <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->

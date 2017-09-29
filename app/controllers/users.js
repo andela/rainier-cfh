@@ -7,12 +7,7 @@ const avatars = require('./avatars').all();
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const dotenv = require('dotenv');
-dotenv.config();
-
-
-
-
+require('dotenv').config();
 
 // authenticated route to search for users with name or username
 exports.search = (req, res) => {

@@ -44,9 +44,6 @@ gulp.task('server', ['lint'], () => (
   gulp.src('server.js')
     .pipe(newer('dist'))
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      plugins: ['transform-runtime']
-    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'))
 ));

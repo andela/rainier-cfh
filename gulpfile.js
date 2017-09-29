@@ -29,8 +29,6 @@ gulp.task('lint', () => (
     'test/**/*.js'
   ])
     .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
 ));
 
 gulp.task('transpile-app', ['lint'], () => (

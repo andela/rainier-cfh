@@ -1,0 +1,24 @@
+{
+  "name": "rainier-cfh",
+  "scripts": {},
+  "env": {
+    "MONGOHQ_URL": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "JWT_SECRET": {
+      "generator": "secret"
+    }
+  },
+  "formation": {},
+  "addons": [
+    "mongolab"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

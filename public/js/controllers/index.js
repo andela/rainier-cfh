@@ -22,28 +22,50 @@ angular.module('mean.system')
       });
 
       $scope.signin = (userInput) => {
+        $scope.error = '';
        $http.post('/api/auth/login', userInput)
        .success((response) => {
         if(response.token) {
           window.localStorage.setItem('cfhToken', response.token);
-          $window.location.href='/#!';
+          $window.location.href='/#!/dashboard';
         }
        })
        .error((error) => {
-         alert('login not successful');
-        console.log(error);
+        $scope.error = error.error;
        });
       };
       $scope.validateInput = (userInput) => {
-
+        if (!/^[a-zA-Z0-9 ]*$/.test(userInput.name)) {
+          $scope.error = 'Name cannot contain special characters';
+          return false;
+        }
+        if (!userInput.password) {
+          $scope.error = 'password cannot be all spaces';
+          return false;
+        }
+        if (userInput.password.length < 6) {
+          $scope.error = 'password cannot be less than 6 characters';
+          return false;
+        }
+        return true;
       }
       $scope.signup = (userInput) => {
-        $http.post('/api/auth/signup', userInput)
-        .success((response) => {
-          console.log(response);
-        })
-        .error((error) => {
-          console.log(error);
-        });
+        // empty error variable before new validation
+        $scope.error='';
+        const validation = $scope.validateInput(userInput);
+        if (validation) {
+          $http.post('/api/auth/signup', userInput)
+          .success((response) => {
+            console.log(response);
+            if (response.token) {
+              window.localStorage.setItem('cfhToken', response.token);
+              $window.location.href='/#!/dashboard';
+            }
+          })
+          .error((error) => {
+            $scope.error = error.error;
+          });
+        }
+        
       };
 }]);

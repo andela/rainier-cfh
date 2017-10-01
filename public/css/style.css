@@ -12,7 +12,7 @@ background-color: #D81B60 !important;
 
 .account {
 margin-top: 50px;
-height: 750px;
+height: 770px;
 }
 
 .account h5 {
@@ -50,4 +50,10 @@ color: #000 !important;
 
 .navbar-fixed a {
 color: #e53935;
+}
+.big-text {
+  font-size: 1.9em;
+}
+.block-span {
+  display: block;
 }

@@ -67,7 +67,6 @@ html {
     cursor: pointer;
     color: #d32f2f;
   }
-
   .navbar-fixed li a {
     font-size: 1.2rem;
     color: #757575;
@@ -79,6 +78,7 @@ html {
   }
 
   nav {
+    background: #fff;
     color: #000;
     z-index: 1000;
     box-shadow: none;
@@ -89,6 +89,8 @@ html {
   }
   
   nav .cfh-logo {
+    position: absolute;
+    left: 0;
     color: #fff;
     display: inline-block;
     padding: 5px 0;
@@ -423,7 +425,7 @@ html {
     margin: 0 auto;
     margin-top: 30px;
   }
-  .footer-logo img {
+  .footer-logo img{
     height: 60px;
   }
 
@@ -434,10 +436,14 @@ html {
     margin: 0 auto;
     margin-top: 4rem;
   }
-  .start-screen h1 {
-    font-family: 'Satisfy', 'cursive';
-    font-weight: 900;
-  }
+.headline {
+  margin-top: 60px;
+}
+.avatar-container {
+  height: 140px;
+  width: 140px;
+  background: #757575;
+}
   .start-screen h6 {
     font-size: 12px;
     font-size: 1.2rem;
@@ -450,8 +456,7 @@ html {
       text-align: center;
     }
   }
-  .start-control li {
-    list-style: none;
+  .start-control a {
     margin: 30px auto;
   }
   .start-control li a.btn {
@@ -467,3 +472,45 @@ html {
   .authUser > * {
     color: #fff !important;
   }
+.user-rating {
+  margin-bottom: 60px;
+}
+.user-rating li {
+  list-style: none;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 15px;
+}
+.headline b {
+  color: #000;
+}
+/** stats section **/
+.stats {
+  background: #000;
+  color: #fff;
+  border: 5px solid #e0e0e0;
+  border-radius: 5px;
+  text-align: center;
+}
+th{
+  text-align: center;
+  border: 1px solid #fff;
+}
+td {
+  text-align: center;
+}
+th.date {
+  color: #fff;
+}
+th.played {
+  color: #0d47a1;
+}
+th.won {
+  color: #1b5e20;
+}
+th.lost {
+  color: #b71c1c;
+}
+th.donation {
+  color: #7b1fa2;
+}

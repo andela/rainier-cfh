@@ -8,6 +8,23 @@ const _ = require('underscore');
 
 
 /**
+ * add a new answer to database
+ * @param {Object}   req  express http request object
+ * @param {Object}   res  express http response object
+ * @param {Function} next calls the next function in the middleware stack
+ * @return {mixed}        sends an http response or calls the next middleware
+ */
+exports.add = (req, res, next) => {
+  const answer = new Answer(req.body);
+  answer.save()
+    .then(() => res.send({
+      success: true,
+      message: 'Question added successfully',
+    }))
+    .catch(err => next(err));
+};
+
+/**
  * [answer description]
  * @param  {Object}   req  [description]
  * @param  {Object}   res  [description]

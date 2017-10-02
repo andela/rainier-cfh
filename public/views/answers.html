@@ -1,9 +1,5 @@
 <div ng-cloak id="cards-container" ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
-  <div id="social-bar-container" class="row">
-    <div class="">
-      <player></player>
-    </div>
-  </div>
+
   <div id="cards" class='hand'>
 
     <span ng-show="winnerPicked()"></span>
@@ -28,17 +24,60 @@
 </div>
 
 <div class="row">
-  <div class="container">
-    <div class="col s12" id="info-container" ng-show="game.state === 'awaiting players'">
+  <!-- <div class="container"> -->
+    <div class="col s12 l8" id="info-container" ng-show="game.state === 'awaiting players'">
       <div id="inner-info">
-        <div class="center" id="lobby-how-to-play"><h3>How To Play</h3></div>
-        <ol id="oh-el">
-          <li>Each player begins with, and will always have, 10 white answer cards.</li>
-          <li>For each round, one player is randomly chosen as the Card Czar.</li>
-          <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
-          <li>The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</li>
-          <li>*Want to adorn your avatar with a glorious crown? Donate to charity after the game!</li>
-        </ol>
+        <div class="center game-section-header" id="lobby-how-to-play">
+          <h3>How To Play</h3>
+        </div>
+        <div class="container">
+          <ol id="oh-el" class="game-instructions">
+            <li>Each player begins with, and will always have, 10 white answer cards.</li>
+            <li>For each round, one player is randomly chosen as the Card Czar.</li>
+            <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
+            <li>The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</li>
+            <li>*Want to adorn your avatar with a glorious crown? Donate to charity after the game!</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div id="czar-blank-container" class="col s12 l8"  style="color: #3a3a3a" class="col s12 m8" ng-show="isCzar() && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
+        <div id="czar-blank-inner" class="">
+          <p>
+            You are the Card Czar. </br>
+            <span id="smaller-text">
+              Players are choosing their answers. Prepare to select a winner.
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 l4" id="social-bar-container"  ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
+      <div class="">
+        <player></player>
+      </div>
+    </div>
+
+  <!-- </div> -->
+</div>
+
+<div class="row">
+  <div class="container">
+    <div id='charity-fact-container'>
+      <div id='charity-fact-tagline'>
+        <h4 class="center game-section-header">
+          Did you know?
+        </h4>
+      </div>
+
+      <div id='charity-fact'>
+         {{ makeAWishFact }}
+      </div>
+
+      <div id='charity-logo-container' class="center">
+        <img src='/img/make-a-wish-logo.png'/>
       </div>
     </div>
   </div>
@@ -63,7 +102,7 @@
       </div></a>
       <a href='/'>
         <div id="exit-match">
-        Return to Lobby
+          Return to Lobby
         </div>
       </a>
     </div>
@@ -76,23 +115,5 @@
       <!-- This is for testing -->
       <!-- <a href="http://www.crowdrise.com" id="crowdriseStaticLink-project-36715" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a> -->
       <!-- <script type="text/javascript" src="https://apisandbox.crowdrise.com/widgets/donate/project/36715/?callback=userDonationCb"></script> -->
-  </div>
-</div>
-<div id="czar-blank-container" ng-show="isCzar() && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
-  <div id="czar-blank-inner">
-    You are the Card Czar. <br>
-    <span id="smaller-text">Players are choosing their answers. Prepare to select a winner.</span>
-  </div>
-  <div id='charity-fact-container'>
-    <div id='charity-fact-tagline'>Did you know?</div>
-
-    <div id='charity-fact'>
-       {{ makeAWishFact }}
-    </div>
-
-    <div id='charity-logo-container'>
-      <img src='/img/make-a-wish-logo.png'/>
-    </div>
-
   </div>
 </div>

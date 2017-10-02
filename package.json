@@ -14,6 +14,7 @@
   },
   "scripts": {
     "build": "node node_modules/gulp/bin/gulp build",
+    "heroku-postbuild": "npm run build",
     "start": "node dist/server",
     "start:dev": "npm run build & node node_modules/gulp/bin/gulp",
     "test": "node node_modules/gulp/bin/gulp test",
@@ -33,6 +34,9 @@
     "console-stamp": "~0.1.1",
     "dotenv": "^4.0.0",
     "express": "~3.4.0",
+    "eslint": "^4.7.0",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0",
     "forever": "latest",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",

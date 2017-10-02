@@ -1,11 +1,24 @@
 /**
  * Module dependencies.
  */
-const mongoose = require('mongoose'),
-  async = require('async'),
-  Question = require('../models/question'),
-  _ = require('underscore');
+const Question = require('../models/question');
 
+/**
+ * add a new question to database
+ * @param {Object}   req  express http request object
+ * @param {Object}   res  express http response object
+ * @param {Function} next calls the next function in the middleware stack
+ * @return {mixed}        sends an http response or calls the next middleware
+ */
+exports.add = (req, res, next) => {
+  const question = new Question(req.body);
+  question.save()
+    .then(() => res.send({
+      success: true,
+      message: 'Question added successfully',
+    }))
+    .catch(err => next(err));
+};
 
 /**
  *

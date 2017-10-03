@@ -35,6 +35,7 @@ angular.module('mean.system')
         $rootScope.authenticated = false;
        });
       };
+
       $scope.validateInput = (userInput) => {
         if (!/^[a-zA-Z0-9 ]*$/.test(userInput.name)) {
           $scope.error = 'Name cannot contain special characters';
@@ -49,7 +50,8 @@ angular.module('mean.system')
           return false;
         }
         return true;
-      }
+      };
+
       $scope.signup = (userInput) => {
         // empty error variable before new validation
         $scope.error='';
@@ -69,8 +71,9 @@ angular.module('mean.system')
         }
         
       };
+
     $scope.signout = () => {
       localStorage.removeItem('cfhToken');
-      $window.location.href='/#!';
+      $window.location.href='/#!/signin';
     };
 }]);

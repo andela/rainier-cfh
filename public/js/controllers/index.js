@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('IndexController', ['$scope', 'Global', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $http, $window, $location, socket, game, AvatarService) {
+.controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
     $scope.global = Global;
 
     $scope.playAsGuest = function() {
@@ -27,11 +27,13 @@ angular.module('mean.system')
        .success((response) => {
         if(response.token) {
           window.localStorage.setItem('cfhToken', response.token);
-          $window.location.href='/#!/dashboard';
+          $rootScope.authenticated = true;
+          $window.location.href = '/#!/dashboard';
         }
        })
        .error((error) => {
         $scope.error = error.error;
+        $rootScope.authenticated = false;
        });
       };
       $scope.validateInput = (userInput) => {

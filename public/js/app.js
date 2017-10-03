@@ -17,13 +17,18 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
           when('/signin', {
             templateUrl: '/views/signin.html',
             resolve: {
-              auth: function (AuthService) {
-                return AuthService.authenticate();
+              auth: function (RedirectService) {
+                return RedirectService.redirect();
               }
             },
           }).
           when('/signup', {
-            templateUrl: '/views/signup.html'
+            templateUrl: '/views/signup.html',
+            resolve: {
+              auth: function (RedirectService) {
+                return RedirectService.redirect();
+              }
+            },
           }).
           when('/choose-avatar', {
             templateUrl: '/views/choose-avatar.html'
@@ -68,7 +73,18 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
         } else {
           $window.location.href = '/#!/signin';
         }
-    
+        return $q.reject('Not Authenticated');
+      }
+    }
+  }).factory('RedirectService', function($q, $window) {
+    return {
+      redirect: () => {
+        const isAuthenticated = localStorage.getItem('cfhToken');
+        if (!isAuthenticated) {
+          return true;
+        } else {
+          $window.location.href = '/#!/dashboard';
+        }
         return $q.reject('Not Authenticated');
       }
     }

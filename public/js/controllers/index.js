@@ -1,7 +1,6 @@
 angular.module('mean.system')
-.controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
+  .controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
     $scope.global = Global;
-
     $scope.playAsGuest = function() {
       game.joinGame();
       $location.path('/app');
@@ -70,4 +69,8 @@ angular.module('mean.system')
         }
         
       };
+    $scope.signout = () => {
+      localStorage.removeItem('cfhToken');
+      $window.location.href='/#!';
+    };
 }]);

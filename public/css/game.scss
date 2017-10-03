@@ -37,10 +37,6 @@
   font-weight: bold;
 }
 
-.player-container  {
-  // max-height: 300px;
-  // padding: 5px !important;
-}
 
 #startGame {
   padding-top: 20px;
@@ -71,6 +67,14 @@
 .game-instructions {
   font-size: 1.3rem;
   line-height: 2.5rem;
+}
+
+.game-end-btn {
+  padding: 10px !important;
+}
+
+.game-end-btn-wrapper {
+  margin: 20px;
 }
 
 #smaller-text {

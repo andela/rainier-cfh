@@ -2,49 +2,51 @@
   <header>
     <div class="row navbar-fixed">
       <nav>
-          <div class="nav-wrapper #ffffff white">
-            <a href="/#!" class="center cfh-logo brand-logo"><img src="../img/cfh-logo.png" alt="cfh-logo"/></a>
+          <div class="nav-wrapper row center white">
+            <a href="/#!" class="cfh-logo  col s1"><img src="../img/cfh-logo.png" alt="cfh-logo"/></a>
           </div>
         </nav>
     </div>
   </header>
 
-  <div class="container">
+  <div class="container" ng-controller="IndexController">
       <div class="row">
         <div class="col l8 offset-l2 s12">
           <div  class="z-depth-1 account">
             <div class="row">
               <div class="col s12">
-                <h5 class="center">Sign Into Your Account</h5>
-                <form>
-                  <div class="row signup">
+                <p class="center big-text" >Sign Into Your Account</p>
+                <p class=" center red-text">&nbsp;{{error}}</p>
+                <form ng-submit="signin(userInput)">
+                  <div class="signup">
                     <div class="input-field col s12">
-                      <input class="validate" type="text" name="email" id="email" required />
+                      <input class="validate" type="text" ng-model="userInput.email" name="email" id="email" required />
                       <label for="email">Email</label>
                     </div>
                   </div>
-                  <div class="row signup">
+                  <div class="signup">
                     <div class="input-field col s12">
-                      <input class="validate signin" type="password" name="password" id="password" required />
+                      <input class="validate signin" type="password" ng-model="userInput.password" name="password" id="password" required />
                       <label for="password">Password</label>
                     </div>
                   </div>
-                  <div class="row center button">
-                    <button class="btn-large waves-effect waves-light" type="submit" name="action">SIGNIN</button>
-                  </div>
-                </form>
+                  <div class="center button">
+                    <button class="btn-large waves-effect waves-light" type="submit"
+                    name="action">Sign in</button>
+                  </div>  
+                </form >
                 <p class="center">or signin with one of this services</p>
                 <div class="provider">
                   <div class="container">
                     <div class="row">
                       <div class="col s12">
-                        <div class="col s6">
+                        <div class="col m4 offset-m1">
                           <button class="btn btn-large" type="button" name="action">
                             <img src="../img/facebook.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
                             facebook
                           </button>
                         </div>
-                        <div class="col s6">
+                        <div class="col m4 offset-m2">
                           <button class="btn btn-large" type="button" name="action">
                             <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
                             twitter
@@ -52,13 +54,13 @@
                         </div>
                       </div>
                       <div class="col s12">
-                        <div class="col s6">
+                        <div class="col m4 offset-m1">
                           <button class="btn btn-large" type="button" name="action">
                             <img src="../img/google.png" width="50px" height="50px" class="left" />
                             Google
                           </button>
                         </div>
-                        <div class="col s6">
+                        <div class="col m4 offset-m2">
                           <button class="btn btn-large brand-btn" type="button" name="action">
                             <img src="../img/github2.png" width="50px" height="50px" class="left" />
                             Github
@@ -66,8 +68,8 @@
                         </div>
                       </div>
                       <div class="col s12 hr center">
-                        <hr/>
-                        <p>Don't have an account? <a href="/#!/signup">  Sign Up</a></p>
+                        <div class="divider"> </div>
+                        <span>Don't have an account? <a href="/#!/signup" class="red-text">  Sign Up</a></span>
                       </div>
                     </div>
                   </div>

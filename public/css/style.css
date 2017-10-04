@@ -51,3 +51,9 @@ color: #000 !important;
 .navbar-fixed a {
 color: #e53935;
 }
+.big-text {
+  font-size: 1.9em;
+}
+.block-span {
+  display: block;
+}

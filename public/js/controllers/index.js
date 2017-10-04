@@ -5,6 +5,7 @@ angular.module('mean.system')
     $scope.socialAuth = () => {
       if ($cookies.token) {
         window.localStorage.setItem('cfhToken', $cookies.token);
+        window.location.href = '/#!/dashboard';
       }
     };
 
@@ -83,6 +84,7 @@ angular.module('mean.system')
 
     $scope.signout = () => {
       localStorage.removeItem('cfhToken');
+      $cookieStore.remove("cfhToken");
       $window.location.href = '/#!/signin';
     };
   }]);

@@ -19,7 +19,7 @@ angular.module('mean.system')
       .then(function(data) {
         $scope.avatars = data;
       });
-
+    
       $scope.signin = (userInput) => {
         $scope.error = '';
        $http.post('/api/auth/login', userInput)

@@ -30,6 +30,10 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
               }
             },
           }).
+          when('/dashboard', {
+            templateUrl: '/views/dashboard.html',
+            controller: 'DashboardCtrl'
+          }).
           when('/choose-avatar', {
             templateUrl: '/views/choose-avatar.html'
           }).

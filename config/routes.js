@@ -39,7 +39,7 @@ module.exports = (app, passport, auth) => {
     failureRedirect: '/signin'
   }), users.authCallback);
 
-  // Setting the github oauth routes
+  // Setting the github oauth route
   app.get('/auth/github', passport.authenticate('github', {
     failureRedirect: '/signin'
   }), users.signin);

@@ -7,12 +7,7 @@ const avatars = require('./avatars').all();
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const dotenv = require('dotenv');
-dotenv.config();
-
-
-
-
+require('dotenv').config();
 
 // authenticated route to search for users with name or username
 exports.search = (req, res) => {
@@ -58,7 +53,7 @@ exports.sendInviteEmail = (req, res) => {
       pass: process.env.EMAIL_PASS
     },
     tls: { rejectUnauthorized: false }
- });
+  });
 
   const mailOptions = {
     from: '"CFH" <invite@CFH.com',
@@ -85,8 +80,40 @@ exports.sendInviteEmail = (req, res) => {
  */
 
 
-exports.authCallback = (req, res, next) => {
-  res.redirect('/chooseavatars');
+// exports.authCallback = (req, res) => {
+//   const user = req.user.name;
+//   const token = jwt.sign(user, process.env.JWT_SECRET);
+//   res.cookie('token', token);
+//   res.redirect('/chooseavatars');
+// };
+const getJWT = (tokenInfo, jwtSecret) => new Promise((resolve, reject) => {
+  if (tokenInfo) {
+    jwt.sign(
+      tokenInfo, jwtSecret,
+      (tokenError, generatedToken) => {
+        if (tokenError) {
+          reject(new Error(tokenError));
+        } else if (generatedToken) {
+          resolve(generatedToken);
+        } else {
+          reject(new Error('Something went wrong'));
+        }
+      }
+    );
+  } else {
+    reject(new Error('No Information Supplied'));
+  }
+});
+
+exports.authCallback = (req, res) => {
+  getJWT(req.user.name, process.env.JWT_SECRET)
+    .then((generatedToken) => {
+      res.cookie('token', generatedToken);
+      res.redirect('/chooseavatars');
+    })
+    .catch((error) => {
+      res.json(error);
+    });
 };
 
 // Show login form
@@ -94,7 +121,7 @@ exports.signin = (req, res) => {
   if (!req.user) {
     res.redirect('/#!/signin?error=invalid');
   } else {
-    res.redirect('/#!/app');
+    res.redirect('/#!/signin');
   }
 };
 
@@ -235,6 +262,7 @@ exports.create = (req, res) => {
 /**
  * Sign In
  */
+
 exports.login = (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({
@@ -253,12 +281,14 @@ exports.login = (req, res) => {
         email: user.email,
         userId: user.id,
       }, process.env.JWT_SECRET, {
-        expiresIn: '10h'
-      });
-      return res.send({
+          expiresIn: '10h'
+        });
+      res.send({
         user,
         token
       });
+    } else {
+      res.send({ error: 'could not login user' });
     }
   });
 };
@@ -286,7 +316,7 @@ exports.addDonation = (req, res) => {
         _id: req.user._id
       })
         .exec((err, user) => {
-        // Confirm that this object hasn't already been entered
+          // Confirm that this object hasn't already been entered
           let duplicate = false;
           for (let i = 0; i < user.donations.length; i++) {
             if (user.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {

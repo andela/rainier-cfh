@@ -1,85 +1,88 @@
-/*eslint-disable */
 (() => {
   /**
   * angular
   * Description: Angular
   */
-  const dashboard = angular
+  angular.module('mean.system')
   /**
-  * app
-  * Description: sets up initial state of the dashboard
+  * DashboardCtrl
+  * Description: sets up a controller
   */
-  .module('dashboard', ['ngMaterial'])
-  /**
-  * MainCtrl
-  * Description: setup a controller
-  */
-  const MainCtrl = ($scope, $http, $mdDialog, $location) => {
-    // Todo: this should come from the server
-    //User stats
-    $scope.user = {
-      username: "Tommy",
-      email: "tommy.jones@google.com",
-      avatar: "",
-      level: 5,
-      rating: 3,
-    };
-    // Todo: this should come from server
-    $scope.stats = [
-      {
-        date: '1/10/2017',
-        played: 15,
-        won: 10,
-        lost: 5,
-        donation: 50
-      },
-      {
-        date: '3/10/2017',
-        played: 5,
-        won: 5,
-        lost: 0,
-        donation: 0
-      }
-    ]
-    
-    $scope.maxLevel = 15;
+  .controller('DashboardCtrl', ['$scope', '$http', 'game', '$location',
+    function ($scope, $http, game, $location) {
+      // user stats is an array of object
+      $scope.stats = [];
+      // user starts with a default level of zero
+      $scope.level = 0;
+      // Maximum level attainable
+      $scope.maxLevel = 15;
 
-/**
-* gamePlay()
-*/
-      $scope.gamePlay = function(which) {
-    $mdDialog.show({
-      controller: DialogController,
-      template: '<md-dialog aria-label="Mango (Fruit)"> <md-content class="md-padding"><h6><i class="fa fa-info-circle"></i>&nbsp;&nbsp;Start game with friends</h6><p>This game contains offensive, profane, explicit content created by Cards Against Humanity&trade; and provided here, uncensored and complete, in digital form. Human Resources made us say that.</p></md-content> <div class="md-dialog-actions" layout="row"> <span flex></span> <md-button ng-click="cancel()"> Cancel </md-button> <md-button ng-click="startGame(which)" class="md-primary"> Start </md-button> </div></md-dialog>',
-    })
-  };
-    
-  };
-  /**
-  * DialogController()
-  */
-  function DialogController($scope, $mdDialog, $location) {
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.startGame = function(friends) {
-    switch(friends){
-  case 'friends':
-          $location.path('/play?custom');
-  $mdDialog.hide(friends);
-  break;
-        case 'strangers':
-          $location.path('/play');
-  $mdDialog.hide(strangers);
-  break;
-      default:
-  $mdDialog.hide(friends);
-     }
-  };
-};
-  
-  dashboard.controller("MainCtrl", ['$scope', '$http', '$mdDialog', MainCtrl]);
+      // Todo: implement the endpoint that serves userData
+      //User Data
+
+      // implementation details for user data fetching error
+      const onUserError = (reason) => {
+        $scope.userError = 'An error occured fetching your data';
+      }
+      const userRes = (response) => {
+        $scope.user = response.data;
+      }
+      $http.get('/userData').then(userRes, onUserError);
+
+      // Todo: implement the endpoint that serves userStats
+      //User Stats
+      // implementation details of user stats promise
+      const statsRes = (response) => {
+        $scope.stats = response.data;
+      }
+      // implementation details of stats error
+      const onStatsError = (reason) => {
+        $scope.statsError = 'An error occured fetching your stats'
+      }
+
+      $http.get('/userStats').then(statsRes, onStatsError);
+
+      // Todo: write algorithm for calculating user rating and level
+      // $scope.getLevel = () => {
+      //   const level = 0;
+      //   const winRatio = 0;
+      //   const baseRatio = 1.5;
+      //   if ($scope.stats.played < 10) {
+      //     return level;
+      //   }
+      //   else {
+      //     winRatio = $scope.stats.played / $scope.stats.won;
+      //     switch($scope.stats.played) {
+      //       case $scope.stats.played > 10:
+      //         if(winRatio <= baseRatio) {
+      //           level = 1;
+      //           return level;
+      //         }
+      //         break;
+      //       case $scope.stats.played > 20:
+      //         if(winRatio <= baseRatio) {
+      //           level= 2
+      //           return level;
+      //         }
+      //         break;
+      //       default:
+      //         return level;
+      //     }
+      //   }
+      // }
+
+      //  $scope.user[level] = getLevel(),
+      //  $scopr.user[rating] =  getRating()
+
+      $scope.nextStat = () => {
+        if ($scope.stats.length > 8) {
+          return true;
+        }
+      }
+      
+      // Add modal
+      $('.modal').modal();
+
+    }
+  ]);
 })();

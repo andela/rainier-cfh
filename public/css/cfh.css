@@ -89,8 +89,6 @@ html {
   }
   
   nav .cfh-logo {
-    position: absolute;
-    left: 0;
     color: #fff;
     display: inline-block;
     padding: 5px 0;
@@ -459,16 +457,10 @@ html {
   .start-control a {
     margin: 30px auto;
   }
-  .start-control li a.btn {
+  .start-control a.btn {
     margin: 15px 0;
   }
-  .modal-header {
-    padding-left: 30px;
-    padding-right: 30px;
-    border-bottom: 2px solid #d32f2f;
-    color: #757575;
-    text-align: center;
-  }
+  
   .authUser > * {
     color: #fff !important;
   }
@@ -484,11 +476,20 @@ html {
 .headline b {
   color: #000;
 }
+
+/** Start Game modal **/
+.modal-header {
+  padding-left: 30px;
+  padding-right: 30px;
+  border-bottom: 2px solid #d32f2f;
+  color: #757575;
+  text-align: center;
+}
+
 /** stats section **/
 .stats {
-  background: #000;
-  color: #fff;
-  border: 5px solid #e0e0e0;
+  background: #fff;
+  color: #000;
   border-radius: 5px;
   text-align: center;
 }
@@ -501,16 +502,23 @@ td {
 }
 th.date {
   color: #fff;
+  background-color: #000;
 }
 th.played {
-  color: #0d47a1;
+  color: #fff;
+  background-color: #0d47a1;
 }
 th.won {
-  color: #1b5e20;
+  background-color: #1b5e20;
+  color: #fff;
+  
 }
 th.lost {
-  color: #b71c1c;
+  background-color: #b71c1c;
+  color: #fff;
 }
 th.donation {
-  color: #7b1fa2;
+  background-color: #7b1fa2;
+  color: #fff;
 }
+/** HIW Start Screen **/

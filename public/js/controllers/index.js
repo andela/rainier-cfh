@@ -21,4 +21,6 @@ angular.module('mean.system')
         $scope.avatars = data;
       });
 
+    $scope.din0Message = "Welcome"
+
 }]);

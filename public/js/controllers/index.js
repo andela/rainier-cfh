@@ -1,10 +1,10 @@
 angular.module('mean.system')
-  .controller('IndexController', ['$scope', 'Global', '$cookies', '$rootScope', '$location', '$http', '$window', 'socket', 'game', 'AvatarService', function ($scope, Global, $cookies, $rootScope, $http, $window, $location, socket, game, AvatarService) {
+  .controller('IndexController', ['$scope', 'Global', '$cookieStore', '$cookies', '$location', '$http', '$window', 'socket', 'game', 'AvatarService', function ($scope, Global, $cookieStore, $cookies, $location, $http, $window, socket, game, AvatarService) {
     $scope.global = Global;
 
     $scope.socialAuth = () => {
-      if ($cookies.token) {
-        window.localStorage.setItem('cfhToken', $cookies.token);
+      if ($cookies.cfhToken) {
+        window.localStorage.setItem('cfhToken', $cookies.cfhToken);
         window.location.href = '/#!/dashboard';
       }
     };
@@ -19,14 +19,14 @@ angular.module('mean.system')
     $scope.showError = function () {
       if ($location.search().error) {
         return $location.search().error;
-      } else {
-        return false;
       }
+      return false;
+
     };
 
     $scope.avatars = [];
     AvatarService.getAvatars()
-      .then(function (data) {
+      .then((data) => {
         $scope.avatars = data;
       });
 
@@ -79,12 +79,11 @@ angular.module('mean.system')
             $scope.error = error.error;
           });
       }
-
     };
 
     $scope.signout = () => {
       localStorage.removeItem('cfhToken');
-      $cookieStore.remove("cfhToken");
+      $cookieStore.remove('cfhToken');
       $window.location.href = '/#!/signin';
     };
   }]);

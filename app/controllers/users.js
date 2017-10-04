@@ -102,7 +102,7 @@ exports.authCallback = (req, res) => {
   getJWT(req.user.name, process.env.JWT_SECRET)
     .then((token) => {
       res.cookie('cfhToken', token);
-      res.redirect('/#!/dashboard');
+      res.redirect('/#!/chooseavatars');
     })
     .catch((error) => {
       res.json(error);

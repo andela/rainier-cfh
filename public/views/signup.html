@@ -1,96 +1,96 @@
 <body>
   <header>
-    <div class="row navbar-fixed">
-      <nav>
-          <div class="nav-wrapper #ffffff white">
-            <a href="#" class="center brand-logo">Cards for Humanity</a>
-          </div>
-        </nav>
+    <div class="">
+      <nav class="center white">
+        <div class="nav-wrapper row">
+          <a href="/#!" class="cfh-logo center col s1"><img src="../img/cfh-logo.png" class="center" alt="cfh-logo"/></a>
+        </div>
+      </nav>
     </div>
   </header>
 
-  <div class="container">
-      <div class="row">
-        <div class="col l8 offset-l2 s12">
-          <div  class="z-depth-1 account">
-            <div class="row">
-              <div class="col s12">
-                <h5 class="center">Create Your Account</h5>
-                <form>
-                  <div class="row signup">
-                    <div class="input-field col s12">
-                      <input class="validate" type="text" name="username" id="username" required />
-                      <label for="fullname">Fullname</label>
-                    </div>
+  <div class="container" ng-controller="IndexController">
+    <div class="row">
+      <div class="col l8 offset-l2 s12">
+        <div class="z-depth-1 account">
+          <div class="row">
+            <div class="col s12">
+              <p class="center big-text">Create Your Account</p>
+              <span class="red-text center block-span">&nbsp; {{error}} </span>
+              <form ng-submit="signup(userInput)">
+                <div class="signup">
+                  <div class="input-field col s12">
+                    <input class="validate" type="text" name="username" ng-model="userInput.name" id="username" required />
+                    <label for="fullname">Fullname</label>
                   </div>
-                  <div class="row signup">
-                    <div class="input-field col s12">
-                      <input class="validate" type="text" name="email" id="email" required />
-                      <label for="email">Email</label>
-                    </div>
+                </div>
+                <div class="signup">
+                  <div class="input-field col s12">
+                    <input class="validate" type="email" name="email" ng-model="userInput.email" id="email" required />
+                    <label for="email">Email</label>
                   </div>
-                  <div class="row signup">
-                    <div class="input-field col s12">
-                      <input class="validate" type="password" name="password" id="password" required />
-                      <label for="password">Password</label>
-                    </div>
+                </div>
+                <div class="signup">
+                  <div class="input-field col s12">
+                    <input class="validate" type="password" ng-model="userInput.password" name="password" id="password" required />
+                    <label for="password">Password</label>
                   </div>
-                  <div class="row center button">
-                    <button class="btn-large waves-effect waves-light" type="submit" name="action">SIGNUP</button>
-                  </div>
-                </form>
-                <p class="center">or signup with one of this services</p>
-                <div class="provider">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col s12">
-                        <div class="col s6">
-                          <a href="/auth/facebook">
+                </div>
+                <div class="center button">
+                  <button class="btn-large waves-effect waves-light" type="submit" name="action">SIGNUP</button>
+                </div>
+              </form>
+              <p class="center">or signup with one of this services</p>
+              <div class="provider">
+                <div class="container">
+                  <div class="row">
+                    <div class="col s12">
+                      <div class="col s6">
+                        <a href="/auth/facebook">
                             <button class="btn btn-large" type="button" name="action">
                               <img src="../img/facebook.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
                               facebook
                             </button>
                           </a>
-                        </div>
-                        <div class="col s6">
-                          <a href="/auth/twitter">
+                      </div>
+                      <div class="col s6">
+                        <a href="/auth/twitter">
                             <button class="btn btn-large" type="button" name="action">
                               <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
                               twitter
                             </button>
                           </a>
-                        </div>
                       </div>
-                      <div class="col s12">
-                        <div class="col s6">
-                          <a href="/auth/google">
+                    </div>
+                    <div class="col s12">
+                      <div class="col s6">
+                        <a href="/auth/google">
                             <button class="btn btn-large" type="button" name="action">
                               <img src="../img/google.png" width="50px" height="50px" class="left" />
                               Google
                             </button>
                           </a>
-                        </div>
-                        <div class="col s6">
-                          <a href="/auth/github">
+                      </div>
+                      <div class="col s6">
+                        <a href="/auth/github">
                             <button class="btn btn-large brand-btn" type="button" name="action">
                               <img src="../img/github2.png" width="50px" height="50px" class="left" />
                               Github
                             </button>
                           </a>
-                        </div>
                       </div>
-                      <div class="col s12 hr center">
-                        <hr/>
-                        <p>Already have an account? <a href="/#!/signin">  Sign In</a></p>
-                      </div>
+                    </div>
+                    <div class="col s12 hr center">
+                      <div class="divider"></div>
+                      <span class="block-span">Already have an account? <a href="/#!/signin" class="red-text">  Sign In</a></span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </body>
-

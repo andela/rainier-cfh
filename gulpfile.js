@@ -29,8 +29,6 @@ gulp.task('lint', () => (
     'test/**/*.js'
   ])
     .pipe(eslint())
-    // .pipe(eslint.format())
-    // .pipe(eslint.failAfterError())
 ));
 
 gulp.task('transpile-app', ['lint'], () => (
@@ -46,9 +44,6 @@ gulp.task('server', ['lint'], () => (
   gulp.src('server.js')
     .pipe(newer('dist'))
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      plugins: ['transform-runtime']
-    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'))
 ));
@@ -85,9 +80,6 @@ gulp.task('public:js', ['lint'], () => (
   gulp.src('public/js/**/*.js')
     .pipe(newer('dist/public/js'))
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      plugins: ['transform-runtime']
-    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist/public/js'))
 ));

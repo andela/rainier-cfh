@@ -18,6 +18,7 @@ angular.module('mean.system')
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
 
+
       $scope.pickCard = function (card) {
         if (!$scope.hasPickedCards) {
           if ($scope.pickedCards.indexOf(card.id) < 0) {
@@ -26,8 +27,8 @@ angular.module('mean.system')
               $scope.sendPickedCards();
               $scope.hasPickedCards = true;
             } else if (game.curQuestion.numAnswers === 2 &&
-            $scope.pickedCards.length === 2) {
-            // delay and send
+              $scope.pickedCards.length === 2) {
+              // delay and send
               $scope.hasPickedCards = true;
               $timeout($scope.sendPickedCards, 300);
             }
@@ -126,7 +127,7 @@ angular.module('mean.system')
       // search users to invite 
       $scope.searchInviteUsers = () => {
         $scope.sentEmailInvite = false;
-         $http.post('/api/search/users', { query: $scope.searchText })
+        $http.post('/api/search/users', { query: $scope.searchText })
           .then((response) => {
             $scope.searchedUsers = response.data;
           });
@@ -137,7 +138,7 @@ angular.module('mean.system')
         const user = {
           name,
           email
-         };
+        };
         if ($scope.containsUser(user)) {
           const index = $scope.inviteUsers.indexOf(user);
           $scope.inviteUsers.splice(index, 1);
@@ -160,27 +161,27 @@ angular.module('mean.system')
         return false;
       };
       // send invite to users//  
-      $scope.sendInvite = () =>{
-         const gameLink = document.URL; 
-         const usersEmail = $scope.inviteUsers.map((user) => user.email);
-         const message = `${$scope.inviteEmailBody} ${gameLink} `;
-         
-         //backend http request to send emails to invited users
-         $http.post('/api/invite/send', { emails:usersEmail,message:message })
-         .then(() => {
-            $scope.sentEmailInvite = true;
-         });
-         //garbage collection 
-         $scope.searchText = '';
-         $scope.searchedUsers = [];
-         $scope.inviteUsers = [];
-         
+      $scope.sendInvite = () => {
+        const gameLink = document.URL;
+        const usersEmail = $scope.inviteUsers.map((user) => user.email);
+        const message = `${$scope.inviteEmailBody} ${gameLink} `;
 
-         
+        //backend http request to send emails to invited users
+        $http.post('/api/invite/send', { emails: usersEmail, message: message })
+          .then(() => {
+            $scope.sentEmailInvite = true;
+          });
+        //garbage collection 
+        $scope.searchText = '';
+        $scope.searchedUsers = [];
+        $scope.inviteUsers = [];
+
+
+
       }
-      
+
       $scope.checkUserIsInvited = (email) => {
-       return $scope.inviteUsers.includes(email);
+        return $scope.inviteUsers.includes(email);
       }
 
       $scope.startGame = () => {
@@ -223,12 +224,12 @@ angular.module('mean.system')
       $scope.$watch('game.gameID', () => {
         if (game.gameID && game.state === 'awaiting players') {
           if (!$scope.isCustomGame() && $location.search().game) {
-          // If the player didn't successfully enter the request room,
-          // reset the URL so they don't think they're in the requested room.
+            // If the player didn't successfully enter the request room,
+            // reset the URL so they don't think they're in the requested room.
             $location.search({});
           } else if ($scope.isCustomGame() && !$location.search().game) {
-          // Once the game ID is set, update the URL if this is a game with friends,
-          // where the link is meant to be shared.
+            // Once the game ID is set, update the URL if this is a game with friends,
+            // where the link is meant to be shared.
             $location.search({ game: game.gameID });
             if (!$scope.modalShown) {
               setTimeout(() => {

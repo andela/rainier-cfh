@@ -47,7 +47,7 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
       }
   ]).config(['$locationProvider',
     function($locationProvider) {
-        $locationProvider.hashPrefix("!");
+      $locationProvider.hashPrefix("!");
     }
   ]).run(['$rootScope', function($rootScope) {
   $rootScope.safeApply = function(fn) {

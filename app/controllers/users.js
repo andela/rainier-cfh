@@ -79,13 +79,6 @@ exports.sendInviteEmail = (req, res) => {
  * Auth callback
  */
 
-
-// exports.authCallback = (req, res) => {
-//   const user = req.user.name;
-//   const token = jwt.sign(user, process.env.JWT_SECRET);
-//   res.cookie('token', token);
-//   res.redirect('/chooseavatars');
-// };
 const getJWT = (tokenInfo, jwtSecret) => new Promise((resolve, reject) => {
   if (tokenInfo) {
     jwt.sign(
@@ -109,7 +102,7 @@ exports.authCallback = (req, res) => {
   getJWT(req.user.name, process.env.JWT_SECRET)
     .then((token) => {
       res.cookie('cfhToken', token);
-      res.redirect('/#!/');
+      res.redirect('/#!/dashboard');
     })
     .catch((error) => {
       res.json(error);

@@ -1,31 +1,49 @@
 angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.directives'])
   .config(['$routeProvider',
-    function($routeProvider) {
-        $routeProvider.
-        when('/', {
-          templateUrl: 'views/index.html'
-        }).
-        when('/app', {
-          templateUrl: '/views/app.html',
-        }).
-        when('/privacy', {
-          templateUrl: '/views/privacy.html',
-        }).
-        when('/bottom', {
-          templateUrl: '/views/bottom.html',
-        }).
-        when('/signin', {
-          templateUrl: '/views/signin.html'
-        }).
-        when('/signup', {
-          templateUrl: '/views/signup.html'
-        }).
-        when('/choose-avatar', {
-          templateUrl: '/views/choose-avatar.html'
-        }).
-        otherwise({
-          redirectTo: '/'
-        });
+      function($routeProvider) {
+          $routeProvider.
+          when('/', {
+            templateUrl: 'views/index.html'
+          }).
+          when('/app', {
+            templateUrl: '/views/app.html',
+          }).
+          when('/privacy', {
+            templateUrl: '/views/privacy.html',
+          }).
+          when('/bottom', {
+            templateUrl: '/views/bottom.html',
+          }).
+          when('/signin', {
+            templateUrl: '/views/signin.html',
+            resolve: {
+              auth: function (RedirectService) {
+                return RedirectService.redirect();
+              }
+            },
+          }).
+          when('/signup', {
+            templateUrl: '/views/signup.html',
+            resolve: {
+              auth: function (RedirectService) {
+                return RedirectService.redirect();
+              }
+            },
+          }).
+          when('/choose-avatar', {
+            templateUrl: '/views/choose-avatar.html'
+          }).
+          when('/dashboard', {
+            templateUrl: '/views/dashboard.html',
+            resolve: {
+              auth: function (AuthService) {
+                return AuthService.authenticate();
+              }
+            }
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
       }
   ]).config(['$locationProvider',
     function($locationProvider) {
@@ -46,7 +64,31 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
     window.userDonationCb = function (donationObject) {
       DonationService.userDonated(donationObject);
     };
-  }]);
+  }]).factory('AuthService', function($q, $window) {
+    return {
+      authenticate: function () {
+        const isAuthenticated = localStorage.getItem('cfhToken');
+        if (isAuthenticated) {
+          return true;
+        } else {
+          $window.location.href = '/#!/signin';
+        }
+        return $q.reject('Not Authenticated');
+      }
+    }
+  }).factory('RedirectService', function($q, $window) {
+    return {
+      redirect: () => {
+        const isAuthenticated = localStorage.getItem('cfhToken');
+        if (!isAuthenticated) {
+          return true;
+        } else {
+          $window.location.href = '/#!/dashboard';
+        }
+        return $q.reject('Not Authenticated');
+      }
+    }
+  });
 
 angular.module('mean.system', []);
 angular.module('mean.directives', []);

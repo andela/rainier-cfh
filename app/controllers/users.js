@@ -97,14 +97,6 @@ exports.signin = (req, res) => {
 * Show sign up form
 */
 
-exports.signup = (req, res) => {
-  if (!req.user) {
-    res.redirect('/#!/signup');
-  } else {
-    res.redirect('/#!/app');
-  }
-};
-
 /**
 * Signout
 */
@@ -161,7 +153,7 @@ exports.signup = (req, res, next) => {
         });
       } else {
         return res.status(409).json({
-          error: 'User already exists'
+          error: 'Email address already in use'
         });
       }
     });
@@ -237,11 +229,11 @@ exports.login = (req, res) => {
     });
   }
   User.findOne({ email: req.body.email }, (err, user) => {
-    if (!err) {
+    if (user) {
       const passwordMatched = bcrypt.compareSync(req.body.password, user.hashed_password);
       if (!passwordMatched) {
-        return res.status(409).send({
-          message: 'Invalid credentials'
+        return res.status(401).send({
+          error: 'Email or password incorrect',
         });
       }
       const token = jwt.sign({
@@ -250,11 +242,14 @@ exports.login = (req, res) => {
       }, process.env.JWT_SECRET, {
         expiresIn: '10h'
       });
-      return res.send({
+      res.send({
         user,
         token
       });
+    } else {
+      return res.status(401).send({ error: 'Email or password incorrect' });
     }
+    console.log(err);
   });
 };
 

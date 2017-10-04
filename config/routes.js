@@ -9,7 +9,7 @@ module.exports = (app, passport, auth) => {
   app.get('/chooseavatars', users.checkAvatar);
   app.get('/signout', users.signout);
   app.post('/api/search/users', users.search);
-  app.post('/api/invite/send',users.sendInviteEmail);
+  app.post('/api/invite/send', users.sendInviteEmail);
 
   // Setting up the users api
   app.post('/api/auth/signup', users.signup);

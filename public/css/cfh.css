@@ -522,3 +522,16 @@ th.donation {
   color: #fff;
 }
 /** HIW Start Screen **/
+
+  /* Materialize default style modification */
+
+  input[type=text]:not(.browser-default):focus:not([readonly]),
+  input[type=password]:not(.browser-default):focus:not([readonly]),
+  input[type=email]:not(.browser-default):focus:not([readonly]),
+  input[type=search]:not(.browser-default):focus:not([readonly]){
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  }
+  .input-field input:focus + label{
+    color: #000 !important;
+  }

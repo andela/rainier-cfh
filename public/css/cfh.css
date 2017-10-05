@@ -67,6 +67,9 @@ html {
     cursor: pointer;
     color: #d32f2f;
   }
+  a.active {
+    color: #d32f2f !important;
+  }
   .navbar-fixed li a {
     font-size: 1.2rem;
     color: #757575;
@@ -521,7 +524,14 @@ th.donation {
   background-color: #7b1fa2;
   color: #fff;
 }
-/** HIW Start Screen **/
+/** Game log **/
+.small-btn {
+  padding: 3px 8px;
+  color: #b71c1c;
+  font-size: 12px;
+  font-weight: 900;
+  text-shadow: 0 0 1px #000;
+}
 
   /* Materialize default style modification */
 

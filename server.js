@@ -64,7 +64,7 @@ const ioObj = io.listen(server, { log: false });
 // game logic handled here
 require('./config/socket/socket')(ioObj);
 
-process.stdout.write(`Express app started on port ${port}`);
+process.stdout.write(`Express app started on port ${port} \n`);
 
 // Initializing logger
 logger.init(app, passport, mongoose);

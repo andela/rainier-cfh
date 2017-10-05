@@ -1,4 +1,4 @@
-  <body class="modal-demo">
+  <body ng-controller="DashboardCtrl">
     
       <header>
         <div class="navbar-fixed">
@@ -24,7 +24,6 @@
       </header>
         <!-- Modal Structure -->
         <!-- Start game friends -->
-        <div ng-include="'cfh-modal.html'"></div>
         <div id="friends" class="modal modal-fixed-footer">
           <header class="modal-header">
             <h5><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Start game session with friends</h5>
@@ -38,8 +37,8 @@
             </p>
           </div>
           <div class="modal-footer">
-            <a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
-            <a href="/play?custom" class="modal-action modal-close waves-effect waves-green btn-flat ">Start</a>
+            <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+            <a href="/play?custom" class="modal-action modal-close waves-effect waves-red btn-flat ">Start</a>
           </div>
         </div>
 
@@ -58,8 +57,8 @@
               </p>
             </div>
             <div class="modal-footer">
-              <a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
-              <a href="/play" class="modal-action modal-close waves-effect waves-green btn-flat ">Start</a>
+              <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+              <a href="/play" class="modal-action modal-close waves-effect waves-red btn-flat ">Start</a>
             </div>
           </div>
           <!-- end of modal -->
@@ -193,11 +192,6 @@
             <p class="made-with-love group center">Made with &hearts;</p>
           </div>
         </footer>
-<<<<<<< HEAD
-    </div>
-    <script type="text/javascript" src="../js/cfh.js"></script>
-  </body>
-=======
       <script type="text/javascript" src="../js/cfh.js"></script>
+      <script type="text/javascript" src="../js/app.js"></script>
     </body>
->>>>>>> 949b621367b375e0b3c5905e0d7283bdcd57dbfc

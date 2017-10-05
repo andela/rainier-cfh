@@ -80,9 +80,6 @@
         }
       }
       
-      // Add modal
-      $('.modal').modal();
-
     }
   ]);
 })();

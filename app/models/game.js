@@ -13,8 +13,8 @@ const GameSchema = new Schema({
   gameOwner: { type: Object, required: true },
   gameWinner: { type: Object, required: true },
   gamePlayers: { type: Array, default: [] },
-  gameEnded: { type: Boolean, default: false },
-  timePlayed: { type: Date, default: new Date().toUTCString() }
+  gameCompleted: { type: Boolean, default: false },
+  gameDate: { type: Date, default: new Date().toUTCString() }
 });
 
 module.exports = mongoose.model('Game', GameSchema);

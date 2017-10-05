@@ -1,10 +1,13 @@
 /*eslint-disable */
 angular.module('mean.system')
-  .controller('GameController', ['$scope', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
-    function ($scope, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {
+  .controller('GameController', ['$scope', '$http','game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
+    function ($scope, $http, game, $timeout, $location,MakeAWishFactsService, $dialog) {
+      $scope.messageSender = '';
+      $scope.messagebody = '';
       $scope.searchText = '';
-      $scope.inviteEmailBody = `Your friend has requested you play Card for Humanity together please 
+      $scope.inviteEmailBody = `Your friend has requested you to play Card for Humanity together please 
                                 follow the link to play`;
+      $scope.showMsgBody = true                          
       $scope.searchedUsers = [];
       $scope.inviteUsers = [];
       $scope.sentEmailMessage = false;
@@ -178,6 +181,35 @@ angular.module('mean.system')
 
          
       }
+      //toggles the chat box
+      $scope.toggleMessage = function(){
+        if($scope.showMsgBody==true)
+          {
+            $scope.showMsgBody = false;
+          }
+          else if($scope.showMsgBody==false){
+            $scope.showMsgBody = true;
+          }
+      }
+      $scope.addMessage = function(){
+        //alert('message sent')
+
+        game.messages().$add({
+          sender:profile.email,
+          body:$scope.messageBody,
+          created_at:Date.now()
+        });
+        // Messages.$add({
+        //   sender:profile.email,
+        //   body:$scope.message,
+        //   created_at:Date.now()
+        // })
+  
+        // //console.log(chatContent.prop('scrollHeight'));
+        $scope.message=" ";
+  
+        // $scope.scrollLastMessage();
+      }
       
       $scope.checkUserIsInvited = (email) => {
        return $scope.inviteUsers.includes(email);
@@ -197,7 +229,7 @@ angular.module('mean.system')
 
       $scope.abandonGame = function () {
         game.leaveGame();
-        $location.path('/');
+        $location.path('/dashboard');
       };
 
       // Catches changes to round to update when no players pick card
@@ -259,10 +291,14 @@ angular.module('mean.system')
         popupModal.modal('show');
       } else if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length <= game.playerMaxLimit)) {
         console.log('joining custom game');
+        console.log(game)
+        console.log(localStorage.getItem('cfhToken'));
         game.joinGame('joinGame', $location.search().game);
       } else if ($location.search().custom && game.players.length <= game.playerMaxLimit) {
+        console.log('join game as a stranger');
         game.joinGame('joinGame', null, true);
       } else {
+        console.log(game);
         game.joinGame();
       }
     }]);

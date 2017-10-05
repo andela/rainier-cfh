@@ -1,4 +1,5 @@
-angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.directives'])
+/* eslint-disable */
+angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap','ngStorage', 'ui.route', 'mean.system', 'mean.directives','firebase'])
   .config(['$routeProvider',
       function($routeProvider) {
           $routeProvider.
@@ -30,15 +31,12 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
               }
             },
           }).
-          when('/dashboard', {
-            templateUrl: '/views/dashboard.html',
-            controller: 'DashboardCtrl'
-          }).
           when('/choose-avatar', {
             templateUrl: '/views/choose-avatar.html'
           }).
           when('/dashboard', {
             templateUrl: '/views/dashboard.html',
+            controller: 'DashboardCtrl',
             resolve: {
               auth: function (AuthService) {
                 return AuthService.authenticate();
@@ -49,7 +47,19 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
             redirectTo: '/'
           });
       }
-  ]).config(['$locationProvider',
+  ]).constant('FirebaseUrl', 'https://cfh-app.firebaseio.com/')
+  .config(function(){
+    const config = {
+      apiKey: "AIzaSyC_n3dNaGYvnw9R4N32wgqzwKtL5_tKH0o",
+      authDomain: "cfh-app.firebaseapp.com",
+      databaseURL: "https://cfh-app.firebaseio.com",
+      projectId: "cfh-app",
+      storageBucket: "cfh-app.appspot.com",
+      messagingSenderId: "1008700339101"
+    };
+    firebase.initializeApp(config);
+  })
+  .config(['$locationProvider',
     function($locationProvider) {
       $locationProvider.hashPrefix("!");
     }

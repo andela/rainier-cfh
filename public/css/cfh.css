@@ -521,6 +521,63 @@ th.donation {
   background-color: #7b1fa2;
   color: #fff;
 }
+.chat-window {
+  width: 250px;
+  /* background-color: grey; */
+  padding: 0px !important;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: 1px solid grey;
+}
+
+.chat-header {
+  padding: 2px 10px;
+  background-color: #b71c1c;
+  color: white;
+}
+
+span {
+  float: right;
+}
+
+.close-icon {
+  cursor: pointer;
+}
+
+#chat-body {
+  padding: 0px;
+}
+
+#chat-content {
+  background-color: white;
+  padding: 0px 10px;
+  height: 200px;
+  overflow: scroll;
+}
+
+.message-list-item {
+  display: flex;
+  margin: 10px 0px;
+}
+
+.chat-avatar {
+  padding-right: 10px;
+}
+
+.chat-avatar img {
+  height: 10px;
+  width: 10px;
+}
+
+.chat-form {
+  display: inline-block;
+  width: 100%;
+  background-color: white;
+}
+.chat-box {
+  width: 100%
+}
 /** HIW Start Screen **/
 
   /* Materialize default style modification */

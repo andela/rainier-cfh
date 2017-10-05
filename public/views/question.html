@@ -41,6 +41,33 @@
         Invite people to join
       </div>
     </div>
+    <div class="chat-window">
+      <div class="chat-header">CFH chat<span><i ng-click="toggleMessage()"class="close-icon">x</i></span></div>
+      <div id="chat-body" ng-show="showMsgBody">
+          <div id="chat-content">
+              <ul>
+                <li class="message-list-item">
+                    <img class='chat-avatar' src='#' />
+                    <div class="chat-message wrap-text">
+                        <strong>@messageSender</strong>
+                        <span class="text-muted">
+                            <small>3pm</small>
+                        </span>
+                        <br/>
+                        messageBody
+                    </div>
+                  </li>
+               </ul>
+          </div>
+      </div>
+      <div class="chat-form" ng-show="showMsgBody">
+        <form ng-submit="addMessage()">
+            <div class="input-field col s12">
+                <input class="chat-box" type="text" ng-model="message" placeholder="Enter message here" required/>
+            </div>
+        </form>
+      </div>
+    </div>
     <!-- Game Over Stuff -->
     <div id="game-end-info">
       <div id="people-left-game-top" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">
@@ -73,6 +100,7 @@
    </div>
 
   </div>
+  
 </div>
 <!-- Modal to search and invite other users -->
 <div id="searchModal" class="modal fade" role="dialog">

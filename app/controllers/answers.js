@@ -19,7 +19,7 @@ exports.add = (req, res, next) => {
   answer.save()
     .then(() => res.send({
       success: true,
-      message: 'Question added successfully',
+      message: 'Answer added successfully',
     }))
     .catch(err => next(err));
 };

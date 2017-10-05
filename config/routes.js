@@ -15,10 +15,6 @@ module.exports = (app, passport, auth) => {
   app.post('/api/search/users', users.search);
   app.post('/api/invite/send', users.sendInviteEmail);
 
-
-  app.post('/api/invite/send', users.sendInviteEmail);
-
-
   // Setting up the users api
   app.post('/api/auth/signup', users.signup);
   app.post('/api/auth/login', users.login);
@@ -83,7 +79,6 @@ module.exports = (app, passport, auth) => {
 
   // Answer Routes
   app.post('/api/answers/add', answers.add);
-  app.get('/answers', answers.all);
   app.get('/answers/:answerId', answers.show);
   app.get('/answers', answers.all);
   // Finish with setting up the answerId param

@@ -67,7 +67,6 @@ html {
     cursor: pointer;
     color: #d32f2f;
   }
-
   .navbar-fixed li a {
     font-size: 1.2rem;
     color: #757575;
@@ -79,6 +78,7 @@ html {
   }
 
   nav {
+    background: #fff;
     color: #000;
     z-index: 1000;
     box-shadow: none;
@@ -89,8 +89,6 @@ html {
   }
   
   nav .cfh-logo {
-    position: absolute;
-    left: 0;
     color: #fff;
     display: inline-block;
     padding: 5px 0;
@@ -436,10 +434,14 @@ html {
     margin: 0 auto;
     margin-top: 4rem;
   }
-  .start-screen h1 {
-    font-family: 'Satisfy', 'cursive';
-    font-weight: 900;
-  }
+.headline {
+  margin-top: 60px;
+}
+.avatar-container {
+  height: 140px;
+  width: 140px;
+  background: #757575;
+}
   .start-screen h6 {
     font-size: 12px;
     font-size: 1.2rem;
@@ -452,20 +454,84 @@ html {
       text-align: center;
     }
   }
-  .start-control li {
-    list-style: none;
+  .start-control a {
     margin: 30px auto;
   }
-  .start-control li a.btn {
+  .start-control a.btn {
     margin: 15px 0;
   }
-  .modal-header {
-    padding-left: 30px;
-    padding-right: 30px;
-    border-bottom: 2px solid #d32f2f;
-    color: #757575;
-    text-align: center;
-  }
+  
   .authUser > * {
     color: #fff !important;
+  }
+.user-rating {
+  margin-bottom: 60px;
+}
+.user-rating li {
+  list-style: none;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 15px;
+}
+.headline b {
+  color: #000;
+}
+
+/** Start Game modal **/
+.modal-header {
+  padding-left: 30px;
+  padding-right: 30px;
+  border-bottom: 2px solid #d32f2f;
+  color: #757575;
+  text-align: center;
+}
+
+/** stats section **/
+.stats {
+  background: #fff;
+  color: #000;
+  border-radius: 5px;
+  text-align: center;
+}
+th{
+  text-align: center;
+  border: 1px solid #fff;
+}
+td {
+  text-align: center;
+}
+th.date {
+  color: #fff;
+  background-color: #000;
+}
+th.played {
+  color: #fff;
+  background-color: #0d47a1;
+}
+th.won {
+  background-color: #1b5e20;
+  color: #fff;
+  
+}
+th.lost {
+  background-color: #b71c1c;
+  color: #fff;
+}
+th.donation {
+  background-color: #7b1fa2;
+  color: #fff;
+}
+/** HIW Start Screen **/
+
+  /* Materialize default style modification */
+
+  input[type=text]:not(.browser-default):focus:not([readonly]),
+  input[type=password]:not(.browser-default):focus:not([readonly]),
+  input[type=email]:not(.browser-default):focus:not([readonly]),
+  input[type=search]:not(.browser-default):focus:not([readonly]){
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  }
+  .input-field input:focus + label{
+    color: #000 !important;
   }

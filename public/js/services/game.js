@@ -225,7 +225,7 @@ angular.module('mean.system')
   game.startGame = function() {
 
     socket.emit('startGame');
-    
+
   };
 
   game.leaveGame = function() {

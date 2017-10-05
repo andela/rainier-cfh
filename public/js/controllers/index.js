@@ -1,3 +1,5 @@
+/* global angular */
+/* global $ */
 angular.module('mean.system')
   .controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
     $scope.global = Global;
@@ -24,6 +26,7 @@ angular.module('mean.system')
         $scope.error = '';
        $http.post('/api/auth/login', userInput)
        .success((response) => {
+         console.log(response);
         if(response.token) {
           window.localStorage.setItem('cfhToken', response.token);
           $rootScope.authenticated = true;
@@ -74,7 +77,6 @@ angular.module('mean.system')
             $scope.error = error.error;
           });
         }
-        
       };
 
     $scope.signout = () => {

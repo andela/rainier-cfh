@@ -228,7 +228,7 @@ exports.login = (req, res) => {
       message: 'All Fields are required'
     });
   }
-  User.findOne({ email: req.body.email }, (err, user) => {
+  User.findOne({ email: req.body.email }, '_id, email, avatar', (err, user) => {
     if (user) {
       const passwordMatched = bcrypt.compareSync(req.body.password, user.hashed_password);
       if (!passwordMatched) {

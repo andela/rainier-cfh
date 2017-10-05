@@ -57,3 +57,13 @@ color: #e53935;
 .block-span {
   display: block;
 }
+.avatar-list {
+  display: inline;
+}
+.avatar-list li{
+  float: right;
+}
+.avatar-list img {
+  width: 30px;
+  height: 30px;
+}

@@ -8,10 +8,14 @@
   * DashboardCtrl
   * Description: sets up a controller
   */
-  .controller('DashboardCtrl', ['$scope', '$http', 'game', '$location',
-    function ($scope, $http, game, $location) {
+  .controller('DashboardCtrl', ['$scope', '$http', 'game', 'history', '$location',
+    function ($scope, $http, game, history, $location, jwtHelper) {
+      let user = localStorage.getItem('cfhToken');
       // user stats is an array of object
       $scope.stats = [];
+
+      // make game service available as scope
+      $scope.game = game;
       // user starts with a default level of zero
       $scope.level = 0;
       // Maximum level attainable
@@ -25,9 +29,11 @@
         $scope.userError = 'An error occured fetching your data';
       }
       const userRes = (response) => {
+        console.log('User response at dahsboard:::::', response);
         $scope.user = response.data;
+
       }
-      $http.get('/userData').then(userRes, onUserError);
+      $http.get('/users/me').then(userRes, onUserError);
 
       // Todo: implement the endpoint that serves userStats
       //User Stats
@@ -40,7 +46,7 @@
         $scope.statsError = 'An error occured fetching your stats'
       }
 
-      $http.get('/userStats').then(statsRes, onStatsError);
+      $http.get('/api/:userid/games/history').then(statsRes, onStatsError);
 
       // Todo: write algorithm for calculating user rating and level
       // $scope.getLevel = () => {

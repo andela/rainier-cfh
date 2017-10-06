@@ -19,8 +19,8 @@
           url: route,
           headers: { 'Content-Type': 'application/json' },
           data: {
-            creator: gameSession.creator,
-            friends: gameSession.friends
+            gameOwner: gameSession.gameOwner,
+            gamePlayers: gameSession.gamePlayers
           }
         }).then((response) => {
           return response.data;
@@ -34,9 +34,9 @@
           headers: { 'Content-Type': 'application/json' },
           data: {
             gameSessionId: gameSession.gameKey,
-            winner: gameSession.winner,
+            gameWinner: gameSession.gameWinner,
             status: gameSession.status,
-            rounds: gameSession.rounds
+            gameRounds: gameSession.gameRounds
           }
         }).then(response => response.data);
 

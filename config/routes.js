@@ -3,7 +3,8 @@ const users = require('../app/controllers/users');
 const questions = require('../app/controllers/questions');
 const avatars = require('../app/controllers/avatars');
 const index = require('../app/controllers/index');
-const game = require('../app/controllers/game');
+const gameData = require('../app/controllers/game');
+const authUser = require('./middlewares/authUser');
 
 
 module.exports = (app, passport, auth) => {
@@ -22,9 +23,14 @@ module.exports = (app, passport, auth) => {
   app.post('/users/avatars', users.avatars);
   
   // Donation Routes
-  app.post('/donations', users.addDonation);
+  app.post('/donations', authUser, users.addDonation);
+  
+  // Game session routes
+  app.post('/api/games/:id/start', authUser, gameData.create);
 
-  app.post('/api/games/:id/start', game.saveGame);
+  // Game session history
+  app.get('/api/:gameid/history', authUser, gameData.viewOne);
+  app.get('/api/games/history', authUser, gameData.viewAll);
 
   app.post('/users/session', passport.authenticate('local', {
     failureRedirect: '/signin',

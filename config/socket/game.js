@@ -225,10 +225,19 @@ Game.prototype.stateResults = function(self) {
   }, self.timeLimits.stateResults*1000);
 };
 
+// save game log on game end
 Game.prototype.stateEndGame = function(winner) {
   this.state = "game ended";
   this.gameWinner = winner;
   this.sendUpdate();
+  const saveGameData = {
+    gameID,
+    gameRound: this.round,
+    gameWinner: this.players[winner].username,
+    gamePlayers,
+    gameDate: Date.now()
+  };
+  this.io.sockets.in(this.gameID).emit('saveGame', saveGameData);
 };
 
 Game.prototype.stateDissolveGame = function() {

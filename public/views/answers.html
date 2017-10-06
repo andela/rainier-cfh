@@ -3,36 +3,35 @@
   <div id="cards" class='hand'>
 
     <span ng-show="winnerPicked()"></span>
-
-    <div class="row">
       <div class="container">
-        <div ng-style="{'cursor':'pointer'}" class="card col s6 m3 l2" id='answers' ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
-        ng-repeat="card in game.players[game.playerIndex].hand" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
-        <div class="">
-          <span ng-bind-html-unsafe="card.text"></span>
-        </div>
-        <div class="">
-          <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
-          <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
-        </div>
+        <div class="col s12 l8">
+          <div ng-style="{'cursor':'pointer'}" class="card col s6 m3 l2" id='answers' ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
+          ng-repeat="card in game.players[game.playerIndex].hand track by $index" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
+          <div class="">
+            <span ng-bind-html-unsafe="card.text"></span>
+          </div>
+          <div class="">
+            <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
+            <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
+          </div>
 
+          </div>
+
+          <span ng-repeat="answer in game.table track by $index">
+              <div class="card smallest" ng-style="pointerCursorStyle()" id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
+              ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}" style="background-color:{{winningColor($parent.$index)}}">
+              <div class="">
+                <span ng-bind-html-unsafe="card.text"></span>
+              </div>
+              <div class="">
+                <span id='selection-number' ng-show="firstAnswer($index)"> 1 </span>
+                <span id='selection-number' ng-show="secondAnswer($index)"> 2 </span>
+              </div>
+
+              </div>
+          </span>
         </div>
-
-        <span ng-repeat="answer in game.table">
-            <div class="card smallest" ng-style="pointerCursorStyle()" id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
-            ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}" style="background-color:{{winningColor($parent.$index)}}">
-            <div class="">
-              <span ng-bind-html-unsafe="card.text"></span>
-            </div>
-            <div class="">
-              <span id='selection-number' ng-show="firstAnswer($index)"> 1 </span>
-              <span id='selection-number' ng-show="secondAnswer($index)"> 2 </span>
-            </div>
-
-            </div>
-        </span>
       </div>
-    </div>
   </div>
 </div>
 

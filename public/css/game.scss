@@ -98,9 +98,22 @@
   color: #b5b5b5;
 }
 
+
 .invite {
   height: 60px;
-  padding: 20px;
+  padding: 15px !important;
+}
+
+@media (min-width: 601px) {
+  .invite {
+    padding: 10px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .invite {
+    padding: 20px !important;
+  }
 }
 
 .start-game-btn {
@@ -112,6 +125,7 @@
 
 .start-game-btn:hover {
   color: red;
+  background-color: #ffffff;
   border: 1px solid red !important;
   transform: translate(0.5px, 0.5px);
 }

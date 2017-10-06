@@ -26,7 +26,6 @@ angular.module('mean.system')
         localStorage.setItem('cfhToken', response.token);
         localStorage.setItem('cfhUser', JSON.stringify(response.user));
         $window.location.href='/#!/dashboard';
-        console.log(localStorage.getItem('cfhUser'));
       }
       $scope.signin = (userInput) => {
         $scope.error = '';

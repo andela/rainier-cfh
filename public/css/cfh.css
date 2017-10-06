@@ -554,6 +554,7 @@ span {
   padding: 0px 10px;
   height: 200px;
   overflow: scroll;
+  font-size: 13px
 }
 
 .message-list-item {
@@ -562,18 +563,19 @@ span {
 }
 
 .chat-avatar {
-  padding-right: 10px;
+  /* padding-right: 10px; */
 }
 
 .chat-avatar img {
-  height: 10px;
-  width: 10px;
+  /* height: 5px;
+  width: 5px; */
 }
 
 .chat-form {
   display: inline-block;
   width: 100%;
   background-color: white;
+  border-style: inset;
 }
 .chat-box {
   width: 100%

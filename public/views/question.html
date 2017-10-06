@@ -46,24 +46,24 @@
       <div id="chat-body" ng-show="showMsgBody">
           <div id="chat-content">
               <ul>
-                <li class="message-list-item">
-                    <img class='chat-avatar' src='#' />
+                <li class="message-list-item" ng-repeat="message in messages">
+                    <img class='chat-avatar' src='../img/chosen/E01.png' />
                     <div class="chat-message wrap-text">
-                        <strong>@messageSender</strong>
+                        <strong class="red-text">@{{message.sender}}</strong>
                         <span class="text-muted">
-                            <small>3pm</small>
+                            <small class="text-muted">3pm</small>
                         </span>
                         <br/>
-                        messageBody
+                        {{message.body}}
                     </div>
                   </li>
                </ul>
           </div>
       </div>
       <div class="chat-form" ng-show="showMsgBody">
-        <form ng-submit="addMessage()">
-            <div class="input-field col s12">
-                <input class="chat-box" type="text" ng-model="message" placeholder="Enter message here" required/>
+        <form ng-submit="sendMessage()">
+            <div class="col s12">
+               <input class="chat-box" type="text" ng-model="messageBody" placeholder="Enter message here" required/>
             </div>
         </form>
       </div>

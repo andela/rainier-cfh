@@ -1,24 +1,49 @@
+/* eslint-disable */
 var Game = require('./game');
 var Player = require('./player');
 require("console-stamp")(console, "m/dd HH:MM:ss");
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var firebase = require('firebase');
+//var admin = require('firebase-admin');
 
 var avatars = require(__dirname + '/../../app/controllers/avatars.js').all();
 // Valid characters to use to generate random private game IDs
 var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 
-module.exports = function(io) {
+//firebase configurations
+var config = {
+  apiKey: "AIzaSyAdMyjJqQv8eP-ECzijp41brb0VdlTE-Dg",
+  authDomain: "cfh-chat-app.firebaseapp.com",
+  databaseURL: "https://cfh-chat-app.firebaseio.com",
+  projectId: "cfh-chat-app",
+  storageBucket: "cfh-chat-app.appspot.com",
+  messagingSenderId: "1039015412470"
+};
 
+//firebase initialization
+firebase.initializeApp(config);
+
+module.exports = function(io) { 
+  
   var game;
   var allGames = {};
   var allPlayers = {};
   var gamesNeedingPlayers = [];
   var gameID = 0;
+  var join_msg = 'welcome to the chat'
+  
+  var ref = firebase.database().ref('messages'); //reference to messages
 
   io.sockets.on('connection', function (socket) {
     console.log(socket.id +  ' Connected');
     socket.emit('id', {id: socket.id});
+
+    //listens for send-message event
+    socket.on('send-message',function(data){
+      ref.push(data);
+      socket.emit('message-received',data);
+    })
 
     socket.on('pickCards', function(data) {
       console.log(socket.id,"picked",data);
@@ -73,6 +98,10 @@ module.exports = function(io) {
       console.log('Rooms on Disconnect ', io.sockets.manager.rooms);
       exitGame(socket);
     });
+
+    // socket.on('send-message',function(data){
+    //   console.log(data);
+    // })        
   });
 
   var joinGame = function(socket,data) {

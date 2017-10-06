@@ -1,10 +1,11 @@
 /*eslint-disable */
 angular.module('mean.system')
-  .controller('GameController', ['$scope', '$http','game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
-    function ($scope, $http, game, $timeout, $location,MakeAWishFactsService, $dialog) {
+  .controller('GameController', ['$scope','socket','$http','game','$timeout', '$location', 'MakeAWishFactsService', '$dialog',
+    function ($scope,socket,$http, game,$timeout, $location,MakeAWishFactsService, $dialog) {
       $scope.messageSender = '';
       $scope.messagebody = '';
       $scope.searchText = '';
+      $scope.messages =[];
       $scope.inviteEmailBody = `Your friend has requested you to play Card for Humanity together please 
                                 follow the link to play`;
       $scope.showMsgBody = true                          
@@ -39,6 +40,11 @@ angular.module('mean.system')
           }
         }
       };
+
+      socket.on('message-received',function(data){
+        $scope.messages.push(data);
+        console.log($scope.messages);
+      })
 
       $scope.pointerCursorStyle = function () {
         if ($scope.isCzar() && $scope.game.state === 'waiting for czar to decide') {
@@ -191,27 +197,22 @@ angular.module('mean.system')
             $scope.showMsgBody = true;
           }
       }
-      $scope.addMessage = function(){
-        //alert('message sent')
 
-        game.messages().$add({
-          sender:profile.email,
+      $scope.sendMessage = function(){
+        //message instance created
+        let newMessage = {
+          sender:localStorage.getItem('cfhuser'),
           body:$scope.messageBody,
+          game:game.gameID,
           created_at:Date.now()
-        });
-        // Messages.$add({
-        //   sender:profile.email,
-        //   body:$scope.message,
-        //   created_at:Date.now()
-        // })
-  
-        // //console.log(chatContent.prop('scrollHeight'));
-        $scope.message=" ";
-  
-        // $scope.scrollLastMessage();
-      }
+        };
+
+        socket.emit('send-message',newMessage);
       
-      $scope.checkUserIsInvited = (email) => {
+        $scope.messageBody ='';
+      }
+   
+     $scope.checkUserIsInvited = (email) => {
        return $scope.inviteUsers.includes(email);
       }
 
@@ -292,7 +293,6 @@ angular.module('mean.system')
       } else if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length <= game.playerMaxLimit)) {
         console.log('joining custom game');
         console.log(game)
-        console.log(localStorage.getItem('cfhToken'));
         game.joinGame('joinGame', $location.search().game);
       } else if ($location.search().custom && game.players.length <= game.playerMaxLimit) {
         console.log('join game as a stranger');

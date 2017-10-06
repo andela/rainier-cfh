@@ -1,3 +1,4 @@
+/* eslint-disable */
 angular.module('mean.system')
   .controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
     $scope.global = Global;
@@ -26,6 +27,7 @@ angular.module('mean.system')
        .success((response) => {
         if(response.token) {
           window.localStorage.setItem('cfhToken', response.token);
+          window.localStorage.setItem('cfhuser', response.user.name);
           $rootScope.authenticated = true;
           $window.location.href = '/#!/dashboard';
         }
@@ -67,6 +69,7 @@ angular.module('mean.system')
             console.log(response);
             if (response.token) {
               window.localStorage.setItem('cfhToken', response.token);
+              window.localStorage.setItem('cfhuser',response.user.username);
               $window.location.href='/#!/dashboard';
             }
           })

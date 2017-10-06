@@ -266,8 +266,8 @@ exports.login = (req, res) => {
         email: user.email,
         userId: user.id,
       }, process.env.JWT_SECRET, {
-          expiresIn: '10h'
-        });
+        expiresIn: process.env.JWT_EXPIRY_TIME
+      });
       res.send({
         user,
         token

@@ -10,8 +10,6 @@ const express = require('express'),
   logger = require('mean-logger'),
   io = require('socket.io');
 
-// User = mongoose.model('User');
-
 /**
  * Main application entry file.
  * Please note that the order of loading is important.

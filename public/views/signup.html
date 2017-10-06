@@ -36,10 +36,10 @@
                       <label for="password">Password</label>
                     </div>
                   </div>
-                  <div class="col s12"> 
+                  <div class="col s10 offset-s1"> 
                     <p class="center">Select an avatar</p>
                       <ul class="avatar-list" >
-                          <li ng-repeat="avatar in avatars" class="avatars ng-scope col s1">
+                          <li ng-repeat="avatar in avatars" class="avatars ng-scope col s2">
                             <input name="avatar" type='radio' ng-model="userInput.avatar"
                             value="{{$index}}" id="{{$index}}" required>
                             <label for="{{$index}}">
@@ -61,16 +61,24 @@
                     <div class="row">
                       <div class="col s12 offset-s2 m12 offset-m4">
                         <div class="col s2 m1">
+                          <a href="/auth/facebook">
                             <img src="../img/facebook.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
+                          </a>
                         </div>
                         <div class="col s2 m1">
-                          <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
+                          <a href="/auth/twitter">
+                            <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
+                          </a>
                         </div>
                         <div class="col s2 m1">
-                          <img src="../img/google.png" width="50px" height="50px" class="left" />
+                          <a href="/auth/google">
+                            <img src="../img/google.png" width="50px" height="50px" class="left" />
+                          </a>
                         </div>
                         <div class="col s2 m1">
+                          <a href="/auth/github">
                             <img src="../img/github2.png" width="50px" height="50px" class="left" />
+                          </a>
                         </div>
                       </div>
                       <div class="col s12 hr center">

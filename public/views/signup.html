@@ -36,10 +36,10 @@
                       <label for="password">Password</label>
                     </div>
                   </div>
-                  <div class="col s10 offset-s1"> 
+                  <div class="col m10 offset-m1 s12"> 
                     <p class="center">Select an avatar</p>
                       <ul class="avatar-list" >
-                          <li ng-repeat="avatar in avatars" class="avatars ng-scope col s2">
+                          <li ng-repeat="avatar in avatars" class="avatars ng-scope col m2 s3">
                             <input name="avatar" type='radio' ng-model="userInput.avatar"
                             value="{{$index}}" id="{{$index}}" required>
                             <label for="{{$index}}">

@@ -30,6 +30,10 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
               }
             },
           }).
+          when('/dashboard', {
+            templateUrl: '/views/dashboard.html',
+            controller: 'DashboardCtrl'
+          }).
           when('/choose-avatar', {
             templateUrl: '/views/choose-avatar.html'
           }).
@@ -47,7 +51,7 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
       }
   ]).config(['$locationProvider',
     function($locationProvider) {
-        $locationProvider.hashPrefix("!");
+      $locationProvider.hashPrefix("!");
     }
   ]).run(['$rootScope', function($rootScope) {
   $rootScope.safeApply = function(fn) {

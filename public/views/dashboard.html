@@ -1,4 +1,196 @@
-<h1>Dashboard</h1>
-<div ng-controller="IndexController">
-  <button ng-click="signout()">Logout</button>
-</div>
+  <body class="modal-demo">
+    
+      <header>
+        <div class="navbar-fixed">
+          <nav class="main-header">
+            <div class="container nav-wrapper">
+              <a href="/#!" class="cfh-logo black-text"><img src="../img/cfh-logo.png" alt="cfh-logo" /></a>
+              <a icon-label="mobile-menu" class="nav-mobile">
+                <span></span>
+                <span></span>
+                <span></span>
+              </a>
+              <ul class="nav-list right hide-on-med-and-down">
+                <li class="nav-item"><a href="#friends" class="modal-trigger" >Start game</a></li>
+                <li class="nav-item"><a ng-click="signout()">Logout</a></li>
+                <li class="nav-item"><a href="https://www.crowdrise.com/donate/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Flocalhost%3A3000%2F%23!%2F&stylesheet=&amounts="><button class="btn brand-btn-donate">Donate</button></a></li>
+              </ul>
+            </div>
+            <div class="mobile-nav">
+              <div class="container" id="mobile-nav"></div>
+            </div>
+        </div>
+        </nav>
+      </header>
+        <!-- Modal Structure -->
+        <!-- Start game friends -->
+        <div id="friends" class="modal modal-fixed-footer">
+          <header class="modal-header">
+            <h5><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Start game session with friends</h5>
+          </header>
+          <div class="modal-content center">
+            <h1><i class="fa fa-info-circle"></i></h1>
+            <p>
+              This game contains offensive, profane, explicit content created by <a href="#" >Cards Against 
+              Humanity&trade;</a> and provided here, uncensored and complete, in digital form. Human Resources made us 
+              say that.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+            <a href="/play?custom" class="modal-action modal-close waves-effect waves-green btn-flat ">Start</a>
+          </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <!-- Start game friends -->
+        <div id="strangers" class="modal modal-fixed-footer">
+            <header class="modal-header">
+              <h5><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Start game session with strangers</h5>
+            </header>
+            <div class="modal-content center">
+              <h1><i class="fa fa-info-circle"></i></h1>
+              <p>
+                This game contains offensive, profane, explicit content created by <a href="#" >Cards Against 
+                Humanity&trade;</a> and provided here, uncensored and complete, in digital form. Human Resources made us 
+                say that.
+              </p>
+            </div>
+            <div class="modal-footer">
+              <a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+              <a href="/play" class="modal-action modal-close waves-effect waves-green btn-flat ">Start</a>
+            </div>
+          </div>
+          <!-- end of modal -->
+  
+      <div class="white black-text container start-screen section scrollspy" id="home">
+        <div class="row">
+          <section class="col s12 m5">
+            <div class="headline">
+              <h6>{{userError}}</h6>
+              <h2>{{ user.username }}</h2>
+              <p><b>Email:</b> {{ user.email }}</p>
+              <div class="user-rating">
+                <li class="avatar-container"><img ng-src="{{ user.avatar }}"></li>
+                <li>
+                  <p><b>Rating:</b>&nbsp;
+                    <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                  </p>
+                  <!-- it should be {{ user.level}} not level -->
+                  <p><b>Level:</b> {{ level }} of {{ maxLevel }}</p>
+                </li>
+              </div>
+              <div class="brief">
+                <h6><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Begin a new game and start earning points.</h6>
+                <h6><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Donate and increase your rating.</h6>
+                <h6><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Enjoy with friends or strangers.</h6>
+              </div>
+              <div class="start-control">
+                <a href="#friends" class="btn btn-large brand-btn brand-btn-main modal-trigger">
+                  <i class="fa fa-play"></i>&nbsp;&nbsp;Friends
+                </a>
+                <a href="#strangers" class="btn btn-large brand-btn brand-btn-main modal-trigger"><i class="fa fa-play"></i>&nbsp;&nbsp;Strangers
+                    </a>
+              </div>
+            </div>
+          </section>
+          <aside class="col s12 m7 stats">
+            <header>
+              <h4>My Game Stats</h4>
+              <h6>{{statsError}}</h6>
+            </header>
+            <section>
+              <table>
+                <thead>
+                  <tr>
+                    <th class="date">Game Date</th>
+                    <th class="played">Games Played</th>
+                    <th class="won">Games Won</th>
+                    <th class="lost">Games Lost</th>
+                    <th class="donation">Donation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="stat in stats | limitTo:8">
+                    <td>{{stat.date}}</td>
+                    <td>{{stat.played}}</td>
+                    <td>{{stat.won}}</td>
+                    <td>{{stat.lost}}</td>
+                    <td>{{stat.donation | currency}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div ng-show="nextStat()">
+                <ul class="pagination">
+                  <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+                  <li class="active"><a href="">1</a></li>
+                  <li class="waves-effect"><a>2</a></li>
+                  <li class="waves-effect"><a>3</a></li>
+                  <li class="waves-effect"><a><i class="material-icons">chevron_right</i></a></li>
+                </ul>
+              </div>
+            </section>
+  
+  
+          </aside>
+        </div>
+      </div>
+      <!-- Donate -->
+      <section class="cfh-section purple darken-2" id="donate">
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m4 hide-on-small-only non-profit">
+              <img class="ribbon" src="../img/nonprofit_ribbon.png" />
+            </div>
+            <div class="col s12 m8 authUser">
+              <h4>Support the cause</h4>
+              <p>
+                To unlock the community’s incredible giving potential, we've integrated donation widgets ( via <a class="red-text " target="_blank" href="https://crowdrise.com"> crowdrise.com </a> ), along with some not-so-subtle reminders throughout the
+                game to give you the opportunity to donate. If you're signed in, and when you donate, we will upgrade your account, award you value points and place a crown on your avatar's head (to remind other players how much better you are than them).
+              </p>
+              <br>
+              <a class="btn brand-btn brand-btn-donate-invert btn-large" href="https://www.crowdrise.com/donate/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Flocalhost%3A3000%2F%23!%2F&stylesheet=&amounts="> 
+                    Donate
+                  </a>
+            </div>
+          </div>
+          <br>
+          <p class="giving-quote white-text center">"If you don't give back, no one will like you&trade;" -
+            <a class="red-text" target="_blank" href="https://crowdrise.com"> crowdrise.com </a>
+          </p>
+        </div>
+      </section>
+      <!-- The team -->
+      <footer class="cfh-section section scrollspy" id="partners">
+          <nav class="container">
+            <div class="left">
+                <a href="#home" class="cfh-logo black-text"><img src="../img/cfh-logo.png" alt="cfh-logo"/></a>
+            </div>
+            <div class="right">
+              <ul>
+                <li><a href="https://crowdrise.com" class="footer-logo"><img src="../img/crowd-rise-logo.jpg" alt="Crowdrise logo" title="Crowdrise home"/></a></li>
+                <li><a class="facebook"><i class="fa fa-facebook-square"></i></a></li>
+                <li><a class="goodgle"><i class="fa fa-google"></i></a></li>
+                <li><a class="twitter"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="https://github.com/andela/rainier-cfh" class="github"><i class="fa fa-github"></i></a></li>
+              </ul>
+            </div>   
+          </nav>
+          <div class="center">
+            <p>An open source web application.</p>
+            <br>
+            <p class="legal group">
+              LEGAL STUFF: This game is based on the <a href="http://cardsagainsthumanity.com">Cards Against Humanity&trade;</a> card game, which is CC
+              licenced (BY-NC-SA). Cards For Humanity is not affiliated with Cards Against Humanity&trade;. In 
+              complying with the Creative Commons&trade; license of the Cards Against Humanity&trade; card game, all 
+              proceeds from donations go directly to charity, as managed by crowdrise&trade;. 
+            </p>
+            <br>
+            <a href="https://andela.com" class="footer-logo"><img src="../img/andela-logo.png"  alt="Andela logo" title="Andela home"/></a>
+            <p class="made-with-love group center">Made with &hearts;</p>
+          </div>
+        </footer>
+      <script type="text/javascript" src="../js/cfh.js"></script>
+    </body>

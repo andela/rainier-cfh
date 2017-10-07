@@ -12,15 +12,11 @@ background-color: #D81B60 !important;
 
 .account {
 margin-top: 50px;
-height: 850px;
+height: 100%;
 }
 
 .account h5 {
 padding: 20px 0px;
-}
-
-.account .signup {
-padding: 0px 80px;
 }
 
 .account .signup .signin {
@@ -31,10 +27,6 @@ padding: 0px 80px;
 padding: 0px 70px;
 background-color: #e53935 !important;
 margin: 30px 0px 35px 0px;
-}
-
-.account p {
-padding-bottom: 5px;
 }
 
 .account .provider button {
@@ -56,4 +48,21 @@ color: #e53935;
 }
 .block-span {
   display: block;
+}
+.avatar-list {
+  display: inline;
+}
+.avatar-list li{
+  float: right;
+}
+.avatar-list img {
+  width: 30px;
+  height: 30px;
+}
+/* Materialize radio button style overide */
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+  background: #000;
+}
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after{
+  border: 2px solid #000;
 }

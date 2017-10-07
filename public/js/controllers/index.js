@@ -1,3 +1,6 @@
+/* global angular */
+/* global $ */
+/* global localStorage */
 angular.module('mean.system')
   .controller('IndexController', ['$scope', 'Global', '$cookieStore', '$cookies', '$location', '$http', '$window', 'socket', 'game', 'AvatarService', function ($scope, Global, $cookieStore, $cookies, $location, $http, $window, socket, game, AvatarService) {
     $scope.global = Global;
@@ -29,6 +32,22 @@ angular.module('mean.system')
       .then((data) => {
         $scope.avatars = data;
       });
+    $scope.storeData = (response) => {
+      localStorage.setItem('cfhToken', response.token);
+      localStorage.setItem('cfhUser', JSON.stringify(response.user));
+      $window.location.href = '/#!/dashboard';
+    }
+    $scope.signin = (userInput) => {
+      $scope.error = '';
+      $http.post('/api/auth/login', userInput)
+        .success((response) => {
+          $scope.storeData(response);
+        })
+        .error((error) => {
+          $scope.error = error.error;
+          $rootScope.authenticated = false;
+        });
+    };
 
     $scope.signin = (userInput) => {
       $scope.error = '';
@@ -74,11 +93,7 @@ angular.module('mean.system')
       if (validation) {
         $http.post('/api/auth/signup', userInput)
           .success((response) => {
-            console.log(response);
-            if (response.token) {
-              window.localStorage.setItem('cfhToken', response.token);
-              $window.location.href = '/#!/dashboard';
-            }
+            $scope.storeData(response);
           })
           .error((error) => {
             $scope.error = error.error;
@@ -88,6 +103,7 @@ angular.module('mean.system')
 
     $scope.signout = () => {
       localStorage.removeItem('cfhToken');
+      localStorage.removeItem('cfhUser');
       $cookieStore.remove('cfhToken');
       $window.location.href = '/#!/signin';
     };

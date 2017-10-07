@@ -102,7 +102,7 @@ exports.authCallback = (req, res) => {
   getJWT(req.user.name, process.env.JWT_SECRET)
     .then((token) => {
       res.cookie('cfhToken', token);
-      res.redirect('/#!/chooseavatars');
+      res.redirect('/#!/dashboard');
     })
     .catch((error) => {
       res.json(error);
@@ -155,22 +155,26 @@ exports.signup = (req, res, next) => {
       email: req.body.email
     }).exec((err, existingUser) => {
       if (!existingUser) {
-        const user = new User(req.body);
-        // Switch the user's avatar index to an actual avatar url
-        user.avatar = avatars[user.avatar];
-        user.provider = 'local';
-        user.save((err) => {
+        const resgisteredUser = new User(req.body);
+        // Switch the resgisteredUser's avatar index to an actual avatar url
+        resgisteredUser.avatar = avatars[resgisteredUser.avatar];
+        resgisteredUser.provider = 'local';
+        resgisteredUser.save((err) => {
           if (err) {
             return res.render('/#!/signup?error=unknown', {
               errors: err.errors,
-              user
+              resgisteredUser
             });
           }
-          req.logIn(user, (err) => {
+          req.logIn(resgisteredUser, (err) => {
             if (err) return next(err);
-            const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '10h' });
-
-            res.status(200).json({
+            const token = jwt.sign({ resgisteredUser }, process.env.JWT_SECRET, { expiresIn: '10h' });
+            const user = {
+              name: resgisteredUser.name,
+              email: resgisteredUser.email,
+              avatar: resgisteredUser.avatar,
+            };
+            res.status(201).json({
               token,
               user
             });
@@ -254,27 +258,31 @@ exports.login = (req, res) => {
       message: 'All Fields are required'
     });
   }
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (user) {
-      const passwordMatched = bcrypt.compareSync(req.body.password, user.hashed_password);
+  User.findOne({ email: req.body.email }, (err, returnedUser) => {
+    if (returnedUser) {
+      const passwordMatched = bcrypt.compareSync(req.body.password, returnedUser.hashed_password);
       if (!passwordMatched) {
         return res.status(401).send({
           error: 'Email or password incorrect',
         });
       }
       const token = jwt.sign({
-        email: user.email,
-        userId: user.id,
+        email: returnedUser.email,
+        userId: returnedUser.id,
       }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRY_TIME
-      });
-      res.send({
+          expiresIn: process.env.JWT_EXPIRY_TIME
+        });
+      const user = {
+        name: returnedUser.name,
+        email: returnedUser.email,
+        id: returnedUser._id,
+      };
+      return res.send({
         user,
         token
       });
-    } else {
-      return res.status(401).send({ error: 'Email or password incorrect' });
     }
+    return res.status(401).send({ error: 'Email or password incorrect' });
   });
 };
 

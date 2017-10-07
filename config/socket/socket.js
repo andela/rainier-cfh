@@ -100,11 +100,7 @@ module.exports = function (io) {
       console.log('Rooms on Disconnect ', io.sockets.manager.rooms);
       exitGame(socket);
     });
-
-    // socket.on('send-message',function(data){
-    //   console.log(data);
-    // })
-  });
+});
 
   var joinGame = function (socket, data) {
     const player = new Player(socket);

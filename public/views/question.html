@@ -41,33 +41,41 @@
         Invite people to join
       </div>
     </div>
-    <div class="chat-window">
-      <div class="chat-header">CFH chat<span><i ng-click="toggleMessage()"class="close-icon">x</i></span></div>
-      <div id="chat-body" ng-show="showMsgBody">
+    <!--chat window-->
+    <div class="chat-window z-depth-4">
+      <div class="chat-header">
+        Game chat
+        <span class="close-icon right" ng-click="toggleMessage()">
+            x
+          </span>
+        <!-- <span><i ng-click="toggleMessage()"class="close-icon">x</i></span> -->
+      </div>
+      <div class="chat-body" ng-show="showMsgBody">
           <div id="chat-content">
-              <ul>
-                <li class="message-list-item" ng-repeat="message in messages">
-                    <img class='chat-avatar' src='../img/chosen/E01.png' />
-                    <div class="chat-message wrap-text">
-                        <strong class="red-text">@{{message.sender}}</strong>
-                        <span class="text-muted">
-                            <small class="text-muted">3pm</small>
-                        </span>
-                        <br/>
-                        {{message.body}}
+              <li class="message-list-item" ng-repeat="message in messages">
+                    <div class="chat-avatar">
+                      <img class='chat-avatar' src='{{message.avatar}}'/>
                     </div>
-                  </li>
-               </ul>
+                    <div class="chat-message wrap-text">
+                      <strong class="red-text">@{{message.sender}}</strong>
+                          <span class="mute-text">
+                              <small class="text-muted">{{message.timeSent}}</small>
+                          </span>
+                          <br/>
+                          {{message.body}}
+                    </div>
+              </li>
           </div>
       </div>
-      <div class="chat-form" ng-show="showMsgBody">
-        <form ng-submit="sendMessage()">
-            <div class="col s12">
-               <input class="chat-box" type="text" ng-model="messageBody" placeholder="Enter message here" required/>
+      <!--<div class="chat-form" ng-show="showMsgBody">-->
+        <form class="chat-form" ng-show="showMsgBody" ng-submit="sendMessage()">
+            <div class="input-group">
+               <input class="chat-input" type="text" ng-model="messageBody" placeholder="Enter message here..." required/>
             </div>
         </form>
-      </div>
+      <!--</div>-->
     </div>
+    <!--/chat window-->
     <!-- Game Over Stuff -->
     <div id="game-end-info">
       <div id="people-left-game-top" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">

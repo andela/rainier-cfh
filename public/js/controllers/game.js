@@ -3,6 +3,7 @@ angular.module('mean.system')
   .controller('GameController', ['$scope','socket','$http','game','$timeout', '$location', 'MakeAWishFactsService', '$dialog',
     function ($scope,socket,$http, game,$timeout, $location,MakeAWishFactsService, $dialog) {
       $scope.messageSender = '';
+      $scope.msg = 'hello chat';
       $scope.messagebody = '';
       $scope.searchText = '';
       $scope.messages =[];
@@ -41,10 +42,22 @@ angular.module('mean.system')
         }
       };
 
-      socket.on('message-received',function(data){
-        $scope.messages.push(data);
-        console.log($scope.messages);
-      })
+      // socket.on('message-received',function(data){
+      //   $scope.messages.push(data);
+      //   //console.log($scope.messages);
+      // });
+
+     socket.on('loadChat', (messages) => {
+        $scope.chatLoading = false;
+        $scope.messages = messages;
+        $scope.scrollNow();
+      });
+
+      socket.on('add message', (message) => {
+        $scope.messages.push(message);
+        $scope.scrollNow();
+      });
+    
 
       $scope.pointerCursorStyle = function () {
         if ($scope.isCzar() && $scope.game.state === 'waiting for czar to decide') {
@@ -187,6 +200,33 @@ angular.module('mean.system')
 
          
       }
+      //gets and return properties of the chat box
+      $scope.getLength = () => {
+        const messages = $('#chat-content');
+        const newMessage = messages.children('li:last-child');
+        const clientHeight = messages.prop('clientHeight');
+        const scrollTop = messages.prop('scrollTop');
+        const scrollHeight = messages.prop('scrollHeight');
+        const newMessageHeight = newMessage.innerHeight();
+        const lastMessageHeight = newMessage.prev().innerHeight();
+    
+        return {
+          messages,
+          newMessage,
+          clientHeight,
+          scrollTop,
+          scrollHeight,
+          newMessageHeight,
+          lastMessageHeight
+        };
+      };
+
+      $scope.scrollNow = () => {
+        setTimeout(() => {
+          const { messages, scrollHeight } = $scope.getLength();
+          messages.scrollTop(scrollHeight);
+        }, 300);
+      }
       //toggles the chat box
       $scope.toggleMessage = function(){
         if($scope.showMsgBody==true)
@@ -197,18 +237,25 @@ angular.module('mean.system')
             $scope.showMsgBody = true;
           }
       }
-
-      $scope.sendMessage = function(){
-        //message instance created
+      
+      $scope.sendMessage = () => {
+        
+        $scope.sender = game.players[game.playerIndex];
+        
         let newMessage = {
-          sender:localStorage.getItem('cfhuser'),
+          sender:$scope.sender.username,
           body:$scope.messageBody,
+          avatar:$scope.sender.avatar,
           game:game.gameID,
-          created_at:Date.now()
+          timeSent: new Date(Date.now()).toLocaleTimeString({
+            hour12: true
+          })
         };
 
-        socket.emit('send-message',newMessage);
-      
+        $scope.messages.push(newMessage);
+        $scope.scrollNow();
+        socket.emit('new message', newMessage);
+        
         $scope.messageBody ='';
       }
    
@@ -228,10 +275,31 @@ angular.module('mean.system')
         }
       };
 
+      $scope.getMessages = function(){
+        var msg = 'Hello again';
+        var new_msg =[];
+        var filter_msg =[];
+        var ref = firebase.database().ref('messages');
+
+        ref.on('value', function(snapshot){
+            
+            snapshot.forEach(function(data){
+              new_msg.push(data.val());
+            })
+            
+            filter_msg = new_msg.filter(msg => msg.game == 'Gi6H6T')
+            // console.log(filter_msg);
+            return filter_msg;
+        })
+      }
+
+
       $scope.abandonGame = function () {
         game.leaveGame();
         $location.path('/dashboard');
       };
+
+
 
       // Catches changes to round to update when no players pick card
       // (because game.state remains the same)
@@ -291,14 +359,19 @@ angular.module('mean.system')
 
         popupModal.modal('show');
       } else if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length <= game.playerMaxLimit)) {
+        
         console.log('joining custom game');
-        console.log(game)
         game.joinGame('joinGame', $location.search().game);
+        console.log($scope.getMessages())
+        socket.emit('join-chat', $scope.getMessages());
+        
       } else if ($location.search().custom && game.players.length <= game.playerMaxLimit) {
         console.log('join game as a stranger');
         game.joinGame('joinGame', null, true);
+        
       } else {
         console.log(game);
         game.joinGame();
+        
       }
     }]);

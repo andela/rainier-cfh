@@ -1,4 +1,5 @@
-angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.directives'])
+/* eslint-disable */
+angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ngStorage', 'ui.route', 'mean.system', 'mean.directives', 'firebase'])
   .config(['$routeProvider',
     function ($routeProvider) {
       $routeProvider.
@@ -30,10 +31,6 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
             }
           },
         }).
-        // when('/dashboard', {
-        //   templateUrl: '/views/dashboard.html',
-        //   controller: 'DashboardCtrl'
-        // }).
         when('/choose-avatar', {
           templateUrl: '/views/choose-avatar.html'
         }).
@@ -50,7 +47,20 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
           redirectTo: '/'
         });
     }
-  ]).config(['$locationProvider',
+  ]).constant('FirebaseUrl', 'https://cfh-chat-app.firebaseio.com')
+  .config(function () {
+    var config = {
+      apiKey: "AIzaSyAdMyjJqQv8eP-ECzijp41brb0VdlTE-Dg",
+      authDomain: "cfh-chat-app.firebaseapp.com",
+      databaseURL: "https://cfh-chat-app.firebaseio.com",
+      projectId: "cfh-chat-app",
+      storageBucket: "",
+      messagingSenderId: "1039015412470"
+    };
+
+    firebase.initializeApp(config);
+  })
+  .config(['$locationProvider',
     function ($locationProvider) {
       $locationProvider.hashPrefix("!");
     }

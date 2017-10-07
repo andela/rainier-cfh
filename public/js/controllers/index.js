@@ -1,3 +1,7 @@
+/* global angular */
+/* global $ */
+/* global localStorage */
+
 angular.module('mean.system')
   .controller('IndexController', ['$scope', 'Global', '$cookieStore', '$cookies', '$location', '$http', '$window', 'socket', 'game', 'AvatarService', function ($scope, Global, $cookieStore, $cookies, $location, $http, $window, socket, game, AvatarService) {
     $scope.global = Global;
@@ -29,43 +33,51 @@ angular.module('mean.system')
       .then((data) => {
         $scope.avatars = data;
       });
-    
-      $scope.signin = (userInput) => {
-        $scope.error = '';
-       $http.post('/api/auth/login', userInput)
-       .success((response) => {
-        if(response.token) {
-          window.localStorage.setItem('cfhToken', response.token);
-          $rootScope.authenticated = true;
-          $window.location.href = '/#!/dashboard';
-        }
-       })
-       .error((error) => {
-        $scope.error = error.error;
-        $rootScope.authenticated = false;
-       });
-      };
+    $scope.storeData = (response) => {
+      localStorage.setItem('cfhToken', response.token);
+      localStorage.setItem('cfhUser', JSON.stringify(response.user));
+      $window.location.href = '/#!/dashboard';
+    }
+    $scope.signin = (userInput) => {
+      $scope.error = '';
+      $http.post('/api/auth/login', userInput)
+        .success((response) => {
 
-      $scope.validateInput = (userInput) => {
-        const emailRegex= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!/^[a-zA-Z0-9 ]*$/.test(userInput.name)) {
-          $scope.error = 'Name cannot contain special characters';
-          return false;
-        }
-        if (!userInput.password) {
-          $scope.error = 'password cannot be all spaces';
-          return false;
-        }
-        if (userInput.password.length < 6) {
-          $scope.error = 'password cannot be less than 6 characters';
-          return false;
-        }
-        if (!emailRegex.test(userInput.email)) {
-          $scope.error = 'Wrong email address entered';
-          return false;
-        }
-        return true;
-      };
+          if (response.token) {
+            window.localStorage.setItem('cfhToken', response.token);
+            window.localStorage.setItem('cfhuser', response.user.name);
+            $rootScope.authenticated = true;
+            $window.location.href = '/#!/dashboard';
+          }
+
+          $scope.storeData(response);
+        })
+        .error((error) => {
+          $scope.error = error.error;
+          $rootScope.authenticated = false;
+        });
+    };
+
+    $scope.validateInput = (userInput) => {
+      const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!/^[a-zA-Z0-9 ]*$/.test(userInput.name)) {
+        $scope.error = 'Name cannot contain special characters';
+        return false;
+      }
+      if (!userInput.password) {
+        $scope.error = 'password cannot be all spaces';
+        return false;
+      }
+      if (userInput.password.length < 6) {
+        $scope.error = 'password cannot be less than 6 characters';
+        return false;
+      }
+      if (!emailRegex.test(userInput.email)) {
+        $scope.error = 'Wrong email address entered';
+        return false;
+      }
+      return true;
+    };
 
     $scope.signup = (userInput) => {
       // empty error variable before new validation
@@ -74,11 +86,15 @@ angular.module('mean.system')
       if (validation) {
         $http.post('/api/auth/signup', userInput)
           .success((response) => {
+
             console.log(response);
             if (response.token) {
               window.localStorage.setItem('cfhToken', response.token);
               $window.location.href = '/#!/dashboard';
             }
+
+            $scope.storeData(response);
+
           })
           .error((error) => {
             $scope.error = error.error;

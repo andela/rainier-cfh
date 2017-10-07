@@ -1,10 +1,11 @@
 /*eslint-disable */
 angular.module('mean.system')
-  .factory('game', ['socket', '$timeout', '$http', function (socket, $timeout, $http) {
+  .factory('game', ['socket', '$timeout', '$http','$firebaseArray', function (socket, $timeout, $http,$firebaseArray) {
   var game = {
     id: null, // This player's socket ID, so we know who this player is
     gameID: null,
     players: [],
+    messages:[],
     playerIndex: 0,
     winningCard: -1,
     winningCardPlayer: -1,
@@ -55,9 +56,15 @@ angular.module('mean.system')
     $timeout(decrementTime, 950);
   };
 
+  socket.on('message-received',function(data){
+    game.messages.push(data);
+    console.log(game);
+  })
+
   socket.on('id', function(data) {
     game.id = data.id;
   });
+
 
   socket.on('prepareGame', function(data) {
     game.playerMinLimit = data.playerMinLimit;
@@ -223,10 +230,11 @@ angular.module('mean.system')
   };
 
   game.startGame = function() {
-
+    //console.log(game);
     socket.emit('startGame');
 
   };
+
 
   game.leaveGame = function() {
     game.players = [];
@@ -241,6 +249,13 @@ angular.module('mean.system')
   game.pickWinning = function(card) {
     socket.emit('pickWinning',{card: card.id});
   };
+
+  // game.messages = function(){
+  //   var messagesRef = firebase.database().ref('messages')
+    
+  //   return $firebaseArray(messagesRef);
+  //   console.log('game messages touched')
+  // }
 
   decrementTime();
 

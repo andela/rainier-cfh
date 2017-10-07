@@ -10,7 +10,7 @@ var guestNames = [
   "Silver Blister",
   "Insulated Mustard",
   "Funeral Flapjack",
-  "Toenail",
+  "Ugly Toenail",
   "Urgent Drip",
   "Raging Bagel",
   "Aggressive Pie",

@@ -47,19 +47,7 @@ angular.module('mean', ['ngCookies', 'ngResource','ui.bootstrap','ngStorage', 'u
             redirectTo: '/'
           });
       }
-  ]).constant('FirebaseUrl', 'https://cfh-chat-app.firebaseio.com')
- .config(function(){
-    var config = {
-      apiKey: "AIzaSyAdMyjJqQv8eP-ECzijp41brb0VdlTE-Dg",
-      authDomain: "cfh-chat-app.firebaseapp.com",
-      databaseURL: "https://cfh-chat-app.firebaseio.com",
-      projectId: "cfh-chat-app",
-      storageBucket: "",
-      messagingSenderId: "1039015412470"
-    };
-
-    firebase.initializeApp(config);
-  })
+  ])
   .config(['$locationProvider',
     function($locationProvider) {
       $locationProvider.hashPrefix("!");

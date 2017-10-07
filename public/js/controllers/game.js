@@ -17,7 +17,6 @@ angular.module('mean.system')
       $scope.pickedCards = [];
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
-
       $scope.pickCard = function (card) {
         if (!$scope.hasPickedCards) {
           if ($scope.pickedCards.indexOf(card.id) < 0) {
@@ -197,7 +196,7 @@ angular.module('mean.system')
 
       $scope.abandonGame = function () {
         game.leaveGame();
-        $location.path('/');
+        $location.path('/dashboard');
       };
 
       // Catches changes to round to update when no players pick card

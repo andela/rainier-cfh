@@ -184,11 +184,8 @@ angular.module('mean.system')
 
       $scope.startGame = () => {
         const popupModal = $('#popUpModal');
-
         if (game.players.length < game.playerMinLimit) {
-          popupModal.find('.modal-body')
-            .text('You need a minimum of 3 players to start');
-          popupModal.modal('show');
+          swal('You need a minimum of 3 players to start');
         } else {
           game.startGame();
         }

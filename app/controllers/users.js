@@ -1,16 +1,13 @@
-
 /**
  * Module dependencies.
  */
+let mongoose = require('mongoose'),
+  User = mongoose.model('User');
+const avatars = require('./avatars').all();
+const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-const User = mongoose.model('User');
-const avatars = require('./avatars').all();
+require('dotenv').config();
 
 // authenticated route to search for users with name or username
 exports.search = (req, res) => {
@@ -18,7 +15,7 @@ exports.search = (req, res) => {
 
   // throws error if user does enter query string
   if (!query || query.trim() === '') {
-    return res.status(402).send({
+    return res.status(202).send({
       message: 'Please enter a search query'
     });
   }
@@ -37,23 +34,57 @@ exports.search = (req, res) => {
         return res.status(400).send({ message: 'Error retrieving user' });
       }
       if (!users.length) {
-        return res.status(402).send({ message: 'No users found' });
+        return res.status(202).send({ message: 'No users found' });
       }
       return res.status(200).send(users);
     });
 };
 
-/**
- * Auth callback
- */
-exports.authCallback = function (req, res, next) {
-  res.redirect('/chooseavatars');
+// send email invite to users
+exports.sendInviteEmail = (req, res) => {
+  const { emails, message } = req.body;
+  // creates a transporter to send email //
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: process.env.EMAIL_PORT,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    },
+    tls: { rejectUnauthorized: false }
+  });
+
+  const mailOptions = {
+    from: '"CFH" <invite@CFH.com',
+    to: emails,
+    subject: 'Cfh Game Invite',
+    text: message
+  };
+  // transporter sending the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.send({
+        message: 'Unable to send email something went wrong'
+      });
+    }
+
+    return res.status(200).send({
+      message: 'Email sent successfully'
+    });
+  });
 };
 
 /**
-* Show login form
-*/
+ * Auth callback
+ */
 
+
+exports.authCallback = (req, res, next) => {
+  res.redirect('/chooseavatars');
+};
+
+// Show login form
 exports.signin = (req, res) => {
   if (!req.user) {
     res.redirect('/#!/signin?error=invalid');
@@ -65,14 +96,6 @@ exports.signin = (req, res) => {
 /**
 * Show sign up form
 */
-
-exports.signup = (req, res) => {
-  if (!req.user) {
-    res.redirect('/#!/signup');
-  } else {
-    res.redirect('/#!/app');
-  }
-};
 
 /**
 * Signout
@@ -102,45 +125,52 @@ exports.signup = (req, res, next) => {
     });
   }
 
-  User.findOne({
-    email: req.body.email
-  }).exec((err, existingUser) => {
-    if (!existingUser) {
-      const user = new User(req.body);
-      // Switch the user's avatar index to an actual avatar url
-      user.avatar = avatars[user.avatar];
-      user.provider = 'local';
-      user.save((err) => {
-        if (err) {
-          return res.render('/#!/signup?error=unknown', {
-            errors: err.errors,
-            user
+  User
+    .findOne({
+      email: req.body.email
+    }).exec((err, existingUser) => {
+      if (!existingUser) {
+        const resgisteredUser = new User(req.body);
+        // Switch the resgisteredUser's avatar index to an actual avatar url
+        resgisteredUser.avatar = avatars[resgisteredUser.avatar];
+        resgisteredUser.provider = 'local';
+        resgisteredUser.save((err) => {
+          if (err) {
+            return res.render('/#!/signup?error=unknown', {
+              errors: err.errors,
+              resgisteredUser
+            });
+          }
+          req.logIn(resgisteredUser, (err) => {
+            if (err) return next(err);
+            const token = jwt.sign({ resgisteredUser }, process.env.JWT_SECRET, { expiresIn: '10h' });
+            const user = {
+              name: resgisteredUser.name,
+              email: resgisteredUser.email,
+              avatar: resgisteredUser.avatar,
+            };
+            res.status(201).json({
+              token,
+              user
+            });
           });
-        }
-        req.logIn(user, (err) => {
-          if (err) return next(err);
-          const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '10h' });
-
-          res.status(200).json({
-            token,
-            user
-             });
         });
-      });
-    } else {
-      return res.status(409).json({
-        error: 'User already exists'
-      });
-    }
-  });
+      } else {
+        return res.status(409).json({
+          error: 'Email address already in use'
+        });
+      }
+    });
 };
 
 /*
-* Check avatar - Confirm if the user who logged in via passport
+ * Check avatar - Confirm if the user who logged in via passport
+
  * already has an avatar. If they don't have one, redirect them
  * to our Choose an Avatar page.
  */
-exports.checkAvatar = function (req, res) {
+
+exports.checkAvatar = (req, res) => {
   if (req.user && req.user._id) {
     User.findOne({
       _id: req.user._id
@@ -153,7 +183,7 @@ exports.checkAvatar = function (req, res) {
         }
       });
   } else {
-    // If user doesn't even exist, redirect to /
+    // If user doesnt even exist, redirect to
     res.redirect('/');
   }
 };
@@ -161,7 +191,8 @@ exports.checkAvatar = function (req, res) {
 /**
  * Create user
  */
-exports.create = function (req, res) {
+
+exports.create = (req, res) => {
   if (req.body.name && req.body.password && req.body.email) {
     User.findOne({
       email: req.body.email
@@ -181,7 +212,7 @@ exports.create = function (req, res) {
           req.logIn(user, (err) => {
             if (err) return next(err);
             return res.redirect('/#!/');
-         });
+          });
         });
       } else {
         return res.redirect('/#!/signup?error=existinguser');
@@ -195,36 +226,41 @@ exports.create = function (req, res) {
 /**
  * Sign In
  */
-
 exports.login = (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({
       message: 'All Fields are required'
     });
   }
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (!err) {
-      const passwordMatched = bcrypt.compareSync(req.body.password, user.hashed_password);
+  User.findOne({ email: req.body.email }, (err, returnedUser) => {
+    if (returnedUser) {
+      const passwordMatched = bcrypt.compareSync(req.body.password, returnedUser.hashed_password);
       if (!passwordMatched) {
-        return res.status(409).send({
-          message: 'Invalid credentials'
+        return res.status(401).send({
+          error: 'Email or password incorrect',
         });
       }
       const token = jwt.sign({
-        email: user.email,
-        userId: user.id,
+        email: returnedUser.email,
+        userId: returnedUser.id,
       }, process.env.JWT_SECRET, {
-        expiresIn: '10h'
-      });
+          expiresIn: '10h'
+        });
+      const user = {
+        name: returnedUser.name,
+        email: returnedUser.email,
+        id: returnedUser._id,
+      };
       return res.send({
         user,
         token
       });
     }
+    return res.status(401).send({ error: 'Email or password incorrect' });
   });
 };
 
-exports.avatars = function (req, res) {
+exports.avatars = (req, res) => {
   // Update the current user's profile to include the avatar choice they've made
   if (req.user && req.user._id && req.body.avatar !== undefined &&
     /\d/.test(req.body.avatar) && avatars[req.body.avatar]) {
@@ -239,7 +275,7 @@ exports.avatars = function (req, res) {
   return res.redirect('/#!/app');
 };
 
-exports.addDonation = function (req, res) {
+exports.addDonation = (req, res) => {
   if (req.body && req.user && req.user._id) {
     // Verify that the object contains crowdrise data
     if (req.body.amount && req.body.crowdrise_donation_id && req.body.donor_name) {
@@ -247,7 +283,7 @@ exports.addDonation = function (req, res) {
         _id: req.user._id
       })
         .exec((err, user) => {
-        // Confirm that this object hasn't already been entered
+          // Confirm that this object hasn't already been entered
           let duplicate = false;
           for (let i = 0; i < user.donations.length; i++) {
             if (user.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {
@@ -269,7 +305,8 @@ exports.addDonation = function (req, res) {
 /**
  *  Show profile
  */
-exports.show = function (req, res) {
+
+exports.show = (req, res) => {
   const user = req.profile;
 
   res.render('users/show', {
@@ -281,14 +318,16 @@ exports.show = function (req, res) {
 /**
  * Send User
  */
-exports.me = function (req, res) {
-  res.jsonp(req.user || null);
+
+exports.me = (req, res) => {
+  res.json(req.user || null);
 };
 
 /**
  * Find user by id
  */
-exports.user = function (req, res, next, id) {
+
+exports.user = (req, res, next, id) => {
   User
     .findOne({
       _id: id

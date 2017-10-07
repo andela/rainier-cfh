@@ -1,3 +1,6 @@
+/*
+eslint-disable
+ */
 var async = require('async');
 var _ = require('underscore');
 var questions = require(__dirname + '/../../app/controllers/questions.js');
@@ -61,7 +64,8 @@ Game.prototype.payload = function() {
       avatar: player.avatar,
       premium: player.premium,
       socketID: player.socket.id,
-      color: player.color
+      color: player.color,
+      userID: player.userID
     });
   });
   return {
@@ -261,7 +265,7 @@ Game.prototype.shuffleCards = function(cards) {
 
 Game.prototype.dealAnswers = function(maxAnswers) {
   maxAnswers = maxAnswers || 10;
-  var storeAnswers = function(err, data) {
+  var storeAnswers =  (err, data) => {
     this.answers = data;
   };
   for (var i = 0; i < this.players.length; i++) {

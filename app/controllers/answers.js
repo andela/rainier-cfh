@@ -8,6 +8,23 @@ const _ = require('underscore');
 
 
 /**
+ * add a new answer to database
+ * @param {Object}   req  express http request object
+ * @param {Object}   res  express http response object
+ * @param {Function} next calls the next function in the middleware stack
+ * @return {mixed}        sends an http response or calls the next middleware
+ */
+exports.add = (req, res, next) => {
+  const answer = new Answer(req.body);
+  answer.save()
+    .then(() => res.send({
+      success: true,
+      message: 'Answer added successfully',
+    }))
+    .catch(err => next(err));
+};
+
+/**
  * [answer description]
  * @param  {Object}   req  [description]
  * @param  {Object}   res  [description]
@@ -15,7 +32,7 @@ const _ = require('underscore');
  * @param  {Integer}   id  [description]
  * @return {mixed}         calls the next function in the middlewae chain
  */
-export const answer = (req, res, next, id) => {
+exports.answer = (req, res, next, id) => {
   Answer.load(id, (err, answer) => {
     if (err) return next(err);
     if (!answer) return next(new Error(`Failed to load answer ${id}`));
@@ -30,7 +47,7 @@ export const answer = (req, res, next, id) => {
  * @param  {Object} res expressnhttp response object
  * @return {mixed} calls method on res
  */
-export const show = (req, res) => {
+exports.show = (req, res) => {
   res.jsonp(req.answer);
 };
 
@@ -40,7 +57,7 @@ export const show = (req, res) => {
  * @param  {Object} res expressnhttp response object
  * @return {void}
  */
-export const all = (req, res) => {
+exports.all = (req, res) => {
   Answer.find({ official: true }).select('-_id').exec((err, answers) => {
     if (err) {
       res.render('error', {

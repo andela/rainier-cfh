@@ -16,7 +16,7 @@ gulp.task('watch', () => {
   gulp.watch('public/js/**', ['public:js']);
   gulp.watch('app/**/*.js', ['transpile-app']);
   gulp.watch('public/views/**/*', ['html']);
-  gulp.watch('public/css/common.scss', ['sass']);
+  gulp.watch('public/css/**/*.scss', ['sass']);
   gulp.watch('public/css/**/*', ['css']);
 });
 
@@ -46,9 +46,6 @@ gulp.task('server', ['lint'], () => (
   gulp.src('server.js')
     .pipe(newer('dist'))
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      plugins: ['transform-runtime']
-    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'))
 ));
@@ -59,7 +56,7 @@ gulp.task('jade', ['lint'], () => (
     .pipe(gulp.dest('dist/app'))
 ));
 
-gulp.task('css', ['lint'], () => (
+gulp.task('css', ['lint', 'sass'], () => (
   gulp.src('public/**/*.css')
     .pipe(newer('dist/public'))
     .pipe(sourcemaps.init())
@@ -85,9 +82,6 @@ gulp.task('public:js', ['lint'], () => (
   gulp.src('public/js/**/*.js')
     .pipe(newer('dist/public/js'))
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      plugins: ['transform-runtime']
-    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist/public/js'))
 ));
@@ -119,9 +113,9 @@ gulp.task('nodemon', ['watch', 'build'], () => (
 ));
 
 gulp.task('sass', () => (
-  gulp.src('public/css/common/scss')
+  gulp.src('public/css/**/*.scss')
     .pipe(sass())
-    .pipe(gulp.dest('public/css/'))
+    .pipe(gulp.dest('dist/public/css/'))
 ));
 
 

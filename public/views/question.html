@@ -1,22 +1,48 @@
 <div id="question-container-inner">
-  <div class="card longBlack">
-    <span ng-bind-html-unsafe="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'"></span>
+  <div class="longBlack">
+    <span class="question-box"
+      ng-bind-html-unsafe="game.curQuestion.text"
+      ng-hide="game.state === 'game ended' ||
+      game.state ==='game dissolved' || game.state === 'awaiting players'">
+    </span>
 
     <div id="notifications" ng-if="game.notification" ng-animate="{enter:'animated fadeInLeft', leave:'animated fadeOut'}">{{game.notification}}</div>
 
-    <div id="startGame" ng-show="game.state === 'awaiting players'">
-      <div id="finding-players">Finding Players</div>
-      <div id="player-count-container">
-        <div id="player-count">{{game.players.length}} / 6 </div>
-        <div id="the-word-players"> Players </div>
-      </div>
-      <div id="loading-container">
-        <div id="loading-gif"><img ng-src="../img/loader.gif"/></div>
-      </div>
-      <div id="start-game-container" ng-click="startGame()" ng-show="(game.playerIndex === 0 || game.joinOverride) && game.players.length >= game.playerMinLimit">
-        <div id='start-game-button'>
-          Start Game</br>with {{game.players.length}} players
+    <div class="" id="startGame" ng-show="game.state === 'awaiting players'">
+      <div class="col s4 space-beneath center">
+          Finding Players
+          <!-- spinner -->
+        <div class="" id="loading-container center">
+          <div class="preloader-wrapper small active">
+             <div class="spinner-layer spinner-red-only">
+               <div class="circle-clipper left">
+                 <div class="circle"></div>
+               </div><div class="gap-patch">
+                 <div class="circle"></div>
+               </div><div class="circle-clipper right">
+                 <div class="circle"></div>
+               </div>
+             </div>
+           </div>
         </div>
+        <!-- spinner end -->
+      </div>
+      <div class="col s8 space-beneath">
+        <div class="col s12 m6 center" id="player-count-container" style="margin-bottom: 20px">
+          {{game.players.length}} / {{game.playerMaxLimit}} Players
+        </div>
+
+        <div class="col s12 m6" id="start-game-container" ng-click="startGame()" ng-show="(game.playerIndex === 0 || game.joinOverride)">
+          <div id='start-game-button' class="" style="border: 1px solid #bbbbbb; border-radius: 4px; padding: 5px; cursor: pointer;">
+            <span>Start Game</br>with {{game.players.length}} players</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4 center"
+        ng-show="(game.playerIndex === 0 || game.joinOverride)" data-toggle="modal"
+        data-target="#searchModal" style="border: 1px solid #bbbbbb;padding: 20px; border-radius: 4px; height: 60px; cursor: pointer;">
+        Invite people to join
       </div>
     </div>
     <!-- Game Over Stuff -->
@@ -35,4 +61,73 @@
     </div>
   </div>
 </div>
+<!--Error modal for users trying to start a game with less than 3 or greater than 12 players -->
+<div id="popUpModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cards for humanity</h4>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+   </div>
+
+  </div>
+</div>
+<!-- Modal to search and invite other users -->
+<div id="searchModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cards for humanity</h4>
+      </div>
+      <div class="modal-body">
+        <form ng-submit="searchInviteUsers()">
+          <div class="form-group">
+           <input type="text" class="form-control" ng-change="searchInviteUsers()" ng-model="searchText" id="search" placeholder="Search users you wish to invite">
+          </div>
+          <div id ='users'></div>
+        </form>
+        <div class="text-center text-danger" ng-show="!searchedUsers.length && searchText">
+          No users found
+        </div>
+        <div class="text-center text-success" ng-show="sentEmailInvite">
+            Email invites successfully sent
+          </div>
+        <div ng-show='searchedUsers.length'>
+            <div class="row">
+              <div class="col-sm-6">
+                  <ul>
+                      <li class="text-large" ng-repeat='user in searchedUsers'>
+                        <div class="checkbox">
+                            <label><input type="checkbox" ng-click="addUserInvite(user.name,user.email)" value="user.email" ng-checked="checkUserIsInvited(user.email)">
+                              {{user.name}}
+                            </label>
+                        </div>
+                      </li>
+                    </ul><br>
+
+              </div>
+
+              <div class="col-sm-6">
+                <p ng-show="inviteUsers.length" class="text-danger">Players to be invited</p>
+                <ul>
+                   <li ng-repeat="inviteUser in inviteUsers">{{inviteUser.name}}</li>
+                 </ul>
+                 <button class="btn btn-sm btn-danger" ng-show="inviteUsers.length" ng-click="sendInvite()">Invite friends</button>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

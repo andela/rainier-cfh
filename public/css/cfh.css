@@ -1,0 +1,537 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Satisfy');
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+html {
+	font-family: "Montserrat", sans-serif;
+}
+.container {
+  width: 90%;
+}
+/** Clearfix **/
+.group:before
+.group:after {
+  display: table;
+  content: "";
+}
+.group:after {
+  clear: both;
+}
+.group {
+  clear: both;
+  *zoom: 1;
+}
+
+	h1 {
+		font-size: 80px;
+		font-size: 8rem;
+    line-height: 8rem;
+    margin: 4rem 0;
+	}
+	h2 {
+		font-size: 32px;
+		font-size: 4.2rem;
+		line-height: 5rem ;
+	}
+	h3 {
+		font-size: 30px;
+		font-size: 3rem;
+		line-height: 4.2rem ;
+	}
+	h4 {
+		font-size: 24px;
+		font-size: 2.4rem;
+		line-height: 3.8rem ;
+  }
+	h5 {
+		font-size: 20px;
+		font-size: 2rem;
+		line-height: 3.6rem ;
+	}
+	h6 {
+		font-size: 16px;
+		font-size: 1.6rem;
+		line-height: 3rem ;
+	}
+	p {
+		font-size: 12px;
+		font-size: 1.2rem;
+    line-height: 2rem;
+    color: #757575;
+	}
+	a {
+    text-decoration: none !important;
+    color: inherit;
+	}
+	a:hover {
+    cursor: pointer;
+    color: #d32f2f;
+  }
+  .navbar-fixed li a {
+    font-size: 1.2rem;
+    color: #757575;
+  }
+
+  /** Navigation **/
+  .navbar-fixed li a:hover {
+    color: #d32f2f;
+  }
+
+  nav {
+    background: #fff;
+    color: #000;
+    z-index: 1000;
+    box-shadow: none;
+    border-bottom: 1px solid #ededed;
+  }
+  .dimension {
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  }
+  
+  nav .cfh-logo {
+    color: #fff;
+    display: inline-block;
+    padding: 5px 0;
+    padding: .5rem 0;
+  }
+  .cfh-logo img {
+    height: 1.8rem;
+  }
+  nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
+    margin-top: -2px;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  
+  nav ul a:hover {
+    background-color: transparent;
+  }
+  
+  nav ul.left {
+    float: left;
+  }
+  #mobile-nav {
+      display: none;
+  }
+  #mobile-nav .nav-item{
+      display: none;
+  }
+  .nav-mobile {
+    display: none;
+  }
+  
+  /** Nav Mobile **/
+  @media (max-width:992px){
+    .mobile-nav {
+      display: block;
+      position: relative;
+      width: 100%;
+      background-color: #000;
+      z-index: 1000;
+    }
+    #mobile-nav {
+      position: relative;
+      background-color: #000;
+      padding: 10px 0;
+    }
+      
+    #mobile-nav .nav-list {
+      margin: 0;
+      display: block;
+      max-height: none;
+      -webkit-transition: all 0.2s ease-out;
+      -moz-transition: all 0.2s ease-out;
+      -ms-transition: all 0.2s ease-out;
+      -o-transition: all 0.2s ease-out;
+      transition: all 0.2s ease-out;
+      z-index: 100;
+    }
+    #mobile-nav .nav-item{
+      display: block;
+      text-align: left;
+      margin: 0;
+      padding: 10px 0;
+    }
+  
+    #mobile-nav .nav-item a {
+      display: block;
+      font-size: 24px;
+      font-weight: 400;
+      transition: all .2s ease;
+      -moz-transition: all .2s ease;
+      -webkit-transition: all .2s ease;
+    }
+    #mobile-nav .nav-item a:hover{
+      color: #fff;
+      padding: 0 10px;
+      text-decoration: none;
+      transition: all .2s ease;
+      -moz-transition: all .2s ease;
+      -webkit-transition: all .2s ease;
+    }
+    
+    #mobile-nav .nav-item button {
+      display: block;
+      margin-top: 15px;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 400;
+    }
+  
+    
+    .nav-mobile {
+      display: block; /* Hide from browsers that dont support media queries */
+      cursor: pointer;
+      position: absolute;
+      top: 7.858px;
+      right: 0;
+      border-radius: 0;
+      border: 1px solid #212121;
+      background: transparent;
+      height: 38px;
+      width: 38px;
+      padding: 8px 8px;
+    }
+    .nav-mobile span{
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 2px;
+      margin-top: 4px;
+      background: #212121;
+      transition: all .25s;
+    }
+  
+    .nav-mobile span:first-child {
+      margin-top: 2px;
+    }
+    .nav-mobile.open span:first-child {
+      transform: rotate(45deg) translate(4.4px, 4.4px);
+    }
+    .nav-mobile.open span:nth-child(2) {
+      width: 0%;
+      opacity: 0;
+    }
+    .nav-mobile.open span:last-child {
+      transform: rotate(-45deg) translate(4.4px, -4.4px);
+    }
+    .expanded {
+      display: block;
+    }
+  }
+
+  /** Section picker tool **/
+  #section-picker {
+		display: block; /* Hide from browsers that dont support media queries */
+		position:fixed;
+		right: 0;
+		top: 40%;
+		cursor: pointer;
+		border-radius: 5px 0 0 5px;
+		background: #d32f2f;
+		padding: 18px 8px 0 8px;
+		box-shadow: 0 0 2px #000;
+		z-index: 100;
+	}
+	#section-picker a{
+		position: relative;
+		display: block;
+		border-radius: 50%;
+		width: 8px;
+		height: 8px;
+		margin-bottom: 16px;
+		background-color: #000;
+		transition: all .25s;
+	}
+	#section-picker .current{
+		background-color: #fff;
+		transition: all .25s;
+  }
+  
+/** cfh section **/
+  .cfh-section {
+    padding: 60px 0;
+  }
+  @media (max-width: 600px) {
+    .cfh-section > * {
+      text-align: center;
+    }
+  }
+
+  /** Search box **/
+ 
+
+  /** Landing **/
+  .landing {
+    min-height: 768px;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 4rem;
+  }
+  .landing h1 {
+    font-family: 'Satisfy', 'cursive';
+    font-weight: 900;
+  }
+  .landing h6 {
+    font-size: 14px;
+    font-size: 1.2rem;
+    color: #757575;
+    line-height: 1.8rem;
+  }
+  .landing-image img {
+    height: 600px;
+  }
+
+  /** How it works **/
+  #how-it-works .row {
+    margin-bottom: 60px;
+  }
+  p.hiw-text {
+    margin-left: 30px;
+    width: 40%;
+  }
+  @media (max-width: 600px) {
+    #how-it-works .row {
+      margin-bottom: 30px;
+    }
+    p.hiw-text {
+      width: 80%;
+    }
+    .hiw-image {
+      text-align: center;
+    } 
+  }
+  /** Guest **/
+  .guest > a {
+    text-decoration: underline !important;
+  }
+
+  /** signup control **/
+  .signup-control {
+    margin-top: 40px;
+    margin-top: 4rem;
+  }
+  .signup-control p {
+    font-family: 'Satisfy', 'cursive';
+    color: #000;
+  }
+  @media (max-width: 600px) {
+    .landing > * {
+      text-align: center;
+    }
+    .landing aside {
+      text-align: center;
+    }
+    .landing aside img {
+      height: 400px;
+    }
+  }
+  /** Brand Button **/
+  .brand-btn {
+    color: white !important;
+    min-width: 200px;
+  }
+  .brand-btn-main {
+    background-color: #d32f2f !important;
+    border: 1px solid #b71c1c
+  }
+  .brand-btn-main-invert {
+    background: transparent !important;
+    border: 1px solid #fff;
+  }
+  .brand-btn-main-invert:hover {
+    color: #d32f2f !important;
+    background: #fff !important;
+    border: 1px solid #fff;
+  }
+  .brand-btn-donate {
+    color: white !important;
+    min-width: 200px;
+    background-color: #7b1fa2 !important;
+    border: 1px solid #4a148c
+  }
+  .brand-btn-donate-invert {
+    background: transparent !important;
+    border: 1px solid #fff;
+  }
+  .brand-btn-donate-invert:hover {
+    color: #7b1fa2 !important;
+    background: #fff !important;
+    border: 1px solid #fff;
+  }
+  .brand-btn-invite {
+    color: #0d47a1 !important;
+    min-width: 200px;
+    background: transparent;
+    border: 1px solid #0d47a1;
+  }
+  .brand-btn-invite:hover, .brand-btn-invite:focus {
+    color: white !important;
+    background-color: #1875D2 !important;
+  }
+  .brand-btn:hover, .brand-btn:focus, 
+  .brand-btn-donate:hover, .brand-btn-donate:focus,
+  .brand-btn-invite:hover, .brand-btn-invite:focus {
+    opacity: .90;
+  }
+  
+  /** The team **/
+  .patterned {
+    text-align: center;
+    background: url("../img/pattern.png") repeat;
+  }
+  .patterned h3 {
+    font-family: 'Satisfy', 'cursive';
+    color: #000;
+  }
+  /** footer **/
+  footer > nav {
+    background: none;
+    box-shadow: none;
+    border: none;
+  }
+  footer nav li {
+    display: inline-block;
+  }
+  footer nav li a {
+    color: #757575;
+    font-size: 20px;
+    font-size: 2rem;
+    padding: 0 .9rem;
+  }
+  .github:hover {
+    color: #000 !important;
+  }
+  .facebook:hover {
+    color: #3b5998 !important;
+  }
+  .google:hover {
+    color: #dd4b39 !important;
+  }
+  .twitter:hover {
+    color: #55acee !important;
+  }
+  p.made-with-love {
+    margin-top: 30px;
+    font-family: 'Satisfy', 'cursive';
+    color: #000;
+  }
+  p.legal {
+    width: 50%;
+    font-size: 8px;
+    font-size: .8rem;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+  .footer-logo img{
+    height: 60px;
+  }
+
+  /** Start Screen **/
+  .start-screen {
+    min-height: 380px;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 4rem;
+  }
+.headline {
+  margin-top: 60px;
+}
+.avatar-container {
+  height: 140px;
+  width: 140px;
+  background: #757575;
+}
+  .start-screen h6 {
+    font-size: 12px;
+    font-size: 1.2rem;
+    color: #757575;
+    line-height: 1.8rem;
+  }
+
+  @media (max-width: 600px) {
+    .start-screen > * {
+      text-align: center;
+    }
+  }
+  .start-control a {
+    margin: 30px auto;
+  }
+  .start-control a.btn {
+    margin: 15px 0;
+  }
+  
+  .authUser > * {
+    color: #fff !important;
+  }
+.user-rating {
+  margin-bottom: 60px;
+}
+.user-rating li {
+  list-style: none;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 15px;
+}
+.headline b {
+  color: #000;
+}
+
+/** Start Game modal **/
+.modal-header {
+  padding-left: 30px;
+  padding-right: 30px;
+  border-bottom: 2px solid #d32f2f;
+  color: #757575;
+  text-align: center;
+}
+
+/** stats section **/
+.stats {
+  background: #fff;
+  color: #000;
+  border-radius: 5px;
+  text-align: center;
+}
+th{
+  text-align: center;
+  border: 1px solid #fff;
+}
+td {
+  text-align: center;
+}
+th.date {
+  color: #fff;
+  background-color: #000;
+}
+th.played {
+  color: #fff;
+  background-color: #0d47a1;
+}
+th.won {
+  background-color: #1b5e20;
+  color: #fff;
+  
+}
+th.lost {
+  background-color: #b71c1c;
+  color: #fff;
+}
+th.donation {
+  background-color: #7b1fa2;
+  color: #fff;
+}
+/** HIW Start Screen **/
+
+  /* Materialize default style modification */
+
+  input[type=text]:not(.browser-default):focus:not([readonly]),
+  input[type=password]:not(.browser-default):focus:not([readonly]),
+  input[type=email]:not(.browser-default):focus:not([readonly]),
+  input[type=search]:not(.browser-default):focus:not([readonly]){
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  }
+  .input-field input:focus + label{
+    color: #000 !important;
+  }

@@ -41,7 +41,8 @@ html {
 	h4 {
 		font-size: 24px;
 		font-size: 2.4rem;
-		line-height: 3.8rem ;
+    line-height: 3.8rem ;
+    color: #B71C1C !important;
   }
 	h5 {
 		font-size: 20px;

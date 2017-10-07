@@ -45,10 +45,8 @@
     <div class="chat-window z-depth-4">
       <div class="chat-header">
         Game chat
-        <span class="close-icon right" ng-click="toggleMessage()">
-            x
-          </span>
-        <!-- <span><i ng-click="toggleMessage()"class="close-icon">x</i></span> -->
+          <i class="close-icon right material-icons" ng-click="toggleMessage()" ng-show="showMsgBody">arrow_drop_down</i>
+          <i class="close-icon right material-icons" ng-click="toggleMessage()" ng-hide="showMsgBody">arrow_drop_up</i>
       </div>
       <div class="chat-body" ng-show="showMsgBody">
           <div id="chat-content">

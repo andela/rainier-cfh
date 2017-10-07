@@ -1,15 +1,14 @@
 /*eslint-disable */
 angular.module('mean.system')
-  .controller('GameController', ['$scope','socket','$http','game','$timeout', '$location', 'MakeAWishFactsService', '$dialog',
-    function ($scope,socket,$http, game,$timeout, $location,MakeAWishFactsService, $dialog) {
+  .controller('GameController', ['$scope', 'socket', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
+    function ($scope, socket, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {
       $scope.messageSender = '';
-      $scope.msg = 'hello chat';
       $scope.messagebody = '';
       $scope.searchText = '';
-      $scope.messages =[];
+      $scope.messages = [];
       $scope.inviteEmailBody = `Your friend has requested you to play Card for Humanity together please 
                                 follow the link to play`;
-      $scope.showMsgBody = true                          
+      $scope.showMsgBody = true;
       $scope.searchedUsers = [];
       $scope.inviteUsers = [];
       $scope.sentEmailMessage = false;
@@ -42,11 +41,6 @@ angular.module('mean.system')
         }
       };
 
-      // socket.on('message-received',function(data){
-      //   $scope.messages.push(data);
-      //   //console.log($scope.messages);
-      // });
-
      socket.on('loadChat', (messages) => {
         $scope.chatLoading = false;
         $scope.messages = messages;
@@ -57,7 +51,7 @@ angular.module('mean.system')
         $scope.messages.push(message);
         $scope.scrollNow();
       });
-    
+
 
       $scope.pointerCursorStyle = function () {
         if ($scope.isCzar() && $scope.game.state === 'waiting for czar to decide') {
@@ -145,10 +139,10 @@ angular.module('mean.system')
         return game.winningCard !== -1;
       };
 
-      // search users to invite 
+      // search users to invite
       $scope.searchInviteUsers = () => {
         $scope.sentEmailInvite = false;
-         $http.post('/api/search/users', { query: $scope.searchText })
+        $http.post('/api/search/users', { query: $scope.searchText })
           .then((response) => {
             $scope.searchedUsers = response.data;
           });
@@ -159,7 +153,7 @@ angular.module('mean.system')
         const user = {
           name,
           email
-         };
+        };
         if ($scope.containsUser(user)) {
           const index = $scope.inviteUsers.indexOf(user);
           $scope.inviteUsers.splice(index, 1);
@@ -170,7 +164,7 @@ angular.module('mean.system')
         console.log($scope.inviteUsers);
       };
 
-      //helper method to check if a user is already invited
+      // helper method to check if a user is already invited
       $scope.containsUser = (user) => {
         let i;
         for (i = 0; i < $scope.inviteUsers.length; i++) {
@@ -181,72 +175,61 @@ angular.module('mean.system')
 
         return false;
       };
-      // send invite to users//  
-      $scope.sendInvite = () =>{
-         const gameLink = document.URL; 
-         const usersEmail = $scope.inviteUsers.map((user) => user.email);
-         const message = `${$scope.inviteEmailBody} ${gameLink} `;
-         
-         //backend http request to send emails to invited users
-         $http.post('/api/invite/send', { emails:usersEmail,message:message })
-         .then(() => {
-            $scope.sentEmailInvite = true;
-         });
-         //garbage collection 
-         $scope.searchText = '';
-         $scope.searchedUsers = [];
-         $scope.inviteUsers = [];
-         
+      // send invite to users//
+      $scope.sendInvite = () => {
+        const gameLink = document.URL;
+        const usersEmail = $scope.inviteUsers.map(user => user.email);
+        const message = `${$scope.inviteEmailBody} ${gameLink} `;
 
-         
-      }
-      //gets and return properties of the chat box
-      $scope.getLength = () => {
-        const messages = $('#chat-content');
-        const newMessage = messages.children('li:last-child');
-        const clientHeight = messages.prop('clientHeight');
-        const scrollTop = messages.prop('scrollTop');
-        const scrollHeight = messages.prop('scrollHeight');
-        const newMessageHeight = newMessage.innerHeight();
-        const lastMessageHeight = newMessage.prev().innerHeight();
-    
+        // backend http request to send emails to invited users
+        $http.post('/api/invite/send', { emails: usersEmail, message })
+          .then(() => {
+            $scope.sentEmailInvite = true;
+          });
+        // garbage collection
+        $scope.searchText = '';
+        $scope.searchedUsers = [];
+        $scope.inviteUsers = [];
+      };
+      // gets and return properties of the chat box
+      $scope.getChatBoxLength = () => {
+        const chatBox = $('#chat-content');
+        // const newMessage = chatBox.children('li:last-child');
+        const scrollTop = chatBox.prop('scrollTop');
+        const scrollHeight = chatBox.prop('scrollHeight');
+        
+
         return {
-          messages,
-          newMessage,
-          clientHeight,
+          chatBox,
           scrollTop,
           scrollHeight,
-          newMessageHeight,
-          lastMessageHeight
         };
       };
-
+      //autoscroll to chat box bottom 
       $scope.scrollNow = () => {
         setTimeout(() => {
-          const { messages, scrollHeight } = $scope.getLength();
-          messages.scrollTop(scrollHeight);
+          const { chatBox, scrollHeight } = $scope.getChatBoxLength();
+          chatBox.scrollTop(scrollHeight);
         }, 300);
-      }
-      //toggles the chat box
-      $scope.toggleMessage = function(){
-        if($scope.showMsgBody==true)
-          {
-            $scope.showMsgBody = false;
-          }
-          else if($scope.showMsgBody==false){
-            $scope.showMsgBody = true;
-          }
-      }
-      
+      };
+
+      // toggles the chat box
+      $scope.toggleMessage =  () => {
+        if ($scope.showMsgBody == true) {
+          $scope.showMsgBody = false;
+        } else if ($scope.showMsgBody == false) {
+          $scope.showMsgBody = true;
+        }
+      };
+
       $scope.sendMessage = () => {
-        
         $scope.sender = game.players[game.playerIndex];
-        
-        let newMessage = {
-          sender:$scope.sender.username,
-          body:$scope.messageBody,
-          avatar:$scope.sender.avatar,
-          game:game.gameID,
+
+        const newMessage = {
+          sender: $scope.sender.username,
+          body: $scope.messageBody,
+          avatar: $scope.sender.avatar,
+          game: game.gameID,
           timeSent: new Date(Date.now()).toLocaleTimeString({
             hour12: true
           })
@@ -255,13 +238,11 @@ angular.module('mean.system')
         $scope.messages.push(newMessage);
         $scope.scrollNow();
         socket.emit('new message', newMessage);
-        
-        $scope.messageBody ='';
-      }
-   
-     $scope.checkUserIsInvited = (email) => {
-       return $scope.inviteUsers.includes(email);
-      }
+
+        $scope.messageBody = '';
+      };
+
+      $scope.checkUserIsInvited = (email) => $scope.inviteUsers.includes(email);
 
       $scope.startGame = () => {
         const popupModal = $('#popUpModal');
@@ -275,30 +256,10 @@ angular.module('mean.system')
         }
       };
 
-      $scope.getMessages = function(){
-        var msg = 'Hello again';
-        var new_msg =[];
-        var filter_msg =[];
-        var ref = firebase.database().ref('messages');
-
-        ref.on('value', function(snapshot){
-            
-            snapshot.forEach(function(data){
-              new_msg.push(data.val());
-            })
-            
-            filter_msg = new_msg.filter(msg => msg.game == 'Gi6H6T')
-            // console.log(filter_msg);
-            return filter_msg;
-        })
-      }
-
-
-      $scope.abandonGame = function () {
+    $scope.abandonGame = function () {
         game.leaveGame();
         $location.path('/dashboard');
       };
-
 
 
       // Catches changes to round to update when no players pick card
@@ -359,19 +320,15 @@ angular.module('mean.system')
 
         popupModal.modal('show');
       } else if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length <= game.playerMaxLimit)) {
-        
         console.log('joining custom game');
         game.joinGame('joinGame', $location.search().game);
-        console.log($scope.getMessages())
-        socket.emit('join-chat', $scope.getMessages());
-        
+        // console.log($scope.getMessages());
+        // socket.emit('join-chat', $scope.getMessages());
       } else if ($location.search().custom && game.players.length <= game.playerMaxLimit) {
         console.log('join game as a stranger');
         game.joinGame('joinGame', null, true);
-        
       } else {
         console.log(game);
         game.joinGame();
-        
       }
     }]);

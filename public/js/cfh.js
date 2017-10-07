@@ -1,3 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
   $('.scrollspy').scrollSpy();
+  $('.modal').modal();
 });

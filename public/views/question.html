@@ -84,8 +84,10 @@
     </div>
     <h4>Cards for humanity</h4>
     <form ng-submit="searchInviteUsers()">
-      <div class="form-group">
-        <input type="text" class="form-control" ng-change="searchInviteUsers()" ng-model="searchText" id="search" placeholder="Search users you wish to invite">
+      <div class="input-field">
+        <input type="search" ng-change="searchInviteUsers()" ng-model="searchText" id="search"
+          placeholder="Search for friends" required>
+        <i class="material-icons">search</i>
       </div>
       <div id='users'></div>
     </form>

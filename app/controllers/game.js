@@ -27,7 +27,7 @@ const GameData = {
   },
   history(req, res) {
     if (req.user) {
-      Game.findOne({ userId: req.user.userId })
+      Game.find({ userId: req.user.userId })
       .exec((err, result) => {
         if (err) {
           return res.status(500).json({

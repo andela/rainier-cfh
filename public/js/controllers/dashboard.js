@@ -27,8 +27,7 @@
             $scope.gameLogs = [];
             return $scope.gameLogs;
           }
-          $scope.gameLogs = data
-          console.log('game history:::::', $scope.gameLogs);
+          $scope.gameLogs = data;
           return $scope.gameLogs;
         }
         // game history failure ::> notify user

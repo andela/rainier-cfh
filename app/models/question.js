@@ -18,7 +18,8 @@ const QuestionSchema = new Schema({
     trim: true
   },
   numAnswers: {
-    type: Number
+    type: Number,
+    required: true
   },
   official: {
     type: Boolean

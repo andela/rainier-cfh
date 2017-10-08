@@ -86,13 +86,14 @@ module.exports = (app, passport, auth) => {
   app.param('userId', users.user);
 
   // Answer Routes
-  app.get('/answers', answers.all);
+  app.post('/api/answers/add', answers.add);
   app.get('/answers/:answerId', answers.show);
   app.get('/answers', answers.all);
   // Finish with setting up the answerId param
   app.param('answerId', answers.answer);
 
   // Question Routes
+  app.post('/api/questions/add', questions.add);
   app.get('/questions/:questionId', questions.show);
   app.get('/questions', questions.all);
   // Finish with setting up the questionId param

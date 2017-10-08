@@ -158,7 +158,7 @@ exports.resetPassword = (req, res) => {
   // checks if there is a token
   if (!password) {
     return res.status(402).send({
-      message: 'Please enter a new password'
+      message: 'Please enter password'
     });
   }
   // checks if there is a token
@@ -184,10 +184,13 @@ exports.resetPassword = (req, res) => {
         });
       }
       user.hashed_password = user.encryptPassword(password);
+      // clear token and expiry time
+      user.resetToken = '';
+      user.resetPassExpiry = '';
 
       user.save((err) => {
         if (err) {
-          return res.send({
+          return res.status(402).send({
             message: 'Database connection error. Try again'
           });
         }

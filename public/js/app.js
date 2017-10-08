@@ -45,6 +45,9 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
               }
             }
           }).
+          when('/tour', {
+            templateUrl: '/views/tour.html'
+          }).
           otherwise({
             redirectTo: '/'
           });

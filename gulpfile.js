@@ -152,6 +152,11 @@ gulp.task('jquery', () => (
     .pipe(gulp.dest('public/lib/jquery'))
 ));
 
+gulp.task('introjs', () => (
+  gulp.src('bower_components/intro.js/**/*')
+    .pipe(gulp.dest('public/lib/introjs'))
+));
+
 gulp.task('underscore', () => (
   gulp.src('bower_components/underscore/**/*')
     .pipe(gulp.dest('public/lib/underscore'))
@@ -196,5 +201,6 @@ gulp.task('build', [
   'underscore',
   'angularUtils',
   'angular-bootstrap',
-  'move:lib'
+  'move:lib',
+  'introjs'
 ]);

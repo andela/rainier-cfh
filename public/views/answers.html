@@ -43,7 +43,7 @@
           <h3>How To Play</h3>
         </div>
         <div class="container">
-          <ol id="oh-el" class="justify">
+          <ol id="oh-el" class="justify" style="font-size: 1.2rem;">
             <li>Each player begins with, and will always have, 10 white answer cards.</li>
             <li>For each round, one player is randomly chosen as the Card Czar.</li>
             <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="container">
-      <div id="czar-blank-container" class="col s12 l8"  style="color: #3a3a3a" class="col s12 m8" ng-show="isCzar() && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
+      <div id="czar-blank-container" style="color: #3a3a3a" class="col s12 m8" ng-show="isCzar() && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
         <div id="czar-blank-inner" class="">
           <p>
             You are the Card Czar. </br>
@@ -85,7 +85,7 @@
         </h4>
       </div>
 
-      <div id='charity-fact' class="container space-beneath" style="font-size: 1.2rem;">
+      <div id='charity-fact' class="container left justify space-beneath" style="font-size: 1.2rem;">
          {{ makeAWishFact }}
       </div>
 

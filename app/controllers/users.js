@@ -267,7 +267,7 @@ exports.avatars = (req, res) => {
   }
   return res.redirect('/#!/app');
 };
-
+// add donation
 exports.addDonation = (req, res) => {
   if (req.body && req.user && req.user._id) {
     // Verify that the object contains crowdrise data
@@ -293,6 +293,19 @@ exports.addDonation = (req, res) => {
     }
   }
   res.send();
+};
+// get donation
+exports.getDonations = (req, res) => {
+  if (req.user) {
+    User.findById(req.user.userId)
+      .select('donations')
+      .exec((error, allDonations) => {
+        if (error) {
+          return res.status(500).send({ error });
+        }
+        return res.status(200).json(allDonations);
+      });
+  }
 };
 
 /**

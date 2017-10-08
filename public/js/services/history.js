@@ -11,27 +11,35 @@
   */
   .factory('history', ['$http', '$window',
     ($http, $window) => {
+
       // method that gets game history
-      const getGameLog = () => new Promise((resolve, reject) => {
-        $http.get('/api/games/history', { headers: { authorization: $window.localStorage.cfhToken } })
-          .success((response) => {
-            resolve(response);
-          })
-          .error((error) => {
-            reject(error);
-          });
-      });
-      const userDonations = () => new Promise((resolve, reject) => {
-        $http.get('/api/donations', { headers: { authorization: $window.localStorage.cfhToken } })
-          .success((response) => {
-            resolve(response);
-          })
-          .error((error) => {
-            reject(error);
-          });
-      });
+      const getGameHistory = () => {
+        return $http.get(`/api/games/history`, { headers: { authorization: $window.localStorage.cfhToken } })
+          .then((response) => {
+            return response.data;
+          }
+        );
+      };
+
+      // method that gets game leaderboard
+      const getGameLeaderboard = () => {
+        return $http.get('/api/leaderboard', { headers: { authorization: $window.localStorage.cfhToken } })
+          .then((response) => {
+            return response.data;
+          }
+        );
+      };
+      const userDonations = () => {
+        return $http.get('/api/donations', { headers: { authorization: $window.localStorage.cfhToken } })
+          .then((response) => {
+            return response.data;
+          }
+        );
+      };
+
       return {
-        getGameLog,
+        getGameHistory,
+        getGameLeaderboard,
         userDonations
       };
 

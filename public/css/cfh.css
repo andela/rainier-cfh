@@ -61,7 +61,7 @@ html {
 	}
 	a {
     text-decoration: none !important;
-    color: inherit;
+    color: #d32f2f;
 	}
 	a:hover {
     cursor: pointer;
@@ -387,6 +387,12 @@ html {
     font-family: 'Satisfy', 'cursive';
     color: #000;
   }
+  .patterned a {
+    color: #000;
+  }
+  .patterned a:hover {
+    color: #d32f2f
+  }
   /** footer **/
   footer > nav {
     background: none;
@@ -490,10 +496,9 @@ html {
 }
 
 /** stats section **/
-.stats {
+.stats, .game-log {
   background: #fff;
   color: #000;
-  border-radius: 5px;
   text-align: center;
 }
 th{
@@ -503,7 +508,7 @@ th{
 td {
   text-align: center;
 }
-th.date {
+th.date, th.log-info {
   color: #fff;
   background-color: #000;
 }
@@ -525,15 +530,27 @@ th.donation {
   color: #fff;
 }
 /** Game log **/
+.rating-details p {
+  line-height: 1rem;
+}
 .small-btn {
-  padding: 3px 8px;
-  color: #b71c1c;
-  font-size: 12px;
+  display: inline-block;
+  padding: 1px 8px;
+  background-color: #d32f2f;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 10px;
   font-weight: 900;
   text-shadow: 0 0 1px #000;
 }
-
-  /* Materialize default style modification */
+/** Add blinking text **/
+.blinking {
+  animation: blinker 0.9s linear infinite;
+}
+@keyframes blinker {  
+  50% { opacity: 0; }
+}
 
   input[type=text]:not(.browser-default):focus:not([readonly]),
   input[type=password]:not(.browser-default):focus:not([readonly]),

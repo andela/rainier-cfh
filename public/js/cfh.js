@@ -1,6 +1,10 @@
 $(document).ready(function(){
   // Add modal
   $('.modal').modal();
+  // Add window tabs
+  $(document).ready(function(){
+    $('ul.tabs').tabs();
+  });
   // Add shadow to header on scroll
   $(window).scroll(function() {     
     var scroll = $(window).scrollTop();

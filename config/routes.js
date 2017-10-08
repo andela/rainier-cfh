@@ -24,13 +24,14 @@ module.exports = (app, passport, auth) => {
   
   // Donation Routes
   app.post('/donations', authUser, users.addDonation);
+  app.get('/api/donations', authUser, users.getDonations);
   
-  // Game session routes
+  // Save Game session route
   app.post('/api/games/:id/start', authUser, gameData.create);
 
-  // Game session history
-  app.get('/api/:gameid/history', authUser, gameData.viewOne);
-  app.get('/api/games/history', authUser, gameData.viewAll);
+  // Game history and leaderboard routes
+  app.get('/api/games/history', authUser, gameData.history);
+  app.get('/api/leaderboard', authUser, gameData.leaderboard);
 
   app.post('/users/session', passport.authenticate('local', {
     failureRedirect: '/signin',

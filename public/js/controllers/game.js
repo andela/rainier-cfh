@@ -1,7 +1,7 @@
 /*eslint-disable */
 angular.module('mean.system')
-  .controller('GameController', ['$scope', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
-    function ($scope, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {
+  .controller('GameController', ['$scope', '$http', 'game', 'history', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
+    function ($scope, $http, game, history, $timeout, $location, MakeAWishFactsService, $dialog) {
       $scope.searchText = '';
       $scope.inviteEmailBody = `Your friend has requested you play Card for Humanity together please 
                                 follow the link to play`;
@@ -132,45 +132,6 @@ angular.module('mean.system')
         }
         return game.players[0].id === window.user._id;
       }
-      
-      $scope.saveGame = function () {
-        game.startGame();
-        const gameId = $location.search().game;
-        const link = `/api/games/${gameId}/start`;
-        const data = {
-          gameOwner: game.player[0].id,
-          gamePlayers: game.players
-        }
-        history.saveGameHistory(link, data)
-        .then((result) => {
-          gameKey = result;
-          $scope.model = 'Game Saved';
-          return gameKey;
-        })
-        .error((result) => {
-          $scope.message = 'Game could not be saved';
-        })
-      };
-      
-      $scope.$watch('game.state', () => {
-        if (game.state === 'game ended' && $scope.isCustomGame()) {
-          const gameId = $location.search().game;
-          const link = `/api/games/${gameId}/start`;
-          const data = {
-            gameOwner: game.players[0].id,
-            gameWinner: game.players[game.gameWinner].id,
-            status: 'true',
-            gameRounds: game.round
-          }
-          history.updateGameHistory(link, data)
-          .success(response => {
-            $scope.model = 'Game updated';
-          })
-          .error(response => {
-            $scope.message = 'Game could not be saved';
-          })
-        }
-      });
 
       // search users to invite 
       $scope.searchInviteUsers = () => {

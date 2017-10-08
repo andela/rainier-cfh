@@ -5,22 +5,22 @@ const jwt = require('jsonwebtoken');
 const User = mongoose.model('User');
 
 module.exports = (req, res, next) => {
-  const token = req.header('authorization');
+  const token = req.header('Authorization');
   if (!token) {
-    return res.status(401).json('Unauthorized: No token provided');
+    return res.status(401).json('Unauthorized: No access token provided');
   }
   jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
     if (error) {
-      return res.status(400).json('Invalid token');
+      return res.status(403).json('Invalid token');
     }
-    User.findById(decoded.id)
+    User.findById(decoded.userId)
       .then((user) => {
         if (!user) {
-          return Promise.reject('This token is invalid or has expired');
+          return res.status(404)('User not found');
         }
         req.user = decoded;
         return next();
       })
-      .catch(err => res.status(500).json(err));
+      .catch(err => res.status(500).json({ err }));
   });
 };

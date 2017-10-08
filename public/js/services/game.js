@@ -175,10 +175,11 @@ angular.module('mean.system')
       if (data.state === 'game ended') {
         // Instruct backend to save game data When the game ended
         socket.on('saveGame', (data) => {
-          if (game.state === 'game ended' && window.localStorage.token) {
-            $http.post(`/api/games/${game.gameID}/start`, data, { headers: { authorization: window.localStorage.token } })
-              .success((response) => {
-                console.log(response);
+          if (game.state === 'game ended' && $window.localStorage.cfhToken) {
+            $http.post(`/api/games/${game.gameID}/start`, data, { headers: { Authorization: $window.localStorage.cfhToken } })
+              .then((response) => {
+                console.log('Save game success::::', response.data)
+                return response.data
               });
           }
         });

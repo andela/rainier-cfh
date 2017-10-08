@@ -1,3 +1,4 @@
+/* eslint-disable */
 (() => {
   /**
   * angular
@@ -8,47 +9,62 @@
   * DashboardCtrl
   * Description: sets up a controller
   */
-  .controller('DashboardCtrl', ['$scope', '$http', 'game', 'history', '$location',
-    function ($scope, $http, game, history, $location, jwtHelper) {
-      let user = localStorage.getItem('cfhToken');
-      // user stats is an array of object
+  .controller('DashboardCtrl', ['$scope', '$http', 'game', 'history', '$window', '$location',
+    function ($scope, $http, game, history, $window, $location) {
+
+      // get user data from local storage
+      $scope.user = JSON.parse($window.localStorage.getItem('cfhUser'));
+      $scope.username = $scope.user.username.substr(0,1).toUpperCase().concat($scope.user.username.substr(1));
+
+      // initialize game history to an empty array
       $scope.stats = [];
 
-      // make game service available as scope
-      $scope.game = game;
-      // user starts with a default level of zero
-      $scope.level = 0;
-      // Maximum level attainable
-      $scope.maxLevel = 15;
+      
+      if ($window.localStorage.cfhToken || window.user) {
+        // game history success ::> populate dashboard
+        const onGameHistoryRes = (data) => {
+          if (data === null) {
+            $scope.gameLogs = [];
+            return $scope.gameLogs;
+          }
+          $scope.gameLogs = data
+          return $scope.gameLogs;
+        }
+        // game history failure ::> notify user
+        const onGameHistoryError = (err) => {
+          $scope.gameHistoryError = 'An error occured while fetching your history';
+        }
+        history.getGameHistory()
+          .then(onGameHistoryRes, onGameHistoryError);
 
-      // Todo: implement the endpoint that serves userData
-      //User Data
 
-      // implementation details for user data fetching error
-      const onUserError = (reason) => {
-        $scope.userError = 'An error occured fetching your data';
+        // get game leaderboard and view on request
+        history.getGameLeaderboard()
+          .then((gameLogs) => {
+            const leaderboard = [];
+            const players = {};
+            gameLogs.forEach((gameLog) => {
+              const numOfWins = players[gameLog.gameWinner];
+              if (numOfWins) {
+                players[gameLog.gameWinner] += 1;
+              } else {
+                players[gameLog.gameWinner] = 1;
+              }
+            });
+            Object.keys(players).forEach((key) => {
+              leaderboard.push({ username: key, numberOfWins: players[key] });
+            });
+            $scope.leaderboard = leaderboard;
+          });
+        // user donations logic
+        history.userDonations()
+          .then((userDonations) => {
+            $scope.userDonations = userDonations.donations;
+          });
       }
-      const userRes = (response) => {
-        console.log('User response at dahsboard:::::', response);
-        $scope.user = response.data;
+   
 
-      }
-      $http.get('/users/me').then(userRes, onUserError);
-
-      // Todo: implement the endpoint that serves userStats
-      //User Stats
-      // implementation details of user stats promise
-      const statsRes = (response) => {
-        $scope.stats = response.data;
-      }
-      // implementation details of stats error
-      const onStatsError = (reason) => {
-        $scope.statsError = 'An error occured fetching your stats'
-      }
-
-      $http.get('/api/:userid/games/history').then(statsRes, onStatsError);
-
-      // Todo: write algorithm for calculating user rating and level
+      // Todo: write algorithm for generating user stats, calculating user rating and level
       // $scope.getLevel = () => {
       //   const level = 0;
       //   const winRatio = 0;
@@ -79,12 +95,19 @@
 
       //  $scope.user[level] = getLevel(),
       //  $scopr.user[rating] =  getRating()
+      $scope.progressMessage = "....loading"
+      $scope.spinner = true;
 
       $scope.nextStat = () => {
         if ($scope.stats.length > 8) {
           return true;
         }
       }
+      // user starts with a default level of zero
+      $scope.level = 0;
+      // Maximum level attainable
+      $scope.maxLevel = 15;
+
       
     }
   ]);

@@ -10,16 +10,20 @@ angular.module('mean.system')
     $scope.confirmPassword = '';
     $scope.resetError = '';
     $scope.resetSuccess = '';
+    $scope.emailSent = false;
 
     // Send password link
     $scope.sendResetLink = () => {
+      $scope.emailSent = true;
       $http.post('/api/user/password', { email: $scope.email, resetLink: $scope.resetLink, resetMessage: $scope.resetMessage })
         .then((response) => {
           $scope.emailSuccess = response.data.message;
           $scope.email = '';
+          $scope.emailSent = false;
         }, (error) => {
           if (error) {
             $scope.emailError = error.data.message;
+            $scope.emailSent = false;
           }
         });
     };

@@ -13,8 +13,7 @@ const Question = require('../models/question');
 exports.add = (req, res, next) => {
   const question = new Question(req.body);
   question.save()
-    .then(() => res.send({
-      success: true,
+    .then(() => res.status(201).send({
       message: 'Question added successfully'
     }))
     .catch(err => next(err));

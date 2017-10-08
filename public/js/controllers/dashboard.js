@@ -28,6 +28,7 @@
             return $scope.gameLogs;
           }
           $scope.gameLogs = data
+          console.log('game history:::::', $scope.gameLogs);
           return $scope.gameLogs;
         }
         // game history failure ::> notify user

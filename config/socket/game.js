@@ -32,9 +32,10 @@ function Game(gameID, io) {
   this.playerMinLimit = 3;
   this.playerMaxLimit = 6;
   this.pointLimit = 5;
-  this.state = "awaiting players";
+  this.state = 'awaiting players';
   this.round = 0;
   this.questions = null;
+  this.region = 'Africa'
   this.answers = null;
   this.curQuestion = null;
   this.timeLimits = {

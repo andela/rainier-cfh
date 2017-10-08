@@ -31,7 +31,7 @@ const QuestionSchema = new Schema({
   },
   region: {
     type: String,
-    default: '',
+    default: 'Africa',
     trim: true
   }
 });

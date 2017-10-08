@@ -70,8 +70,8 @@ exports.all = (req, res) => {
  * @param  {Function} cb callback function
  * @return {mixed}       calls cb
  */
-exports.allQuestionsForGame = (cb) => {
-  Question.find({ official: true, numAnswers: { $lt: 3 } }).select('-_id')
+exports.allQuestionsForGame = (cb, region) => {
+  Question.find({ official: true, numAnswers: { $lt: 3 }, region }).select('-_id')
     .exec((err, questions) => {
       if (err) {
         console.log(err);

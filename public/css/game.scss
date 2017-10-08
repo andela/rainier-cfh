@@ -80,7 +80,7 @@
 }
 
 .game-end-btn-wrapper {
-  margin: 20px;
+  margin: 20px auto;
 }
 
 #smaller-text {
@@ -136,4 +136,10 @@
   background-color: #000000;
   border: none !important;
   transform: translate(0.5px, 0.5px);
+}
+
+
+/* charity card */
+.crImageAndTitleOuter, .startFundraiser {
+  display: none;
 }

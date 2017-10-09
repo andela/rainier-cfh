@@ -10,6 +10,8 @@
 
       
       if ($window.localStorage.cfhToken || $window.user) {
+        $scope.user = game.players[game.playerIndex];
+        //$scope.avatar = $scope.user.avatar;
         const onGameHistoryRes = (data) => {
           if (data === null) {
             $scope.gameLogs = [];

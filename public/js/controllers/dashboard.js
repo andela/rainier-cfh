@@ -9,7 +9,7 @@
       $scope.stats = [];
 
       
-      if ($window.localStorage.cfhToken || window.user) {
+      if ($window.localStorage.cfhToken || $window.user) {
         const onGameHistoryRes = (data) => {
           if (data === null) {
             $scope.gameLogs = [];

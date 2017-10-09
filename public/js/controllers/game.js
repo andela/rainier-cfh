@@ -136,6 +136,16 @@ angular.module('mean.system')
       $scope.winnerPicked = function () {
         return game.winningCard !== -1;
       };
+      
+      $scope.customGameOwner = function () {
+        if (game.players[0] === undefined) {
+          return false;
+        }
+        if (window.user === null) {
+          return false;
+        }
+        return game.players[0].id === window.user._id;
+      }
 
       // search users to invite
       $scope.searchInviteUsers = () => {

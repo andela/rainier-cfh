@@ -42,15 +42,18 @@ angular.module('mean.system')
         $scope.error = '';
        $http.post('/api/auth/login', userInput)
        .success((response) => {
-
         if(response.token) {
-          window.localStorage.setItem('cfhToken', response.token);
-          window.localStorage.setItem('cfhuser', response.user.name);
+          localStorage.setItem('cfhToken', response.token);
+          const userData = {
+            userId: response.user._id,
+            username: response.user.name,
+            email: response.user.email,
+            donation: response.user.donation
+          }
+          localStorage.setItem('cfhUser', JSON.stringify(userData));
           $rootScope.authenticated = true;
           $window.location.href = '/#!/dashboard';
         }
-
-        $scope.storeData(response);
        })
        .error((error) => {
         $scope.error = error.error;
@@ -58,26 +61,27 @@ angular.module('mean.system')
        });
       };
 
-      $scope.validateInput = (userInput) => {
-        const emailRegex= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!/^[a-zA-Z0-9 ]*$/.test(userInput.name)) {
-          $scope.error = 'Name cannot contain special characters';
-          return false;
-        }
-        if (!userInput.password) {
-          $scope.error = 'password cannot be all spaces';
-          return false;
-        }
-        if (userInput.password.length < 6) {
-          $scope.error = 'password cannot be less than 6 characters';
-          return false;
-        }
-        if (!emailRegex.test(userInput.email)) {
-          $scope.error = 'Wrong email address entered';
-          return false;
-        }
-        return true;
-      };
+
+    $scope.validateInput = (userInput) => {
+      const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!/^[a-zA-Z0-9 ]*$/.test(userInput.name)) {
+        $scope.error = 'Name cannot contain special characters';
+        return false;
+      }
+      if (!userInput.password) {
+        $scope.error = 'password cannot be all spaces';
+        return false;
+      }
+      if (userInput.password.length < 6) {
+        $scope.error = 'password cannot be less than 6 characters';
+        return false;
+      }
+      if (!emailRegex.test(userInput.email)) {
+        $scope.error = 'Wrong email address entered';
+        return false;
+      }
+      return true;
+    };
 
     $scope.signup = (userInput) => {
       // empty error variable before new validation
@@ -86,28 +90,29 @@ angular.module('mean.system')
       if (validation) {
         $http.post('/api/auth/signup', userInput)
           .success((response) => {
-
-            console.log(response);
             if (response.token) {
-              window.localStorage.setItem('cfhToken', response.token);
-              window.localStorage.setItem('cfhuser',response.user.username);
-              $window.location.href='/#!/dashboard';
-            }
-
-            $scope.storeData(response);
-
+              $window.localStorage.setItem('cfhToken', response.token);
+                const userData = {
+                  userId: response.user._id,
+                  username: response.user.name,
+                  email: response.user.email,
+                  donation: response.user.donation
+                }
+                localStorage.setItem('cfhUser', JSON.stringify(userData));
+                $rootScope.authenticated = true;
+                $window.location.href = '/#!/dashboard';
+              }
           })
           .error((error) => {
             $scope.error = error.error;
           });
-
-        }
-      };
+      }
+    };
 
     $scope.signout = () => {
       localStorage.removeItem('cfhToken');
       localStorage.removeItem('cfhUser');
       $cookieStore.remove('cfhToken');
-      $window.location.href='/#!/signin';
+      $window.location.href = '/#!/signin';
     };
   }]);

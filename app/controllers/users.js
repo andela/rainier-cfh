@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const randomstring = require('randomstring');
 
 require('dotenv').config();
+const config = require('../../config/config');
 
 // authenticated route to search for users with name or username
 exports.search = (req, res) => {
@@ -224,10 +225,10 @@ const getJWT = (tokenInfo, jwtSecret) => new Promise((resolve, reject) => {
 });
 
 exports.authCallback = (req, res) => {
-  getJWT(req.user.name, process.env.JWT_SECRET)
+  getJWT(req.user.name, config.app.secret)
     .then((token) => {
       res.cookie('cfhToken', token);
-      res.redirect('/#!/chooseavatars');
+      res.redirect('/#!/dashboard');
     })
     .catch((error) => {
       res.json(error);
@@ -293,7 +294,7 @@ exports.signup = (req, res, next) => {
           }
           req.logIn(resgisteredUser, (err) => {
             if (err) return next(err);
-            const token = jwt.sign({ resgisteredUser }, process.env.JWT_SECRET, { expiresIn: '10h' });
+            const token = jwt.sign({ resgisteredUser }, config.app.secret, { expiresIn: config.app.expiryTime });
             const user = {
               name: resgisteredUser.name,
               email: resgisteredUser.email,
@@ -394,9 +395,9 @@ exports.login = (req, res) => {
       const token = jwt.sign({
         email: returnedUser.email,
         userId: returnedUser.id,
-      }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRY_TIME
-      });
+      }, config.app.secret, {
+          expiresIn: config.app.expiryTime
+        });
       const user = {
         name: returnedUser.name,
         email: returnedUser.email,
@@ -425,7 +426,7 @@ exports.avatars = (req, res) => {
   }
   return res.redirect('/#!/app');
 };
-
+// add donation
 exports.addDonation = (req, res) => {
   if (req.body && req.user && req.user._id) {
     // Verify that the object contains crowdrise data
@@ -451,6 +452,19 @@ exports.addDonation = (req, res) => {
     }
   }
   res.send();
+};
+// get donation
+exports.getDonations = (req, res) => {
+  if (req.user) {
+    User.findById(req.user.userId)
+      .select('donations')
+      .exec((error, allDonations) => {
+        if (error) {
+          return res.status(500).send({ error });
+        }
+        return res.status(200).json(allDonations);
+      });
+  }
 };
 
 /**

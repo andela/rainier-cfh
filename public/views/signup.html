@@ -3,97 +3,90 @@
     <div class="">
       <nav class="center white">
         <div class="nav-wrapper row">
-          <a href="/#!" class="cfh-logo center col s1"><img src="../img/cfh-logo.png" class="center" alt="cfh-logo"/></a>
+          <a href="/#!" class="cfh-logo center col s1">
+            <img src="../img/cfh-logo.png" class="center" alt="cfh-logo" />
+          </a>
         </div>
       </nav>
     </div>
   </header>
 
   <div class="container" ng-controller="IndexController">
-      <div class="row">
-        <div class="col l8 offset-l2 s12">
-          <div  class="z-depth-1 account">
-            <div class="row">
-              <div class="col s12">
-                <p class="center big-text">Create Your Account</p>
-                <span class="red-text center block-span">&nbsp; {{error}} </span>
-                <form  ng-submit="signup(userInput)">
-                  <div class="signup">
-                    <div class="input-field col s12 m10 offset-m1">
-                      <input class="validate" type="text" name="username" ng-model="userInput.name" id="username" required />
-                      <label for="fullname">Fullname</label>
-                    </div>
+    <div class="row">
+      <div class="col l8 offset-l2 s12">
+        <div class="z-depth-1 account">
+          <div class="row">
+            <div class="col s12">
+              <p class="center big-text">Create Your Account</p>
+              <span class="red-text center block-span">&nbsp; {{error}} </span>
+              <form ng-submit="signup(userInput)">
+                <div class="signup">
+                  <div class="input-field col s12 m10 offset-m1">
+                    <input class="validate" type="text" name="username" ng-model="userInput.name" id="username" required />
+                    <label for="fullname">Fullname</label>
                   </div>
-                  <div class="signup">
-                    <div class="input-field col s12 m10 offset-m1">
-                      <input class="validate" type="email" name="email" ng-model="userInput.email" id="email" required />
-                      <label for="email">Email</label>
-                    </div>
+                </div>
+                <div class="signup">
+                  <div class="input-field col s12 m10 offset-m1">
+                    <input class="validate" type="email" name="email" ng-model="userInput.email" id="email" required />
+                    <label for="email">Email</label>
                   </div>
-                  <div class="signup">
-                    <div class="input-field col s12 m10 offset-m1">
-                      <input class="validate" type="password" ng-model="userInput.password" name="password" id="password" required />
-                      <label for="password">Password</label>
-                    </div>
+                </div>
+                <div class="signup">
+                  <div class="input-field col s12 m10 offset-m1">
+                    <input class="validate" type="password" ng-model="userInput.password" name="password" id="password" required />
+                    <label for="password">Password</label>
                   </div>
-                  <div class="col m10 offset-m1 s12"> 
-                    <p class="center">Select an avatar</p>
-                      <ul class="avatar-list" >
-                          <li ng-repeat="avatar in avatars" class="avatars ng-scope col m2 s3">
-                            <input name="avatar" type='radio' ng-model="userInput.avatar"
-                            value="{{$index}}" id="{{$index}}" required>
-                            <label for="{{$index}}">
-                              <img ng-src="{{avatar}}">
-                            </label>
-                          </li>
-                        </ul>
-                  </div>
-                  
-                  <input type="radio" name="avatar">
-                  <div class="center button">
-                    <button class="btn-large waves-effect waves-light"
-                    type="submit" name="action">SIGNUP</button>
-                  </div>
-                </form>
-                <p class="center">or signup with one of this services</p>
-                <div class="provider">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col s12 offset-s2 m12 offset-m4">
-                        <div class="col s2 m1">
-                          <a href="/auth/facebook">
-                            <img src="../img/facebook.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
-                          </a>
-                        </div>
-                        <div class="col s2 m1">
-                          <a href="/auth/twitter">
-                            <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
-                          </a>
-                        </div>
-                        <div class="col s2 m1">
-                          <a href="/auth/google">
-                            <img src="../img/google.png" width="50px" height="50px" class="left" />
-                          </a>
-                        </div>
-                        <div class="col s2 m1">
-                          <a href="/auth/github">
-                            <img src="../img/github2.png" width="50px" height="50px" class="left" />
-                          </a>
-                        </div>
+                </div>
+                <div class="col m10 offset-m1 s12">
+                  <p class="center">Select an avatar</p>
+                  <ul class="avatar-list">
+                    <li ng-repeat="avatar in avatars" class="avatars ng-scope col m2 s3">
+                      <input name="avatar" type='radio' ng-model="userInput.avatar" value="{{$index}}" id="{{$index}}" required>
+                      <label for="{{$index}}">
+                        <img ng-src="{{avatar}}">
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+
+                <input type="radio" name="avatar">
+                <div class="center button">
+                  <button class="btn-large waves-effect waves-light" type="submit" name="action">SIGNUP</button>
+                </div>
+              </form>
+              <p class="center">or signup with one of this services</p>
+              <div class="provider">
+                <div class="container">
+                  <div class="row">
+                    <div class="col s12 offset-s2 m12 offset-m4">
+                      <div class="col s2 m1">
+                        <a href="/auth/facebook">
+                          <img src="../img/facebook.png" width="40px" height="40px" class="left" style="margin-top:6px;" />
+                        </a>
                       </div>
-                      <div class="col s6">
+                      <div class="col s2 m1">
+                        <a href="/auth/twitter">
+                          <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;" />
+                        </a>
+                      </div>
+                      <div class="col s2 m1">
+                        <a href="/auth/google">
+                          <img src="../img/google.png" width="50px" height="50px" class="left" />
+                        </a>
+                      </div>
+                      <div class="col s2 m1">
                         <a href="/auth/github">
-                            <button class="btn btn-large brand-btn" type="button" name="action">
-                              <img src="../img/github2.png" width="50px" height="50px" class="left" />
-                              Github
-                            </button>
-                          </a>
+                          <img src="../img/github2.png" width="50px" height="50px" class="left" />
+                        </a>
                       </div>
                     </div>
-                    <div class="col s12 hr center">
-                      <div class="divider"></div>
-                      <span class="block-span">Already have an account? <a href="/#!/signin" class="red-text">  Sign In</a></span>
-                    </div>
+                  </div>
+                  <div class="col s12 hr center">
+                    <div class="divider"></div>
+                    <span class="block-span">Already have an account?
+                      <a href="/#!/signin" class="red-text"> Sign In</a>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -102,5 +95,6 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>

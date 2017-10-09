@@ -1,12 +1,12 @@
-let mongoose = require('mongoose'),
-  LocalStrategy = require('passport-local').Strategy,
-  TwitterStrategy = require('passport-twitter').Strategy,
-  FacebookStrategy = require('passport-facebook').Strategy,
-  GitHubStrategy = require('passport-github2').Strategy,
-  GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-  User = require('../app/models/user'),
-  config = require('./config');
+const mongoose = require('mongoose');
+const LocalStrategy = require('passport-local').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const GitHubStrategy = require('passport-github2').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const User = require('../app/models/user');
 
+const config = require('./config');
 
 module.exports = function (passport) {
   // Serialize sessions

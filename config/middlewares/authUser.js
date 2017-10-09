@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
     User.findById(decoded.userId)
       .then((user) => {
         if (!user) {
-          return res.status(404)('User not found');
+          return res.status(404).json('User not found');
         }
         req.user = decoded;
         return next();

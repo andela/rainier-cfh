@@ -22,7 +22,7 @@ const GameData = {
             error: err
           });
         }
-        return res.status(200).json(game);
+        return res.status(201).json(game);
       });
   },
   history(req, res) {

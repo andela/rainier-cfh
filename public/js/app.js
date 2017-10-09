@@ -1,5 +1,4 @@
-/* eslint-disable */
-angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.directives','firebase'])
+angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.directives', 'firebase'])
 .config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
@@ -39,15 +38,12 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
           templateUrl: '/views/reset.html',
           controller: 'PasswordController'
         }).
-        when('/dashboard', {
-          templateUrl: '/views/dashboard.html',
-          controller: 'DashboardCtrl'
-        }).
         when('/choose-avatar', {
           templateUrl: '/views/choose-avatar.html'
         }).
         when('/dashboard', {
           templateUrl: '/views/dashboard.html',
+          controller: 'DashboardCtrl',
           resolve: {
             auth: function (AuthService) {
               return AuthService.authenticate();

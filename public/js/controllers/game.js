@@ -1,4 +1,3 @@
-/*eslint-disable */
 angular.module('mean.system')
   .controller('GameController', ['$scope', 'socket', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
     function ($scope, socket, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {

@@ -1,18 +1,7 @@
-/* eslint-disable */
 (() => {
-  /**
-  * angular
-  * Description: Angular
-  */
   angular.module('mean.system')
-  /**
-  * history services
-  * Description: setup a history service
-  */
   .factory('history', ['$http', '$window',
     ($http, $window) => {
-
-      // method that gets game history
       const getGameHistory = () => {
         return $http.get(`/api/games/history`, { headers: { authorization: $window.localStorage.cfhToken } })
           .then((response) => {
@@ -20,8 +9,6 @@
           }
         );
       };
-
-      // method that gets game leaderboard
       const getGameLeaderboard = () => {
         return $http.get('/api/leaderboard', { headers: { authorization: $window.localStorage.cfhToken } })
           .then((response) => {

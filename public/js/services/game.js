@@ -1,4 +1,3 @@
-/*eslint-disable */
 angular.module('mean.system')
   .factory('game', ['socket', '$window', '$timeout', '$http', function (socket, $window, $timeout, $http) {
   var game = {

@@ -1,20 +1,61 @@
+/**
+ * Module dependencies.
+ */
 const mongoose = require('mongoose');
 
 const Game = require('../models/game');
 
-exports.saveGame = (req, res) => {
-  const game = new Game();
-
-  game.gameId = req.params.id;
-  game.gameRound = req.body.gameRound;
-  game.gameOwner = req.body.gameOwner;
-  game.gameWinner = req.body.gameWinner;
-  game.gamePlayers = req.body.gamePlayers;
-  game.gameEnded = req.body.gameEnded;
-  game.timePlayed = req.body.timePlayed;
-  game.save((err) => {
-    if (err) {
-      res.status(400).json(err);
+/**
+ * Save GameData on game end
+ */
+const GameData = {
+  create(req, res) {
+    const gameId = req.params.id;
+      const game = new Game(req.body);
+      game.userId = req.user.userId;
+      game.gameId = gameId;
+      game.save((err) => {
+        if (err) {
+          return res.status(500).json({
+            message: 'An error occured while trying to save',
+            error: err
+          });
+        }
+        return res.status(201).json(game);
+      });
+  },
+  history(req, res) {
+    if (req.user) {
+      Game.find({ userId: req.user.userId })
+      .exec((err, result) => {
+        if (err) {
+          return res.status(500).json({
+            message: 'An error occured while trying to get result'
+          });
+        }
+        return res.status(200).json(
+          result
+        );
+      });
+    } else {
+      return res.status(403).send({ message: 'You are not authorized to access this resource' });
     }
-  });
+  },
+  leaderboard(req, res) {
+    if (req.user) {
+      Game.find({ })
+      .exec((err, result) => {
+        if (err) {
+          return res.status(500).json({
+            message: 'An error occured while trying to get result'
+          });
+        }
+        return res.status(200).json( result );
+      });
+    } else {
+      return res.status(403).send({ message: 'You are not authorized to access this resource' });
+    }
+  }
 };
+
+module.exports = GameData;

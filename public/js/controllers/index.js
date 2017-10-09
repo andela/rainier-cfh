@@ -2,8 +2,59 @@
 /* global $ */
 /* global localStorage */
 angular.module('mean.system')
-  .controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
+  .controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService',
+  function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
     $scope.global = Global;
+    $scope.playerRegion = 'Africa';
+
+    $scope.gamePlay = (play) => {
+      $scope.setPlayerRegion = (region) => {
+        switch (region) {
+          case 'Asia':
+            $scope.playerRegion = region;
+            localStorage.setItem('region', region);
+            if (play === 'guest') {
+              location.href = '/#!/choose-avatar';
+            }
+            if (play === 'strangers') {
+              location.href = '/play';
+            }
+            if (play === 'friends') {
+              location.href = '/play?custom';
+            }
+            break;
+          case 'Europe':
+            $scope.playerRegion = region;
+            localStorage.setItem('region', region);
+            if (play === 'guest') {
+              location.href = '/#!/choose-avatar';
+            }
+            if (play === 'strangers') {
+              location.href = '/play';
+            }
+            if (play === 'friends') {
+              location.href = '/play?custom';
+            }
+            break;
+          case 'Africa':
+            $scope.playerRegion = region;
+            localStorage.setItem('region', region);
+            if (play === 'guest') {
+              location.href = '/#!/choose-avatar';
+            }
+            if (play === 'strangers') {
+              location.href = '/play';
+            }
+            if (play === 'friends') {
+              location.href = '/play?custom';
+            }
+            break;
+          default:
+            location.href = '/';
+        };
+      }
+    } 
+
     $scope.playAsGuest = function() {
       game.joinGame();
       $location.path('/app');

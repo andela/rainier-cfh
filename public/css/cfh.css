@@ -269,7 +269,6 @@ html {
     min-height: 768px;
     width: 90%;
     margin: 0 auto;
-    margin-top: 4rem;
   }
   .landing h1 {
     font-family: 'Satisfy', 'cursive';
@@ -283,6 +282,11 @@ html {
   }
   .landing-image img {
     height: 600px;
+  }
+
+  /** Game Region **/
+  .modal-content > .btn {
+    margin-top: 10px;
   }
 
   /** How it works **/
@@ -338,14 +342,15 @@ html {
     background-color: #d32f2f !important;
     border: 1px solid #b71c1c
   }
-  .brand-btn-main-invert {
+  .brand-btn-invert {
     background: transparent !important;
-    border: 1px solid #fff;
-  }
-  .brand-btn-main-invert:hover {
     color: #d32f2f !important;
-    background: #fff !important;
-    border: 1px solid #fff;
+    border: 1px solid #b71c1c;
+  }
+  .brand-btn-invert:hover {
+    color: #fff !important;
+    background: #d32f2f !important;
+    border: 1px solid #b71c1c;
   }
   .brand-btn-donate {
     color: white !important;

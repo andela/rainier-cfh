@@ -1,5 +1,5 @@
-<body ng-controller="DashboardCtrl">
-    
+<body>
+  <div ng-controller="IndexController">
   <header>
     <div class="navbar-fixed">
       <nav class="main-header">
@@ -10,9 +10,9 @@
             <span></span>
             <span></span>
           </a>
-          <ul ng-controller="IndexController" class="nav-list right hide-on-med-and-down">
+          <ul class="nav-list right hide-on-med-and-down">
             <li class="nav-item"><a class="active" href="#!/dashboard" class="modal-trigger" >Dasboard</a></li>
-            <li class="nav-item"><a href="#friends" class="modal-trigger" >Start game</a></li>
+            <li class="nav-item"><a href="#friends" class="modal-trigger" ng-click="gamePlay('friends')">Start game</a></li>
             <li class="nav-item"><a ng-click="signout()">Logout</a></li>
             <li class="nav-item"><a href="https://www.crowdrise.com/donate/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Flocalhost%3A3000%2F%23!%2F&stylesheet=&amounts=" target="_blank"><button class="btn brand-btn-donate">Donate</button></a></li>
           </ul>
@@ -30,36 +30,60 @@
         <h5><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Start game session with friends</h5>
       </header>
       <div class="modal-content center">
-        <h1><i class="fa fa-info-circle"></i></h1>
+        <h3><i class="fa fa-info-circle"></i></h3>
         <p>
           This game contains offensive, profane, explicit content created by <a href="#" >Cards Against 
           Humanity&trade;</a> and provided here, uncensored and complete, in digital form. Human Resources made us 
           say that.
         </p>
+        <hr/>
+        <p class="black-text">
+          Select your region for a better gaming experience.
+        </p>
+        <a class="modal-action modal-close btn btn-large brand-btn brand-btn-invert" ng-click="setPlayerRegion('Asia')">
+          Asia
+        </a>
+        <a class="modal-action modal-close btn btn-large brand-btn brand-btn-invert" ng-click="setPlayerRegion('Europe')">
+          Europe
+        </a>
+        <a class="modal-action modal-close btn btn-large brand-btn brand-btn-invert" ng-click="setPlayerRegion('Africa')">
+          Africa
+        </a>
       </div>
       <div class="modal-footer">
         <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-        <a href="/play?custom" class="modal-action modal-close waves-effect waves-red btn-flat ">Start</a>
       </div>
     </div>
 
     <!-- Modal Structure -->
-    <!-- Start game friends -->
+    <!-- Start game strangers -->
     <div id="strangers" class="modal modal-fixed-footer">
         <header class="modal-header">
           <h5><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Start game session with strangers</h5>
         </header>
         <div class="modal-content center">
-          <h1><i class="fa fa-info-circle"></i></h1>
+          <h3><i class="fa fa-info-circle"></i></h3>
           <p>
             This game contains offensive, profane, explicit content created by <a href="#" >Cards Against 
             Humanity&trade;</a> and provided here, uncensored and complete, in digital form. Human Resources made us 
             say that.
           </p>
+          <hr/>
+          <p class="black-text">
+            Select your region for a better gaming experience.
+          </p>
+          <a class="modal-action modal-close btn btn-large brand-btn brand-btn-invert" ng-click="setPlayerRegion('Asia')">
+            Asia
+          </a>
+          <a class="modal-action modal-close btn btn-large brand-btn brand-btn-invert" ng-click="setPlayerRegion('Europe')">
+            Europe
+          </a>
+          <a class="modal-action modal-close btn btn-large brand-btn brand-btn-invert" ng-click="setPlayerRegion('Africa')">
+            Africa
+          </a>
         </div>
         <div class="modal-footer">
           <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-          <a href="/play" class="modal-action modal-close waves-effect waves-red btn-flat ">Start</a>
         </div>
       </div>
 
@@ -189,10 +213,10 @@
             <h6><i class="fa fa-asterisk"></i>&nbsp;&nbsp;Enjoy with friends or strangers.</h6>
           </div>
           <div class="start-control">
-            <a href="#friends" class="btn btn-large brand-btn brand-btn-main modal-trigger">
+            <a href="#friends" class="btn btn-large brand-btn brand-btn-main modal-trigger" ng-click="gamePlay('friends')">
               <i class="fa fa-play"></i>&nbsp;&nbsp;Friends
             </a>
-            <a href="#strangers" class="btn btn-large brand-btn brand-btn-main modal-trigger"><i class="fa fa-play"></i>&nbsp;&nbsp;Strangers
+            <a href="#strangers" class="btn btn-large brand-btn brand-btn-main modal-trigger" ng-click="gamePlay('strangers')"><i class="fa fa-play"></i>&nbsp;&nbsp;Strangers
                 </a>
           </div>
         </div>
@@ -297,5 +321,5 @@
     </footer>
   <script type="text/javascript" src="../js/cfh.js"></script>
   <script type="text/javascript" src="../js/app.js"></script>
-
+  </div>
 </body>

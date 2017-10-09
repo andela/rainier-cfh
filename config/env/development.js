@@ -2,7 +2,7 @@ require('dotenv').config();
 
 module.exports = {
   app: {
-    name: 'Cards for Humanity - Development'
+    name: 'Cards for Humanity - Development',
   },
   facebook: {
     clientID: process.env.FACEBOOK_CLIENT_ID,

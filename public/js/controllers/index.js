@@ -1,6 +1,7 @@
 /* global angular */
 /* global $ */
 /* global localStorage */
+
 angular.module('mean.system')
   .controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
     $scope.global = Global;
@@ -31,6 +32,14 @@ angular.module('mean.system')
         $scope.error = '';
        $http.post('/api/auth/login', userInput)
        .success((response) => {
+
+        if(response.token) {
+          window.localStorage.setItem('cfhToken', response.token);
+          window.localStorage.setItem('cfhuser', response.user.name);
+          $rootScope.authenticated = true;
+          $window.location.href = '/#!/dashboard';
+        }
+
         $scope.storeData(response);
        })
        .error((error) => {
@@ -67,7 +76,16 @@ angular.module('mean.system')
         if (validation) {
           $http.post('/api/auth/signup', userInput)
           .success((response) => {
+
+            console.log(response);
+            if (response.token) {
+              window.localStorage.setItem('cfhToken', response.token);
+              window.localStorage.setItem('cfhuser',response.user.username);
+              $window.location.href='/#!/dashboard';
+            }
+
             $scope.storeData(response);
+
           })
           .error((error) => {
             $scope.error = error.error;

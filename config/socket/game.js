@@ -1,6 +1,3 @@
-/*
-eslint-disable
- */
 var async = require('async');
 var _ = require('underscore');
 var questions = require(__dirname + '/../../app/controllers/questions.js');

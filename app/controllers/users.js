@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
+const config = require('../../config/config');
 
 // authenticated route to search for users with name or username
 exports.search = (req, res) => {
@@ -99,7 +100,7 @@ const getJWT = (tokenInfo, jwtSecret) => new Promise((resolve, reject) => {
 });
 
 exports.authCallback = (req, res) => {
-  getJWT(req.user.name, process.env.JWT_SECRET)
+  getJWT(req.user.name, config.app.secret)
     .then((token) => {
       res.cookie('cfhToken', token);
       res.redirect('/#!/dashboard');
@@ -168,7 +169,7 @@ exports.signup = (req, res, next) => {
           }
           req.logIn(resgisteredUser, (err) => {
             if (err) return next(err);
-            const token = jwt.sign({ resgisteredUser }, process.env.JWT_SECRET, { expiresIn: '10h' });
+            const token = jwt.sign({ resgisteredUser }, config.app.secret, { expiresIn: config.app.expiryTime });
             const user = {
               name: resgisteredUser.name,
               email: resgisteredUser.email,
@@ -269,8 +270,8 @@ exports.login = (req, res) => {
       const token = jwt.sign({
         email: returnedUser.email,
         userId: returnedUser.id,
-      }, process.env.JWT_SECRET, {
-          expiresIn: process.env.JWT_EXPIRY_TIME
+      }, config.app.secret, {
+          expiresIn: config.app.expiryTime
         });
       const user = {
         name: returnedUser.name,

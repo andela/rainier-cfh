@@ -2,6 +2,7 @@
 angular.module('mean.system')
   .controller('GameController', ['$scope', 'socket', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
     function ($scope, socket, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {
+
       $scope.messageSender = '';
       $scope.messagebody = '';
       $scope.searchText = '';
@@ -223,12 +224,12 @@ angular.module('mean.system')
         }
       };
 
-      $scope.sendMessage = () => {
+      $scope.sendMessage = (message) => {
         $scope.sender = game.players[game.playerIndex];
 
         const newMessage = {
           sender: $scope.sender.username,
-          body: $scope.messageBody,
+          body: message,
           avatar: $scope.sender.avatar,
           game: game.gameID,
           timeSent: new Date(Date.now()).toLocaleTimeString({
@@ -239,8 +240,6 @@ angular.module('mean.system')
         $scope.messages.push(newMessage);
         $scope.scrollNow();
         socket.emit('new message', newMessage);
-
-        $scope.messageBody = '';
       };
 
       $scope.checkUserIsInvited = (email) => $scope.inviteUsers.includes(email);
@@ -332,4 +331,5 @@ angular.module('mean.system')
         console.log(game);
         game.joinGame();
       }
-    }]);
+    }
+  ]);

@@ -7,7 +7,10 @@ const avatars = require('./avatars').all();
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const randomstring = require('randomstring');
+
 require('dotenv').config();
+const config = require('../../config/config');
 
 // authenticated route to search for users with name or username
 exports.search = (req, res) => {
@@ -53,7 +56,7 @@ exports.sendInviteEmail = (req, res) => {
       pass: process.env.EMAIL_PASS
     },
     tls: { rejectUnauthorized: false }
- });
+  });
 
   const mailOptions = {
     from: '"CFH" <invite@CFH.com',
@@ -75,13 +78,161 @@ exports.sendInviteEmail = (req, res) => {
   });
 };
 
+exports.password = (req, res) => {
+  const { email, resetLink, resetMessage } = req.body;
+  // checks if email field is not empty
+  if (!email || email.trim() === '') {
+    return res.status(400).send({
+      message: 'Please enter a valid Email address '
+    });
+  }
+
+  // check if resetLink or resetMessage is not empty
+  if (!resetLink || !resetMessage) {
+    return res.status(400).send({
+      message: 'Something went wrong'
+    });
+  }
+
+  // check if user exist
+  User
+    .findOne({ email })
+    .exec((err, user) => {
+      if (!user) {
+        return res.status(404).send({
+          message: 'This user does not exist in our record'
+        });
+      }
+
+      const token = randomstring.generate(32); // generate password token
+      const resetLinkWithToken = `${resetLink}/${token}`;
+      const resetPassExpiry = Date.now(); // later check if token has expired
+
+      user.resetToken = token; // set user token
+      user.resetPassExpiry = resetPassExpiry + 3600000; // set user token to expire in an hour
+      user.save((err) => {
+        if (err) {
+          return res.send({
+            message: 'Database connection error. Try again'
+          });
+        }
+      });
+
+      // nodemailer transporter
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: process.env.EMAIL_PORT,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        },
+        tls: { rejectUnauthorized: false }
+      });
+      // mail content
+      const mailOptions = {
+        from: '"CFH" <noreply@CFH.com>',
+        to: email,
+        subject: 'Cfh password',
+        text: `${resetMessage}
+        ${resetLinkWithToken}`
+      };
+      // sends email
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return res.send({
+            message: 'Unable to send email something went wrong',
+            user
+          });
+        }
+
+        return res.status(200).send({
+          message: 'Email sent successfully'
+        });
+      });
+    });
+};
+
+exports.resetPassword = (req, res) => {
+  const { resetToken, password } = req.body;
+  // checks if there is a token
+  if (!password) {
+    return res.status(400).send({
+      message: 'Please enter password'
+    });
+  }
+  // checks if there is a token
+  if (!resetToken) {
+    return res.status(400).send({
+      message: 'Please provide a valid token'
+    });
+  }
+  // checks if there is a user with token
+  User
+    .findOne({ resetToken })
+    .exec((err, user) => {
+      if (!user) {
+        return res.status(404).send({
+          message: 'No User associated with this Token'
+        });
+      }
+
+      // checks if the token has expired
+      if (Date.now() > user.resetPassExpiry) {
+        return res.status(401).send({
+          message: 'Token has expired'
+        });
+      }
+      user.hashed_password = user.encryptPassword(password);
+      // clear token and expiry time
+      user.resetToken = '';
+      user.resetPassExpiry = '';
+
+      user.save((err) => {
+        if (err) {
+          return res.status(500).send({
+            message: 'Database connection error. Try again'
+          });
+        }
+        return res.status(200).send({
+          message: 'password reset successfully'
+        });
+      });
+    });
+};
+
 /**
  * Auth callback
  */
 
+const getJWT = (tokenInfo, jwtSecret) => new Promise((resolve, reject) => {
+  if (tokenInfo) {
+    jwt.sign(
+      tokenInfo, jwtSecret,
+      (tokenError, generatedToken) => {
+        if (tokenError) {
+          reject(new Error(tokenError));
+        } else if (generatedToken) {
+          resolve(generatedToken);
+        } else {
+          reject(new Error('Something went wrong'));
+        }
+      }
+    );
+  } else {
+    reject(new Error('No Information Supplied'));
+  }
+});
 
-exports.authCallback = (req, res, next) => {
-  res.redirect('/chooseavatars');
+exports.authCallback = (req, res) => {
+  getJWT(req.user.name, config.app.secret)
+    .then((token) => {
+      res.cookie('cfhToken', token);
+      res.redirect('/#!/dashboard');
+    })
+    .catch((error) => {
+      res.json(error);
+    });
 };
 
 // Show login form
@@ -89,7 +240,7 @@ exports.signin = (req, res) => {
   if (!req.user) {
     res.redirect('/#!/signin?error=invalid');
   } else {
-    res.redirect('/#!/app');
+    res.redirect('/#!/signin');
   }
 };
 
@@ -143,7 +294,7 @@ exports.signup = (req, res, next) => {
           }
           req.logIn(resgisteredUser, (err) => {
             if (err) return next(err);
-            const token = jwt.sign({ resgisteredUser }, process.env.JWT_SECRET, { expiresIn: '10h' });
+            const token = jwt.sign({ resgisteredUser }, config.app.secret, { expiresIn: config.app.expiryTime });
             const user = {
               name: resgisteredUser.name,
               email: resgisteredUser.email,
@@ -226,6 +377,7 @@ exports.create = (req, res) => {
 /**
  * Sign In
  */
+
 exports.login = (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({
@@ -243,9 +395,9 @@ exports.login = (req, res) => {
       const token = jwt.sign({
         email: returnedUser.email,
         userId: returnedUser.id,
-      }, process.env.JWT_SECRET, {
-        expiresIn: '10h'
-      });
+      }, config.app.secret, {
+          expiresIn: config.app.expiryTime
+        });
       const user = {
         name: returnedUser.name,
         email: returnedUser.email,
@@ -274,7 +426,7 @@ exports.avatars = (req, res) => {
   }
   return res.redirect('/#!/app');
 };
-
+// add donation
 exports.addDonation = (req, res) => {
   if (req.body && req.user && req.user._id) {
     // Verify that the object contains crowdrise data
@@ -283,7 +435,7 @@ exports.addDonation = (req, res) => {
         _id: req.user._id
       })
         .exec((err, user) => {
-        // Confirm that this object hasn't already been entered
+          // Confirm that this object hasn't already been entered
           let duplicate = false;
           for (let i = 0; i < user.donations.length; i++) {
             if (user.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {
@@ -300,6 +452,19 @@ exports.addDonation = (req, res) => {
     }
   }
   res.send();
+};
+// get donation
+exports.getDonations = (req, res) => {
+  if (req.user) {
+    User.findById(req.user.userId)
+      .select('donations')
+      .exec((error, allDonations) => {
+        if (error) {
+          return res.status(500).send({ error });
+        }
+        return res.status(200).json(allDonations);
+      });
+  }
 };
 
 /**

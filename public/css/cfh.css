@@ -41,7 +41,8 @@ html {
 	h4 {
 		font-size: 24px;
 		font-size: 2.4rem;
-		line-height: 3.8rem ;
+    line-height: 3.8rem ;
+    color: #B71C1C !important;
   }
 	h5 {
 		font-size: 20px;
@@ -61,11 +62,14 @@ html {
 	}
 	a {
     text-decoration: none !important;
-    color: inherit;
+    color: #d32f2f;
 	}
 	a:hover {
     cursor: pointer;
     color: #d32f2f;
+  }
+  a.active {
+    color: #d32f2f !important;
   }
   .navbar-fixed li a {
     font-size: 1.2rem;
@@ -384,6 +388,12 @@ html {
     font-family: 'Satisfy', 'cursive';
     color: #000;
   }
+  .patterned a {
+    color: #000;
+  }
+  .patterned a:hover {
+    color: #d32f2f
+  }
   /** footer **/
   footer > nav {
     background: none;
@@ -487,10 +497,9 @@ html {
 }
 
 /** stats section **/
-.stats {
+.stats, .game-log {
   background: #fff;
   color: #000;
-  border-radius: 5px;
   text-align: center;
 }
 th{
@@ -500,7 +509,7 @@ th{
 td {
   text-align: center;
 }
-th.date {
+th.date, th.log-info {
   color: #fff;
   background-color: #000;
 }
@@ -520,6 +529,137 @@ th.lost {
 th.donation {
   background-color: #7b1fa2;
   color: #fff;
+}
+/** Game log **/
+.rating-details p {
+  line-height: 1rem;
+}
+.small-btn {
+  display: inline-block;
+  padding: 1px 8px;
+  background-color: #d32f2f;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 900;
+  text-shadow: 0 0 1px #000;
+}
+/** Add blinking text **/
+.blinking {
+  animation: blinker 0.9s linear infinite;
+}
+@keyframes blinker {  
+  50% { opacity: 0; }
+}
+
+.chat-window {
+  width: 320px;
+  padding: 0px !important;
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  border-radius: 5px;
+}
+
+.chat-header {
+  padding: 1px 10px !important;
+  background-color: #b71c1c;
+  color: white;
+  vertical-align: middle !important;
+  font-family: 'Berkshire';
+}
+
+.mute-text {
+  color: #B8B7B7;
+}
+
+span {
+  float: right;
+}
+
+.close-icon {
+  cursor: pointer;
+  float: right;
+}
+
+#chat-body {
+  padding: 0px;
+}
+
+#chat-content {
+  background-color: white;
+  padding: 0px 10px;
+  height: 200px;
+  overflow: scroll;
+  font-size: 15px
+}
+
+.message-list-item {
+  display: flex;
+  margin: 10px 0px;
+}
+
+.chat-message {
+  width: inherit;
+}
+
+.wrap-text {
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+.chat-avatar {
+  padding-right: 10px; 
+}
+
+.chat-avatar img {
+  height: 40px;
+  width: 50px;
+}
+
+.chat-form {
+  width: 100%;
+  margin: 0px;
+  background-color: white;
+  padding: 0px !important;
+}
+
+.chat-input {
+  margin: 0px !important;
+  height: 100%;
+  width: calc(100% - 5px) !important; 
+  padding-left: 5px !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.chat-box {
+  width: 100%
+}
+.input-group {
+  padding: 0px !important;
+  height: 44px !important;
+  border-top: 2px solid #F1E5D8 !important;
+}
+
+.input-group-btn {
+  padding: 0px !important;
+  height: inherit !important;
+}
+
+.input-group-btn button {
+  margin: 0px !important;
+  padding: 0px 5px !important;
+  width: 60px !important;
+  height: inherit !important;
+  background-color: #f57c00 !important;
+  color: white !important;
+  outline: none !important;
+}
+
+.input-group-btn :hover {
+  font-weight: bold;
 }
 /** HIW Start Screen **/
 

@@ -81,14 +81,14 @@ exports.password = (req, res) => {
   const { email, resetLink, resetMessage } = req.body;
   // checks if email field is not empty
   if (!email || email.trim() === '') {
-    return res.status(402).send({
+    return res.status(400).send({
       message: 'Please enter a valid Email address '
     });
   }
 
   // check if resetLink or resetMessage is not empty
   if (!resetLink || !resetMessage) {
-    return res.status(402).send({
+    return res.status(400).send({
       message: 'Something went wrong'
     });
   }
@@ -157,13 +157,13 @@ exports.resetPassword = (req, res) => {
   const { resetToken, password } = req.body;
   // checks if there is a token
   if (!password) {
-    return res.status(402).send({
+    return res.status(400).send({
       message: 'Please enter password'
     });
   }
   // checks if there is a token
   if (!resetToken) {
-    return res.status(402).send({
+    return res.status(400).send({
       message: 'Please provide a valid token'
     });
   }
@@ -179,7 +179,7 @@ exports.resetPassword = (req, res) => {
 
       // checks if the token has expired
       if (Date.now() > user.resetPassExpiry) {
-        return res.status(402).send({
+        return res.status(401).send({
           message: 'Token has expired'
         });
       }
@@ -190,7 +190,7 @@ exports.resetPassword = (req, res) => {
 
       user.save((err) => {
         if (err) {
-          return res.status(402).send({
+          return res.status(500).send({
             message: 'Database connection error. Try again'
           });
         }

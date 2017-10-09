@@ -2,7 +2,7 @@ angular.module('mean.system')
   .controller('PasswordController', ['$scope', '$http', '$routeParams', ($scope, $http, $routeParams) => {
     $scope.passMessage = 'This is password reset';
     $scope.resetLink = `${document.URL}/reset`;
-    $scope.resetMessage = 'You have requested password reset. Please click the link below';
+    $scope.resetMessage = 'You have requested password reset. Please click the link below. The link expires in 1 hour';
     $scope.email = '';
     $scope.emailSuccess = '';
     $scope.emailError = '';

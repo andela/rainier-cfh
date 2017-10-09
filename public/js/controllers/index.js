@@ -14,7 +14,7 @@ angular.module('mean.system')
             $scope.playerRegion = region;
             localStorage.setItem('region', region);
             if (play === 'guest') {
-              location.href = '/#!/choose-avatar';
+              location.href = '/#!/app';
             }
             if (play === 'strangers') {
               location.href = '/play';
@@ -27,7 +27,7 @@ angular.module('mean.system')
             $scope.playerRegion = region;
             localStorage.setItem('region', region);
             if (play === 'guest') {
-              location.href = '/#!/choose-avatar';
+              location.href = '/#!/app';
             }
             if (play === 'strangers') {
               location.href = '/play';
@@ -40,7 +40,7 @@ angular.module('mean.system')
             $scope.playerRegion = region;
             localStorage.setItem('region', region);
             if (play === 'guest') {
-              location.href = '/#!/choose-avatar';
+              location.href = '/#!/app';
             }
             if (play === 'strangers') {
               location.href = '/play';

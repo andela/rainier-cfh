@@ -59,6 +59,9 @@ color: #e53935;
   width: 30px;
   height: 30px;
 }
+.justify {
+  text-align: justify;
+}
 /* Materialize radio button style overide */
 [type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
   background: #000;

@@ -1,5 +1,5 @@
 <div ng-cloak id="cards-container" ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
-
+  
   <div id="cards" class='hand'>
 
     <span ng-show="winnerPicked()"></span>
@@ -27,7 +27,6 @@
                 <span id='selection-number' ng-show="firstAnswer($index)"> 1 </span>
                 <span id='selection-number' ng-show="secondAnswer($index)"> 2 </span>
               </div>
-
               </div>
           </span>
         </div>
@@ -43,7 +42,7 @@
           <h3>How To Play</h3>
         </div>
         <div class="container">
-          <ol id="oh-el" class="game-instructions">
+          <ol id="oh-el" class="justify" style="font-size: 1.2rem;">
             <li>Each player begins with, and will always have, 10 white answer cards.</li>
             <li>For each round, one player is randomly chosen as the Card Czar.</li>
             <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
@@ -54,7 +53,7 @@
       </div>
     </div>
     <div class="container">
-      <div id="czar-blank-container" class="col s12 l8"  style="color: #3a3a3a" class="col s12 m8" ng-show="isCzar() && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
+      <div id="czar-blank-container" style="color: #3a3a3a" class="col s12 m8" ng-show="isCzar() && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
         <div id="czar-blank-inner" class="">
           <p>
             You are the Card Czar. </br>

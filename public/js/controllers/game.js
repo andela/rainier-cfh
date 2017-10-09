@@ -1,4 +1,3 @@
-/*eslint-disable */
 angular.module('mean.system')
   .controller('GameController', ['$scope', 'socket', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
     function ($scope, socket, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {
@@ -22,7 +21,6 @@ angular.module('mean.system')
       $scope.pickedCards = [];
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
-
 
       $scope.pickCard = function (card) {
         if (!$scope.hasPickedCards) {
@@ -140,6 +138,16 @@ angular.module('mean.system')
       $scope.winnerPicked = function () {
         return game.winningCard !== -1;
       };
+      
+      $scope.customGameOwner = function () {
+        if (game.players[0] === undefined) {
+          return false;
+        }
+        if (window.user === null) {
+          return false;
+        }
+        return game.players[0].id === window.user._id;
+      }
 
       // search users to invite
       $scope.searchInviteUsers = () => {
@@ -246,11 +254,8 @@ angular.module('mean.system')
 
       $scope.startGame = () => {
         const popupModal = $('#popUpModal');
-
         if (game.players.length < game.playerMinLimit) {
-          popupModal.find('.modal-body')
-            .text('You need a minimum of 3 players to start');
-          popupModal.modal('show');
+          swal('You need a minimum of 3 players to start');
         } else {
           game.startGame();
         }

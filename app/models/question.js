@@ -28,6 +28,11 @@ const QuestionSchema = new Schema({
     type: String,
     default: '',
     trim: true
+  },
+  region: {
+    type: String,
+    default: '',
+    trim: true
   }
 });
 
@@ -41,3 +46,4 @@ QuestionSchema.statics = {
 };
 
 module.exports = mongoose.model('Question', QuestionSchema);
+

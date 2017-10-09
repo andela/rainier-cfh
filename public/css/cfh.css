@@ -587,7 +587,8 @@ th.donation {
   padding: 0px 10px;
   height: 200px;
   overflow: scroll;
-  font-size: 15px
+  font-size: 15px;
+	width: 100%;
 }
 
 .message-list-item {

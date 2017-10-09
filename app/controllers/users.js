@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const randomstring = require('randomstring');
 
 require('dotenv').config();
+const config = require('../../config/config');
 
 // authenticated route to search for users with name or username
 exports.search = (req, res) => {
@@ -204,9 +205,34 @@ exports.resetPassword = (req, res) => {
  * Auth callback
  */
 
+const getJWT = (tokenInfo, jwtSecret) => new Promise((resolve, reject) => {
+  if (tokenInfo) {
+    jwt.sign(
+      tokenInfo, jwtSecret,
+      (tokenError, generatedToken) => {
+        if (tokenError) {
+          reject(new Error(tokenError));
+        } else if (generatedToken) {
+          resolve(generatedToken);
+        } else {
+          reject(new Error('Something went wrong'));
+        }
+      }
+    );
+  } else {
+    reject(new Error('No Information Supplied'));
+  }
+});
 
-exports.authCallback = (req, res, next) => {
-  res.redirect('/chooseavatars');
+exports.authCallback = (req, res) => {
+  getJWT(req.user.name, config.app.secret)
+    .then((token) => {
+      res.cookie('cfhToken', token);
+      res.redirect('/#!/dashboard');
+    })
+    .catch((error) => {
+      res.json(error);
+    });
 };
 
 // Show login form
@@ -214,7 +240,7 @@ exports.signin = (req, res) => {
   if (!req.user) {
     res.redirect('/#!/signin?error=invalid');
   } else {
-    res.redirect('/#!/app');
+    res.redirect('/#!/signin');
   }
 };
 
@@ -268,7 +294,7 @@ exports.signup = (req, res, next) => {
           }
           req.logIn(resgisteredUser, (err) => {
             if (err) return next(err);
-            const token = jwt.sign({ resgisteredUser }, process.env.JWT_SECRET, { expiresIn: '10h' });
+            const token = jwt.sign({ resgisteredUser }, config.app.secret, { expiresIn: config.app.expiryTime });
             const user = {
               name: resgisteredUser.name,
               email: resgisteredUser.email,
@@ -351,6 +377,7 @@ exports.create = (req, res) => {
 /**
  * Sign In
  */
+
 exports.login = (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({
@@ -368,9 +395,9 @@ exports.login = (req, res) => {
       const token = jwt.sign({
         email: returnedUser.email,
         userId: returnedUser.id,
-      }, process.env.JWT_SECRET, {
-        expiresIn: '10h'
-      });
+      }, config.app.secret, {
+          expiresIn: config.app.expiryTime
+        });
       const user = {
         name: returnedUser.name,
         email: returnedUser.email,
@@ -408,7 +435,7 @@ exports.addDonation = (req, res) => {
         _id: req.user._id
       })
         .exec((err, user) => {
-        // Confirm that this object hasn't already been entered
+          // Confirm that this object hasn't already been entered
           let duplicate = false;
           for (let i = 0; i < user.donations.length; i++) {
             if (user.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {

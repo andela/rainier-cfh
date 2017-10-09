@@ -1,3 +1,4 @@
+/* eslint-disable */
 angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.directives'])
   .config(['$routeProvider',
       function($routeProvider) {
@@ -29,6 +30,14 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
                 return RedirectService.redirect();
               }
             },
+          }).
+          when('/password', {
+            templateUrl: '/views/password.html',
+            controller: 'PasswordController'
+          }).
+          when('/password/reset/:token', {
+            templateUrl: '/views/reset.html',
+            controller: 'PasswordController'
           }).
           when('/dashboard', {
             templateUrl: '/views/dashboard.html',

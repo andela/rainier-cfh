@@ -17,6 +17,8 @@ const UserSchema = new Schema({
   username: String,
   provider: String,
   avatar: String,
+  resetToken: String,
+  resetPassExpiry: String,
   premium: Number, // null or 0 for non-donors, 1 for everyone else (for now)
   donations: [],
   hashed_password: String,
@@ -77,9 +79,9 @@ UserSchema.pre('save', function (next) {
   if (!this.isNew) return next();
 
   if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1)
-    next(new Error('Invalid password'));
+    {next(new Error('Invalid password'));}
   else
-    next();
+    {next();}
 });
 
 /**
@@ -93,7 +95,7 @@ UserSchema.methods = {
   * @return {Boolean}
   * @api public
   */
-  authenticate: function (plainText) {
+  authenticate (plainText) {
     if (!plainText || !this.hashed_password) {
       return false;
     }
@@ -107,7 +109,7 @@ UserSchema.methods = {
   * @return {String}
   * @api public
   */
-  encryptPassword: function (password) {
+  encryptPassword (password) {
   if (!password) return '';
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   }

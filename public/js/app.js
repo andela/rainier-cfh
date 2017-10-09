@@ -1,7 +1,8 @@
-angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.directives'])
-  .config(['$routeProvider',
-    function ($routeProvider) {
-      $routeProvider.
+/* eslint-disable */
+angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.directives','firebase'])
+.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
         when('/', {
           templateUrl: 'views/index.html'
         }).
@@ -30,10 +31,18 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
             }
           },
         }).
-        // when('/dashboard', {
-        //   templateUrl: '/views/dashboard.html',
-        //   controller: 'DashboardCtrl'
-        // }).
+        when('/password', {
+          templateUrl: '/views/password.html',
+          controller: 'PasswordController'
+        }).
+        when('/password/reset/:token', {
+          templateUrl: '/views/reset.html',
+          controller: 'PasswordController'
+        }).
+        when('/dashboard', {
+          templateUrl: '/views/dashboard.html',
+          controller: 'DashboardCtrl'
+        }).
         when('/choose-avatar', {
           templateUrl: '/views/choose-avatar.html'
         }).
@@ -50,50 +59,50 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ui.bootstrap', 'ui.route', '
           redirectTo: '/'
         });
     }
-  ]).config(['$locationProvider',
-    function ($locationProvider) {
-      $locationProvider.hashPrefix("!");
-    }
-  ]).run(['$rootScope', function ($rootScope) {
-    $rootScope.safeApply = function (fn) {
-      var phase = this.$root.$$phase;
-      if (phase == '$apply' || phase == '$digest') {
-        if (fn && (typeof (fn) === 'function')) {
+]).config(['$locationProvider',
+  function($locationProvider) {
+    $locationProvider.hashPrefix("!");
+  }
+]).run(['$rootScope', function($rootScope) {
+$rootScope.safeApply = function(fn) {
+  var phase = this.$root.$$phase;
+  if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
           fn();
-        }
+      }
+  } else {
+      this.$apply(fn);
+    }
+  };
+}]).run(['DonationService', function (DonationService) {
+  window.userDonationCb = function (donationObject) {
+    DonationService.userDonated(donationObject);
+  };
+}]).factory('AuthService', function($q, $window) {
+  return {
+    authenticate: function () {
+      const isAuthenticated = localStorage.getItem('cfhToken');
+      if (isAuthenticated) {
+        return true;
       } else {
-        this.$apply(fn);
+        $window.location.href = '/#!/signin';
       }
-    };
-  }]).run(['DonationService', function (DonationService) {
-    window.userDonationCb = function (donationObject) {
-      DonationService.userDonated(donationObject);
-    };
-  }]).factory('AuthService', function ($q, $window) {
-    return {
-      authenticate: function () {
-        const isAuthenticated = localStorage.getItem('cfhToken');
-        if (isAuthenticated) {
-          return true;
-        } else {
-          $window.location.href = '/#!/signin';
-        }
-        return $q.reject('Not Authenticated');
-      }
+      return $q.reject('Not Authenticated');
     }
-  }).factory('RedirectService', function ($q, $window) {
-    return {
-      redirect: () => {
-        const isAuthenticated = localStorage.getItem('cfhToken');
-        if (!isAuthenticated) {
-          return true;
-        } else {
-          $window.location.href = '/#!/dashboard';
-        }
-        return $q.reject('Not Authenticated');
+  }
+}).factory('RedirectService', function($q, $window) {
+  return {
+    redirect: () => {
+      const isAuthenticated = localStorage.getItem('cfhToken');
+      if (!isAuthenticated) {
+        return true;
+      } else {
+        $window.location.href = '/#!/dashboard';
       }
+      return $q.reject('Not Authenticated');
     }
-  });
+  }
+});
 
 angular.module('mean.system', []);
 angular.module('mean.directives', []);

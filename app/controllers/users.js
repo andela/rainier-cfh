@@ -7,6 +7,8 @@ const avatars = require('./avatars').all();
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const randomstring = require('randomstring');
+
 require('dotenv').config();
 
 // authenticated route to search for users with name or username
@@ -73,6 +75,129 @@ exports.sendInviteEmail = (req, res) => {
       message: 'Email sent successfully'
     });
   });
+};
+
+exports.password = (req, res) => {
+  const { email, resetLink, resetMessage } = req.body;
+  // checks if email field is not empty
+  if (!email || email.trim() === '') {
+    return res.status(400).send({
+      message: 'Please enter a valid Email address '
+    });
+  }
+
+  // check if resetLink or resetMessage is not empty
+  if (!resetLink || !resetMessage) {
+    return res.status(400).send({
+      message: 'Something went wrong'
+    });
+  }
+
+  // check if user exist
+  User
+    .findOne({ email })
+    .exec((err, user) => {
+      if (!user) {
+        return res.status(404).send({
+          message: 'This user does not exist in our record'
+        });
+      }
+
+      const token = randomstring.generate(32); // generate password token
+      const resetLinkWithToken = `${resetLink}/${token}`;
+      const resetPassExpiry = Date.now(); // later check if token has expired
+
+      user.resetToken = token; // set user token
+      user.resetPassExpiry = resetPassExpiry + 3600000; // set user token to expire in an hour
+      user.save((err) => {
+        if (err) {
+          return res.send({
+            message: 'Database connection error. Try again'
+          });
+        }
+      });
+
+      // nodemailer transporter
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: process.env.EMAIL_PORT,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        },
+        tls: { rejectUnauthorized: false }
+      });
+      // mail content
+      const mailOptions = {
+        from: '"CFH" <noreply@CFH.com>',
+        to: email,
+        subject: 'Cfh password',
+        text: `${resetMessage}
+        ${resetLinkWithToken}`
+      };
+      // sends email
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return res.send({
+            message: 'Unable to send email something went wrong',
+            user
+          });
+        }
+
+        return res.status(200).send({
+          message: 'Email sent successfully'
+        });
+      });
+    });
+};
+
+exports.resetPassword = (req, res) => {
+  const { resetToken, password } = req.body;
+  // checks if there is a token
+  if (!password) {
+    return res.status(400).send({
+      message: 'Please enter password'
+    });
+  }
+  // checks if there is a token
+  if (!resetToken) {
+    return res.status(400).send({
+      message: 'Please provide a valid token'
+    });
+  }
+  // checks if there is a user with token
+  User
+    .findOne({ resetToken })
+    .exec((err, user) => {
+      if (!user) {
+        return res.status(404).send({
+          message: 'No User associated with this Token'
+        });
+      }
+
+      // checks if the token has expired
+      if (Date.now() > user.resetPassExpiry) {
+        return res.status(401).send({
+          message: 'Token has expired'
+        });
+      }
+      user.hashed_password = user.encryptPassword(password);
+      // clear token and expiry time
+      user.resetToken = '';
+      user.resetPassExpiry = '';
+
+      user.save((err) => {
+        if (err) {
+          return res.status(500).send({
+            message: 'Database connection error. Try again'
+          });
+        }
+        return res.status(200).send({
+          message: 'password reset successfully'
+        });
+      });
+    });
 };
 
 /**
@@ -155,22 +280,26 @@ exports.signup = (req, res, next) => {
       email: req.body.email
     }).exec((err, existingUser) => {
       if (!existingUser) {
-        const user = new User(req.body);
-        // Switch the user's avatar index to an actual avatar url
-        user.avatar = avatars[user.avatar];
-        user.provider = 'local';
-        user.save((err) => {
+        const resgisteredUser = new User(req.body);
+        // Switch the resgisteredUser's avatar index to an actual avatar url
+        resgisteredUser.avatar = avatars[resgisteredUser.avatar];
+        resgisteredUser.provider = 'local';
+        resgisteredUser.save((err) => {
           if (err) {
             return res.render('/#!/signup?error=unknown', {
               errors: err.errors,
-              user
+              resgisteredUser
             });
           }
-          req.logIn(user, (err) => {
+          req.logIn(resgisteredUser, (err) => {
             if (err) return next(err);
-            const token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '10h' });
-
-            res.status(200).json({
+            const token = jwt.sign({ resgisteredUser }, process.env.JWT_SECRET, { expiresIn: '10h' });
+            const user = {
+              name: resgisteredUser.name,
+              email: resgisteredUser.email,
+              avatar: resgisteredUser.avatar,
+            };
+            res.status(201).json({
               token,
               user
             });
@@ -254,27 +383,31 @@ exports.login = (req, res) => {
       message: 'All Fields are required'
     });
   }
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (user) {
-      const passwordMatched = bcrypt.compareSync(req.body.password, user.hashed_password);
+  User.findOne({ email: req.body.email }, (err, returnedUser) => {
+    if (returnedUser) {
+      const passwordMatched = bcrypt.compareSync(req.body.password, returnedUser.hashed_password);
       if (!passwordMatched) {
         return res.status(401).send({
           error: 'Email or password incorrect',
         });
       }
       const token = jwt.sign({
-        email: user.email,
-        userId: user.id,
+        email: returnedUser.email,
+        userId: returnedUser.id,
       }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRY_TIME
       });
-      res.send({
+      const user = {
+        name: returnedUser.name,
+        email: returnedUser.email,
+        id: returnedUser._id,
+      };
+      return res.send({
         user,
         token
       });
-    } else {
-      return res.status(401).send({ error: 'Email or password incorrect' });
     }
+    return res.status(401).send({ error: 'Email or password incorrect' });
   });
 };
 

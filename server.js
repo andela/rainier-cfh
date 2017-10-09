@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+const GitHubStrategy = require('passport-github2').Strategy;
 const path = require('path');
 require('dotenv').config();
 const express = require('express'),

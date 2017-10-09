@@ -177,7 +177,7 @@ gulp.task('default', [
   'jquery',
   'underscore',
   'angularUtils',
-  'angular-bootstrap'
+  'angular-bootstrap',
 ]);
 
 gulp.task('build', [

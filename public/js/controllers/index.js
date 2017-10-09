@@ -1,6 +1,7 @@
 /* global angular */
 /* global $ */
 /* global localStorage */
+
 angular.module('mean.system')
   .controller('IndexController', ['$scope', 'Global', '$cookieStore', '$cookies', '$location', '$http', '$window', 'socket', 'game', 'AvatarService', function ($scope, Global, $cookieStore, $cookies, $location, $http, $window, socket, game, AvatarService) {
     $scope.global = Global;
@@ -32,38 +33,31 @@ angular.module('mean.system')
       .then((data) => {
         $scope.avatars = data;
       });
-    $scope.storeData = (response) => {
-      localStorage.setItem('cfhToken', response.token);
-      localStorage.setItem('cfhUser', JSON.stringify(response.user));
-      $window.location.href = '/#!/dashboard';
-    }
-    $scope.signin = (userInput) => {
-      $scope.error = '';
-      $http.post('/api/auth/login', userInput)
-        .success((response) => {
-          $scope.storeData(response);
-        })
-        .error((error) => {
-          $scope.error = error.error;
-          $rootScope.authenticated = false;
-        });
-    };
+      $scope.storeData = (response) => {
+        localStorage.setItem('cfhToken', response.token);
+        localStorage.setItem('cfhUser', JSON.stringify(response.user));
+        $window.location.href='/#!/dashboard';
+      }
+      $scope.signin = (userInput) => {
+        $scope.error = '';
+       $http.post('/api/auth/login', userInput)
+       .success((response) => {
 
-    $scope.signin = (userInput) => {
-      $scope.error = '';
-      $http.post('/api/auth/login', userInput)
-        .success((response) => {
-          if (response.token) {
-            window.localStorage.setItem('cfhToken', response.token);
-            $rootScope.authenticated = true;
-            $window.location.href = '/#!/dashboard';
-          }
-        })
-        .error((error) => {
-          $scope.error = error.error;
-          $rootScope.authenticated = false;
-        });
-    };
+        if(response.token) {
+          window.localStorage.setItem('cfhToken', response.token);
+          window.localStorage.setItem('cfhuser', response.user.name);
+          $rootScope.authenticated = true;
+          $window.location.href = '/#!/dashboard';
+        }
+
+        $scope.storeData(response);
+       })
+       .error((error) => {
+        $scope.error = error.error;
+        $rootScope.authenticated = false;
+       });
+      };
+
 
     $scope.validateInput = (userInput) => {
       const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -93,7 +87,16 @@ angular.module('mean.system')
       if (validation) {
         $http.post('/api/auth/signup', userInput)
           .success((response) => {
+
+            console.log(response);
+            if (response.token) {
+              window.localStorage.setItem('cfhToken', response.token);
+              window.localStorage.setItem('cfhuser',response.user.username);
+              $window.location.href='/#!/dashboard';
+            }
+
             $scope.storeData(response);
+
           })
           .error((error) => {
             $scope.error = error.error;

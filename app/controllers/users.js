@@ -352,7 +352,7 @@ exports.create = (req, res) => {
         const user = new User(req.body);
         // Switch the user's avatar index to an actual avatar url
         user.avatar = avatars[user.avatar];
-        user.provider = '`loc`al';
+        user.provider = 'local';
         user.save((err) => {
           if (err) {
             return res.render('/#!/signup?error=unknown', {

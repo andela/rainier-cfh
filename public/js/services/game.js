@@ -1,4 +1,3 @@
-/*eslint-disable */
 angular.module('mean.system')
   .factory('game', ['socket', '$timeout', '$http','$firebaseArray', function (socket, $timeout, $http,$firebaseArray) {
   var game = {
@@ -230,7 +229,6 @@ angular.module('mean.system')
   };
 
   game.startGame = function() {
-    //console.log(game);
     socket.emit('startGame');
 
   };
@@ -249,13 +247,6 @@ angular.module('mean.system')
   game.pickWinning = function(card) {
     socket.emit('pickWinning',{card: card.id});
   };
-
-  // game.messages = function(){
-  //   var messagesRef = firebase.database().ref('messages')
-    
-  //   return $firebaseArray(messagesRef);
-  //   console.log('game messages touched')
-  // }
 
   decrementTime();
 

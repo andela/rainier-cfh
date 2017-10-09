@@ -1,4 +1,3 @@
-/* eslint-disable */
 const Game = require('./game');
 const Player = require('./player');
 require('console-stamp')(console, 'm/dd HH:MM:ss');
@@ -6,8 +5,7 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
 const firebase = require('firebase');
-const fbref = require('../firebase/firebase.js');
-// var admin = require('firebase-admin');
+
 
 const avatars = require(`${__dirname}/../../app/controllers/avatars.js`).all();
 // Valid characters to use to generate random private game IDs

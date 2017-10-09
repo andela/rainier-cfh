@@ -225,7 +225,7 @@ const getJWT = (tokenInfo, jwtSecret) => new Promise((resolve, reject) => {
 });
 
 exports.authCallback = (req, res) => {
-  getJWT(req.user.name, config.app.secret)
+  getJWT(req.user.name, process.env.JWT_SECRET)
     .then((token) => {
       res.cookie('cfhToken', token);
       res.redirect('/#!/dashboard');
@@ -294,7 +294,7 @@ exports.signup = (req, res, next) => {
           }
           req.logIn(resgisteredUser, (err) => {
             if (err) return next(err);
-            const token = jwt.sign({ resgisteredUser }, config.app.secret, { expiresIn: config.app.expiryTime });
+            const token = jwt.sign({ resgisteredUser }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY_TIME });
             const user = {
               name: resgisteredUser.name,
               email: resgisteredUser.email,
@@ -395,8 +395,8 @@ exports.login = (req, res) => {
       const token = jwt.sign({
         email: returnedUser.email,
         userId: returnedUser.id,
-      }, config.app.secret, {
-          expiresIn: config.app.expiryTime
+      }, process.env.JWT_SECRET, {
+          expiresIn: process.env.JWT_EXPIRY_TIME
         });
       const user = {
         name: returnedUser.name,

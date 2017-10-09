@@ -3,23 +3,35 @@
   <div id="cards" class='hand'>
 
     <span ng-show="winnerPicked()"></span>
-
-    <div ng-style="{'cursor':'pointer'}" class="card smallest" id='answers' ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
-    ng-repeat="card in game.players[game.playerIndex].hand" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
-        <span ng-bind-html-unsafe="card.text"></span>
-        <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
-        <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
-    </div>
-
-    <span ng-repeat="answer in game.table">
-        <div class="card smallest" ng-style="pointerCursorStyle()" id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
-        ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}" style="background-color:{{winningColor($parent.$index)}}">
+      <div class="container">
+        <div class="col s12 l8">
+          <div ng-style="{'cursor':'pointer'}" class="card col s6 m3 l2" id='answers' ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
+          ng-repeat="card in game.players[game.playerIndex].hand track by $index" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
+          <div class="">
             <span ng-bind-html-unsafe="card.text"></span>
-            <span id='selection-number' ng-show="firstAnswer($index)"> 1 </span>
-            <span id='selection-number' ng-show="secondAnswer($index)"> 2 </span>
-        </div>
-    </span>
+          </div>
+          <div class="">
+            <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
+            <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
+          </div>
 
+          </div>
+
+          <span ng-repeat="answer in game.table track by $index">
+              <div class="card smallest" ng-style="pointerCursorStyle()" id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
+              ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}" style="background-color:{{winningColor($parent.$index)}}">
+              <div class="">
+                <span ng-bind-html-unsafe="card.text"></span>
+              </div>
+              <div class="">
+                <span id='selection-number' ng-show="firstAnswer($index)"> 1 </span>
+                <span id='selection-number' ng-show="secondAnswer($index)"> 2 </span>
+              </div>
+
+              </div>
+          </span>
+        </div>
+      </div>
   </div>
 </div>
 
@@ -52,6 +64,7 @@
           </p>
         </div>
       </div>
+
     </div>
 
     <div class="col s12 l4" id="social-bar-container"  ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
@@ -65,14 +78,14 @@
 
 <div class="row">
   <div class="container">
-    <div id='charity-fact-container'>
+    <div id='charity-fact-container' class="col s12 l8">
       <div id='charity-fact-tagline'>
         <h4 class="center game-section-header">
           Did you know?
         </h4>
       </div>
 
-      <div id='charity-fact'>
+      <div id='charity-fact' class="container game-instructions space-beneath" style="font-size: 1.2rem;">
          {{ makeAWishFact }}
       </div>
 
@@ -96,31 +109,36 @@
         <h4 class="game-section-header">What would you like to do now?</h4>
         Help yourself to another game or help a child in need? Donating will also place a lovely crown on your avatar's head.
       </div>
-      <div class="game-end-btn-wrapper">
-        <div id="join-new-game" ng-click="game.joinGame('joinNewGame')" class="col s12 m6 center game-end-btn">
-          <a href='/#!/app' class="btn black center">
-            Join a New Game
-          </a>
-        </div>
-          <div id="exit-match" class="col s12 m6 center game-end-btn">
-            <a href='/' class="btn black center">
-              Return to Lobby
-            </a>
+      <div class="col s12">
+        <div class="game-end-btn-wrapper">
+          <div class=" col s12 m8">
+            <div id="join-new-game" ng-click="game.joinGame('joinNewGame')" class="col s12 center game-end-btn">
+              <a href='/#!/app' class="btn black center">
+                Join a New Game
+              </a>
+            </div>
+            <div id="exit-match" class="col s12 center game-end-btn">
+              <a href='/' class="btn black center">
+                Return to Lobby
+              </a>
+            </div>
           </div>
+          <div class="col s12 m4 center">
+            <!-- This is real -->
+            <a href="http://www.crowdrise.com" id="crowdriseStaticLink-fundraiser-121142" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a>
+            <script type="text/javascript" src="https://www.crowdrise.com/widgets/donate/fundraiser/121142/?callback=userDonationCb"></script>
+            <!-- This is for testing -->
+            <!-- <a href="http://www.crowdrise.com" id="crowdriseStaticLink-project-36715" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a> -->
+            <!-- <script type="text/javascript" src="https://apisandbox.crowdrise.com/widgets/donate/project/36715/?callback=userDonationCb"></script> -->
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="container center">
-      <div class="col s12">
-        <!-- This is real -->
-        <a href="http://www.crowdrise.com" id="crowdriseStaticLink-fundraiser-121142" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a>
-        <script type="text/javascript" src="https://www.crowdrise.com/widgets/donate/fundraiser/121142/?callback=userDonationCb"></script>
-        <!-- This is for testing -->
-        <!-- <a href="http://www.crowdrise.com" id="crowdriseStaticLink-project-36715" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a> -->
-        <!-- <script type="text/javascript" src="https://apisandbox.crowdrise.com/widgets/donate/project/36715/?callback=userDonationCb"></script> -->
-      </div>
+
     </div>
   </div>
 </div>

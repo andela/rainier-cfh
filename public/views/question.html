@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div class="col s12 m4 center modal-trigger" ng-show="(game.playerIndex === 0 || game.joinOverride)" href="#searchModal"
+      <div class="col s12 m4 center modal-trigger" ng-show="(game.playerIndex === 0 || game.joinOverride)" href="#modal1"
         style="border: 1px solid #bbbbbb;padding: 20px; border-radius: 4px; height: 60px; cursor: pointer;">
         Invite people to join
       </div>
@@ -96,10 +96,20 @@
     </div>
   </div>
 </div>
-<!--Error modal for users trying to start a game with less than 3 or greater than 12 players -->
-<div id="popUpModal" class="modal">
-  <!-- Modal content-->
+
+<div id="modal1" class="modal">
   <div class="modal-content">
+    <h4>Modal Header</h4>
+    <p>A bunch of text</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+  </div>
+</div>
+<!--Error modal for users trying to start a game with less than 3 or greater than 12 players -->
+<!-- <div id="popUpModal" class="modal">
+  <!-- Modal content-->
+ <!-- <div class="modal-content">
     <div class="modal-footer">
       <i class="material-icons modal-close">close</i>
     </div>
@@ -109,9 +119,9 @@
     </div>
   </div>
   
-</div>
+</div> -->
 <!-- Modal to search and invite other users -->
-<div id="searchModal" class="modal">
+<!-- <div id="searchModal" class="modal">
   <div class="modal-content">
     <div class="modal-footer">
       <i class="material-icons modal-close">close</i>
@@ -159,4 +169,4 @@
 
     </div>
   </div>
-</div>
+</div> -->

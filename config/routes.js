@@ -15,6 +15,8 @@ module.exports = (app, passport, auth) => {
   app.get('/signout', users.signout);
   app.post('/api/search/users', users.search);
   app.post('/api/invite/send', users.sendInviteEmail);
+  app.post('/api/user/password', users.password);
+  app.post('/api/user/password/reset', users.resetPassword);
 
   // Setting up the users api
   app.post('/api/auth/signup', users.signup);

@@ -7,6 +7,8 @@ const avatars = require('./avatars').all();
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const randomstring = require('randomstring');
+
 require('dotenv').config();
 
 // authenticated route to search for users with name or username
@@ -53,7 +55,7 @@ exports.sendInviteEmail = (req, res) => {
       pass: process.env.EMAIL_PASS
     },
     tls: { rejectUnauthorized: false }
- });
+  });
 
   const mailOptions = {
     from: '"CFH" <invite@CFH.com',
@@ -73,6 +75,129 @@ exports.sendInviteEmail = (req, res) => {
       message: 'Email sent successfully'
     });
   });
+};
+
+exports.password = (req, res) => {
+  const { email, resetLink, resetMessage } = req.body;
+  // checks if email field is not empty
+  if (!email || email.trim() === '') {
+    return res.status(400).send({
+      message: 'Please enter a valid Email address '
+    });
+  }
+
+  // check if resetLink or resetMessage is not empty
+  if (!resetLink || !resetMessage) {
+    return res.status(400).send({
+      message: 'Something went wrong'
+    });
+  }
+
+  // check if user exist
+  User
+    .findOne({ email })
+    .exec((err, user) => {
+      if (!user) {
+        return res.status(404).send({
+          message: 'This user does not exist in our record'
+        });
+      }
+
+      const token = randomstring.generate(32); // generate password token
+      const resetLinkWithToken = `${resetLink}/${token}`;
+      const resetPassExpiry = Date.now(); // later check if token has expired
+
+      user.resetToken = token; // set user token
+      user.resetPassExpiry = resetPassExpiry + 3600000; // set user token to expire in an hour
+      user.save((err) => {
+        if (err) {
+          return res.send({
+            message: 'Database connection error. Try again'
+          });
+        }
+      });
+
+      // nodemailer transporter
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: process.env.EMAIL_PORT,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        },
+        tls: { rejectUnauthorized: false }
+      });
+      // mail content
+      const mailOptions = {
+        from: '"CFH" <noreply@CFH.com>',
+        to: email,
+        subject: 'Cfh password',
+        text: `${resetMessage}
+        ${resetLinkWithToken}`
+      };
+      // sends email
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return res.send({
+            message: 'Unable to send email something went wrong',
+            user
+          });
+        }
+
+        return res.status(200).send({
+          message: 'Email sent successfully'
+        });
+      });
+    });
+};
+
+exports.resetPassword = (req, res) => {
+  const { resetToken, password } = req.body;
+  // checks if there is a token
+  if (!password) {
+    return res.status(400).send({
+      message: 'Please enter password'
+    });
+  }
+  // checks if there is a token
+  if (!resetToken) {
+    return res.status(400).send({
+      message: 'Please provide a valid token'
+    });
+  }
+  // checks if there is a user with token
+  User
+    .findOne({ resetToken })
+    .exec((err, user) => {
+      if (!user) {
+        return res.status(404).send({
+          message: 'No User associated with this Token'
+        });
+      }
+
+      // checks if the token has expired
+      if (Date.now() > user.resetPassExpiry) {
+        return res.status(401).send({
+          message: 'Token has expired'
+        });
+      }
+      user.hashed_password = user.encryptPassword(password);
+      // clear token and expiry time
+      user.resetToken = '';
+      user.resetPassExpiry = '';
+
+      user.save((err) => {
+        if (err) {
+          return res.status(500).send({
+            message: 'Database connection error. Try again'
+          });
+        }
+        return res.status(200).send({
+          message: 'password reset successfully'
+        });
+      });
+    });
 };
 
 /**

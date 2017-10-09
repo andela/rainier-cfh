@@ -1,6 +1,7 @@
 /* global angular */
 /* global $ */
 /* global localStorage */
+
 angular.module('mean.system')
   .controller('IndexController', ['$scope', 'Global', '$rootScope', '$http', '$window', '$location', 'socket', 'game', 'AvatarService', function ($scope, Global, $rootScope, $http, $window, $location, socket, game, AvatarService) {
     $scope.global = Global;

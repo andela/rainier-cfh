@@ -3,6 +3,8 @@ require('dotenv').config();
 module.exports = {
   app: {
     name: 'Cards for Humanity - Development',
+    secret: process.env.JWT_SECRET,
+    expiryTime: process.env.JWT_EXPIRY_TIME
   },
   facebook: {
     clientID: process.env.FACEBOOK_CLIENT_ID,

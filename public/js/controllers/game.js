@@ -1,8 +1,10 @@
+/* eslint-disable */
 angular.module('mean.system')
   .controller('GameController', ['$scope', 'socket', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
     function ($scope, socket, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {
 
       $scope.messageSender = '';
+      $scope.checked = false;
       $scope.messagebody = '';
       $scope.searchText = '';
       $scope.messages = [];
@@ -21,7 +23,6 @@ angular.module('mean.system')
       $scope.pickedCards = [];
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
-
       $scope.pickCard = function (card) {
         if (!$scope.hasPickedCards) {
           if ($scope.pickedCards.indexOf(card.id) < 0) {
@@ -138,7 +139,7 @@ angular.module('mean.system')
       $scope.winnerPicked = function () {
         return game.winningCard !== -1;
       };
-      
+
       $scope.customGameOwner = function () {
         if (game.players[0] === undefined) {
           return false;

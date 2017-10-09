@@ -1,7 +1,6 @@
 <div id="question-container-inner">
   <div class="questionBox" style="clear: both">
-    <span class="question" ng-bind-html-unsafe="game.curQuestion.text"
-      ng-hide="game.state === 'game ended' || game.state ==='game dissolved' ||
+    <span class="question" ng-bind-html-unsafe="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' ||
       game.state === 'awaiting players'">
     </span>
 
@@ -116,7 +115,7 @@
     <div class="modal-footer">
       <i class="material-icons modal-close">close</i>
     </div>
-    <h4>Cards for humanity</h4>
+    <h5>Search for Users</h5>
     <form ng-submit="searchInviteUsers()">
       <div class="input-field">
         <input type="search" ng-change="searchInviteUsers()" ng-model="searchText" id="search" placeholder="Search for friends" required>
@@ -128,26 +127,24 @@
       No users found
     </div>
     <div class="text-center #00c851 green accent-4 white-text" ng-show="sentEmailInvite">
-      Email invites successfully sent
     </div>
 
     <div ng-show='searchedUsers.length'>
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col s6">
           <ul>
             <li class="text-large" ng-repeat='user in searchedUsers'>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" ng-click="addUserInvite(user.name,user.email)" value="user.email" ng-checked="checkUserIsInvited(user.email)"> {{user.name}}
-                </label>
-              </div>
+              <p ng-click="addUserInvite(user.name,user.email)" >
+                <input type="checkbox" value="user.email"/>
+                <label> {{user.name}}</label>
+              </p>
             </li>
           </ul>
           <br>
 
         </div>
 
-        <div class="col-sm-6">
+        <div class="col s6">
           <p ng-show="inviteUsers.length" class="text-danger">Players to be invited</p>
           <ul>
             <li ng-repeat="inviteUser in inviteUsers">{{inviteUser.name}}</li>
@@ -159,3 +156,6 @@
     </div>
   </div>
 </div>
+<script>
+  $('.modal').modal();
+</script>

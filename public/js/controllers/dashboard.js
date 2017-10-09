@@ -1,48 +1,55 @@
 (() => {
-  /**
-  * angular
-  * Description: Angular
-  */
   angular.module('mean.system')
-  /**
-  * DashboardCtrl
-  * Description: sets up a controller
-  */
-  .controller('DashboardCtrl', ['$scope', '$http', 'game', '$location',
-    function ($scope, $http, game, $location) {
-      // user stats is an array of object
+  .controller('DashboardCtrl', ['$scope', '$http', 'game', 'history', '$window', '$location',
+    function ($scope, $http, game, history, $window, $location) {
+
+      $scope.user = JSON.parse($window.localStorage.getItem('cfhUser'));
+      $scope.username = $scope.user.username.substr(0,1).toUpperCase().concat($scope.user.username.substr(1));
+
       $scope.stats = [];
-      // user starts with a default level of zero
-      $scope.level = 0;
-      // Maximum level attainable
-      $scope.maxLevel = 15;
 
-      // Todo: implement the endpoint that serves userData
-      //User Data
+      
+      if ($window.localStorage.cfhToken || window.user) {
+        const onGameHistoryRes = (data) => {
+          if (data === null) {
+            $scope.gameLogs = [];
+            return $scope.gameLogs;
+          }
+          $scope.gameLogs = data;
+          return $scope.gameLogs;
+        }
 
-      // implementation details for user data fetching error
-      const onUserError = (reason) => {
-        $scope.userError = 'An error occured fetching your data';
+        const onGameHistoryError = (err) => {
+          $scope.gameHistoryError = 'An error occured while fetching your history';
+        }
+        history.getGameHistory()
+          .then(onGameHistoryRes, onGameHistoryError);
+
+        history.getGameLeaderboard()
+          .then((gameLogs) => {
+            const leaderboard = [];
+            const players = {};
+            gameLogs.forEach((gameLog) => {
+              const numOfWins = players[gameLog.gameWinner];
+              if (numOfWins) {
+                players[gameLog.gameWinner] += 1;
+              } else {
+                players[gameLog.gameWinner] = 1;
+              }
+            });
+            Object.keys(players).forEach((key) => {
+              leaderboard.push({ username: key, numberOfWins: players[key] });
+            });
+            $scope.leaderboard = leaderboard;
+          });
+        
+        history.userDonations()
+          .then((userDonations) => {
+            $scope.userDonations = userDonations.donations;
+          });
       }
-      const userRes = (response) => {
-        $scope.user = response.data;
-      }
-      $http.get('/userData').then(userRes, onUserError);
-
-      // Todo: implement the endpoint that serves userStats
-      //User Stats
-      // implementation details of user stats promise
-      const statsRes = (response) => {
-        $scope.stats = response.data;
-      }
-      // implementation details of stats error
-      const onStatsError = (reason) => {
-        $scope.statsError = 'An error occured fetching your stats'
-      }
-
-      $http.get('/userStats').then(statsRes, onStatsError);
-
-      // Todo: write algorithm for calculating user rating and level
+   
+      // Todo: write algorithm for generating user stats, calculating user rating and level
       // $scope.getLevel = () => {
       //   const level = 0;
       //   const winRatio = 0;
@@ -70,19 +77,20 @@
       //     }
       //   }
       // }
-
-      //  $scope.user[level] = getLevel(),
-      //  $scopr.user[rating] =  getRating()
+      $scope.progressMessage = "loading...."
+      $scope.spinner = true;
 
       $scope.nextStat = () => {
         if ($scope.stats.length > 8) {
           return true;
         }
       }
-      
-      // Add modal
-      $('.modal').modal();
 
+      $scope.level = 0;
+
+      $scope.maxLevel = 15;
+
+      
     }
   ]);
 })();

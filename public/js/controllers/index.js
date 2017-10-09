@@ -32,15 +32,18 @@ angular.module('mean.system')
         $scope.error = '';
        $http.post('/api/auth/login', userInput)
        .success((response) => {
-
         if(response.token) {
-          window.localStorage.setItem('cfhToken', response.token);
-          window.localStorage.setItem('cfhuser', response.user.name);
+          localStorage.setItem('cfhToken', response.token);
+          const userData = {
+            userId: response.user._id,
+            username: response.user.name,
+            email: response.user.email,
+            donation: response.user.donation
+          }
+          localStorage.setItem('cfhUser', JSON.stringify(userData));
           $rootScope.authenticated = true;
           $window.location.href = '/#!/dashboard';
         }
-
-        $scope.storeData(response);
        })
        .error((error) => {
         $scope.error = error.error;
@@ -76,16 +79,18 @@ angular.module('mean.system')
         if (validation) {
           $http.post('/api/auth/signup', userInput)
           .success((response) => {
-
-            console.log(response);
             if (response.token) {
-              window.localStorage.setItem('cfhToken', response.token);
-              window.localStorage.setItem('cfhuser',response.user.username);
-              $window.location.href='/#!/dashboard';
-            }
-
-            $scope.storeData(response);
-
+              $window.localStorage.setItem('cfhToken', response.token);
+                const userData = {
+                  userId: response.user._id,
+                  username: response.user.name,
+                  email: response.user.email,
+                  donation: response.user.donation
+                }
+                localStorage.setItem('cfhUser', JSON.stringify(userData));
+                $rootScope.authenticated = true;
+                $window.location.href = '/#!/dashboard';
+              }
           })
           .error((error) => {
             $scope.error = error.error;
@@ -94,8 +99,7 @@ angular.module('mean.system')
       };
 
     $scope.signout = () => {
-      localStorage.removeItem('cfhToken');
-      localStorage.removeItem('cfhUser');
+      localStorage.clear();
       $window.location.href='/#!/signin';
     };
 }]);

@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const randomstring = require('randomstring');
-// const { transporter } = require('../../config/nodemailer');
+
 require('dotenv').config();
 
 // authenticated route to search for users with name or username
@@ -139,7 +139,6 @@ exports.password = (req, res) => {
       // sends email
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          // console.log(error);
           return res.send({
             message: 'Unable to send email something went wrong',
             user

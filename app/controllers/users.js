@@ -299,6 +299,8 @@ exports.signup = (req, res, next) => {
               name: resgisteredUser.name,
               email: resgisteredUser.email,
               avatar: resgisteredUser.avatar,
+              id: resgisteredUser._id,
+              donations: resgisteredUser.donations,
             };
             res.status(201).json({
               token,
@@ -396,12 +398,14 @@ exports.login = (req, res) => {
         email: returnedUser.email,
         userId: returnedUser.id,
       }, process.env.JWT_SECRET, {
-          expiresIn: process.env.JWT_EXPIRY_TIME
-        });
+        expiresIn: process.env.JWT_EXPIRY_TIME
+      });
       const user = {
         name: returnedUser.name,
         email: returnedUser.email,
         id: returnedUser._id,
+        donations: returnedUser.donations,
+        avatar: returnedUser.avatar,
       };
       return res.send({
         user,

@@ -5,15 +5,18 @@
 
       const user = JSON.parse($window.localStorage.getItem('cfhUser'));
       const firstName = user.name.split(' ')[0];
-      $scope.username = firstName.substr(0, 1).toUpperCase().concat(user.name.substr(1));
+      $scope.username = firstName.substr(0, 1).toUpperCase().concat(firstName.substr(1));
 
-      $scope.getEmail = () => {
+      const getEmail = () => {
         if (user.email) {
-          return $scope.email;
+          return user.email;
         }
-        $scope.email = 'No email supplied';
-        return $scope.email;
-      }
+        user.email = 'No email supplied';
+        return user.email;
+      };
+      $scope.email = getEmail();
+
+      $scope.avatar = user.avatar;
 
       $scope.stats = [];
 

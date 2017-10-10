@@ -229,7 +229,7 @@ Game.prototype.stateEndGame = function(winner) {
   const gamePlayers = this.players.map(player => player.username);
   this.sendUpdate();
   const saveGameData = {
-    gameID,
+    gameID: this.gameID,
     gameRound: this.round,
     gameWinner: this.players[winner].username,
     gamePlayers,

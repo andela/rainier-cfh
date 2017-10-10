@@ -43,16 +43,7 @@ angular.module('mean.system')
        $http.post('/api/auth/login', userInput)
        .success((response) => {
         if(response.token) {
-          localStorage.setItem('cfhToken', response.token);
-          const userData = {
-            userId: response.user._id,
-            username: response.user.name,
-            email: response.user.email,
-            donation: response.user.donation
-          }
-          localStorage.setItem('cfhUser', JSON.stringify(userData));
           $rootScope.authenticated = true;
-          $window.location.href = '/#!/dashboard';
         }
        })
        .error((error) => {
@@ -92,12 +83,6 @@ angular.module('mean.system')
           .success((response) => {
             if (response.token) {
               $window.localStorage.setItem('cfhToken', response.token);
-                const userData = {
-                  userId: response.user._id,
-                  username: response.user.name,
-                  email: response.user.email,
-                  donation: response.user.donation
-                }
                 localStorage.setItem('cfhUser', JSON.stringify(userData));
                 $rootScope.authenticated = true;
                 $window.location.href = '/#!/dashboard';

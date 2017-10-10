@@ -1,7 +1,10 @@
+/* eslint-disable */
 angular.module('mean.system')
   .controller('GameController', ['$scope', 'socket', '$http', 'game', '$timeout', '$location', 'MakeAWishFactsService', '$dialog',
     function ($scope, socket, $http, game, $timeout, $location, MakeAWishFactsService, $dialog) {
+
       $scope.messageSender = '';
+      $scope.checked = false;
       $scope.messagebody = '';
       $scope.searchText = '';
       $scope.messages = [];
@@ -20,7 +23,6 @@ angular.module('mean.system')
       $scope.pickedCards = [];
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
-
       $scope.pickCard = function (card) {
         if (!$scope.hasPickedCards) {
           if ($scope.pickedCards.indexOf(card.id) < 0) {
@@ -40,7 +42,7 @@ angular.module('mean.system')
         }
       };
 
-     socket.on('loadChat', (messages) => {
+      socket.on('loadChat', (messages) => {
         $scope.chatLoading = false;
         $scope.messages = messages;
         $scope.scrollNow();
@@ -137,7 +139,7 @@ angular.module('mean.system')
       $scope.winnerPicked = function () {
         return game.winningCard !== -1;
       };
-      
+
       $scope.customGameOwner = function () {
         if (game.players[0] === undefined) {
           return false;
@@ -184,7 +186,6 @@ angular.module('mean.system')
 
         return false;
       };
-
       // send invite to users//
       $scope.sendInvite = () => {
         const gameLink = document.URL;
@@ -207,7 +208,7 @@ angular.module('mean.system')
         // const newMessage = chatBox.children('li:last-child');
         const scrollTop = chatBox.prop('scrollTop');
         const scrollHeight = chatBox.prop('scrollHeight');
-        
+
 
         return {
           chatBox,
@@ -224,7 +225,7 @@ angular.module('mean.system')
       };
 
       // toggles the chat box
-      $scope.toggleMessage =  () => {
+      $scope.toggleMessage = () => {
         if ($scope.showMsgBody == true) {
           $scope.showMsgBody = false;
         } else if ($scope.showMsgBody == false) {
@@ -232,12 +233,12 @@ angular.module('mean.system')
         }
       };
 
-      $scope.sendMessage = () => {
+      $scope.sendMessage = (message) => {
         $scope.sender = game.players[game.playerIndex];
 
         const newMessage = {
           sender: $scope.sender.username,
-          body: $scope.messageBody,
+          body: message,
           avatar: $scope.sender.avatar,
           game: game.gameID,
           timeSent: new Date(Date.now()).toLocaleTimeString({
@@ -248,8 +249,6 @@ angular.module('mean.system')
         $scope.messages.push(newMessage);
         $scope.scrollNow();
         socket.emit('new message', newMessage);
-
-        $scope.messageBody = '';
       };
 
       $scope.checkUserIsInvited = (email) => $scope.inviteUsers.includes(email);
@@ -263,7 +262,7 @@ angular.module('mean.system')
         }
       };
 
-    $scope.abandonGame = function () {
+      $scope.abandonGame = function () {
         game.leaveGame();
         $location.path('/dashboard');
       };
@@ -338,4 +337,5 @@ angular.module('mean.system')
         console.log(game);
         game.joinGame();
       }
-    }]);
+    }
+  ]);

@@ -317,43 +317,54 @@ angular.module('mean.system')
 
       $scope.IntroOptions = {
         steps:[
-        {
+          {
+            element: 'body',
+            intro: `<h6 style='color: maroon; font-weight: 900'>Welcome to Cards For Humanity</h6>`
+          },
+          {
             element: '#start-game-button',
-            intro: 'Click to start game with at least 3 people',
-        },
-        {
+            intro: '<p>Click to start game with at least 3 people<p>',
+          },
+          {
             element: '#invite',
-            intro: "Invite your friends to join. The more, the merrier",
+            intro: `<p>Invite your friends to join. The more, the merrier</p>`,
             position: 'bottom'
-        },
-        {
-            element: document.querySelector('#abandon-game-button'),
-            intro: "Played enough? Click here to leave game when at any point",
-        },
-        {
+          },
+          {
+            element: '#abandon-game-button',
+            intro: `<p>Played enough?</p>
+              <p>Click here to leave game when at any point<p>`,
+          },
+          {
             element: '#timer-container',
-            intro: 'This is the game timer. Submit your answers before it runs out.'
-        },
-        {
+            intro: `<p>This is the game timer.<p>
+              <p>Submit your answers before it runs out.</p>`
+          },
+          {
             element: '#question-container-outer',
-            intro: 'The question for each round shows up here.'
-        },
-        {
+            intro: '<p>The question for each round shows up here.</p>'
+          },
+          {
             element: '#social-bar-container',
-            intro: 'Game participant avatars.'
-        },
-        {
+            intro: '<p>Game participant avatars.</p>'
+          },
+          {
             element: '#inner-info',
-            intro: 'Game instructions.'
-        },
-        {
+            intro: '<p>Game instructions.</p>'
+          },
+          {
             element: '#chat-box',
-            intro: 'Chat with other players with the game chat.'
-        },
-        {
+            intro: '<p>Chat with other players with the game chat.</p>'
+          },
+          {
             element: '#donate-btn',
-            intro: 'Be a do-gooder. Support the cause.'
-        }
+            intro: '<p>Be a do-gooder. Support the cause.</p>'
+          },
+          {
+            element: 'body',
+            intro: `<h5>That's it.</h5>
+              <p>Click <em>'Done'</em> to end tour </p>.`
+          }
         ],
 
         showStepNumbers: false,
@@ -362,7 +373,7 @@ angular.module('mean.system')
         exitOnEsc:true,
         nextLabel: '<span style="color:green">Next</span>',
         prevLabel: '<span style="color:green">Previous</span>',
-        skipLabel: 'Exit',
+        skipLabel: '<span style="color:red">Skip</span>',
         doneLabel: 'Done'
     };
 

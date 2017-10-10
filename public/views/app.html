@@ -1,11 +1,20 @@
 <div id="app-container" ng-controller="GameController">
   <header>
-    <div class="navbar-fixed center">
+    <div class="navbar-fixed">
       <nav class="main-header white cfh-logo-header">
         <div class="container nav-wrapper">
           <a href="/#!" class="cfh-logo black-text">
             <img src="img/cfh-logo.png" alt="cfh-logo"/>
           </a>
+          <ul class="nav-list right hide-on-med-and-down">
+            <li class="nav-item"><a href="#!/dashboard" class="modal-trigger" >Dasboard</a></li>
+            <li class="nav-item"><a 
+              target="_blank"
+              href="https://www.crowdrise.com/donate/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Flocalhost%3A3000%2F%23!%2F&stylesheet=&amounts=">
+              <button class="btn brand-btn brand-btn-donate">Donate</button></a>
+            </li>
+          </ul>
+          
         </div>
       </nav>
     </div>

@@ -39,13 +39,13 @@
         </div>
       </div>
 
-      <div class="col s12 m4 start-game-btn center modal-trigger" ng-show="(game.playerIndex === 0 || game.joinOverride)" href="#searchModal"
+      <div id="invite" class="col s12 m4 start-game-btn center modal-trigger" ng-show="(game.playerIndex === 0 || game.joinOverride)" href="#searchModal"
         style="border: 1px solid #bbbbbb;padding: 20px; border-radius: 4px; height: 60px; cursor: pointer;">
         Invite people to join
       </div>
     </div>
     <!--chat window-->
-    <div class="chat-window z-depth-4">
+    <div id="chat-box" class="chat-window z-depth-4">
       <div class="chat-header">
         Game chat
         <i class="close-icon right material-icons" ng-click="toggleMessage()" ng-show="showMsgBody">arrow_drop_down</i>

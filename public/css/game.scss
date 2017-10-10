@@ -105,20 +105,20 @@
 }
 
 
-.invite {
+#invite {
   height: 50px;
   padding: 15px !important;
   vertical-align: middle;
 }
 
 @media (min-width: 601px) {
-  .invite {
+  #invite {
     padding: 12px !important;
   }
 }
 
 @media (min-width: 992px) {
-  .invite {
+  #invite {
     padding: 20px !important;
     height: 60px;
   }
@@ -134,8 +134,7 @@
 .start-game-btn:hover {
   color: #ffffff;
   background-color: #000000;
-  border: none !important;
-  transform: translate(0.5px, 0.5px);
+  border: 1px solid black;
 }
 
 

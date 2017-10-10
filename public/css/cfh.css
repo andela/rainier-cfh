@@ -269,7 +269,6 @@ html {
     min-height: 768px;
     width: 90%;
     margin: 0 auto;
-    margin-top: 4rem;
   }
   .landing h1 {
     font-family: 'Satisfy', 'cursive';
@@ -376,6 +375,10 @@ html {
   .brand-btn-donate:hover, .brand-btn-donate:focus,
   .brand-btn-invite:hover, .brand-btn-invite:focus {
     opacity: .90;
+  }
+  .brief-warning {
+    width: 60%;
+    margin: 0 auto;
   }
 
   /** The team **/

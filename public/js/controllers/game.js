@@ -8,7 +8,7 @@ angular.module('mean.system')
       $scope.messagebody = '';
       $scope.searchText = '';
       $scope.messages = [];
-      $scope.inviteEmailBody = `Your friend has requested you to play Card for Humanity together please 
+      $scope.inviteEmailBody = `Your friend has requested you to play Card for Humanity together please
                                 follow the link to play`;
       $scope.showMsgBody = true;
       $scope.searchedUsers = [];
@@ -216,7 +216,7 @@ angular.module('mean.system')
           scrollHeight,
         };
       };
-      //autoscroll to chat box bottom 
+      //autoscroll to chat box bottom
       $scope.scrollNow = () => {
         setTimeout(() => {
           const { chatBox, scrollHeight } = $scope.getChatBoxLength();
@@ -312,6 +312,65 @@ angular.module('mean.system')
           }
         }
       });
+
+      $scope.introJs = introJs();
+
+      $scope.IntroOptions = {
+        steps:[
+        {
+            element: '#start-game-button',
+            intro: 'Click to start game with at least 3 people',
+        },
+        {
+            element: '#invite',
+            intro: "Invite your friends to join. The more, the merrier",
+            position: 'bottom'
+        },
+        {
+            element: document.querySelector('#abandon-game-button'),
+            intro: "Played enough? Click here to leave game when at any point",
+        },
+        {
+            element: '#timer-container',
+            intro: 'This is the game timer. Submit your answers before it runs out.'
+        },
+        {
+            element: '#question-container-outer',
+            intro: 'The question for each round shows up here.'
+        },
+        {
+            element: '#social-bar-container',
+            intro: 'Game participant avatars.'
+        },
+        {
+            element: '#inner-info',
+            intro: 'Game instructions.'
+        },
+        {
+            element: '#chat-box',
+            intro: 'Chat with other players with the game chat.'
+        },
+        {
+            element: '#donate-btn',
+            intro: 'Be a do-gooder. Support the cause.'
+        }
+        ],
+
+        showStepNumbers: false,
+        showBullets: false,
+        exitOnOverlayClick: true,
+        exitOnEsc:true,
+        nextLabel: '<span style="color:green">Next</span>',
+        prevLabel: '<span style="color:green">Previous</span>',
+        skipLabel: 'Exit',
+        doneLabel: 'Done'
+    };
+
+    $scope.startTour = () => {
+      $scope.introJs.setOptions($scope.IntroOptions);
+      $scope.introJs.start();
+    };
+
       // makes sure the games users does not exceed the game user limit before user joins
       if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length > game.playerMaxLimit)) {
         const popupModal = $('#popUpModal');

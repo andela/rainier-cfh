@@ -328,13 +328,10 @@ angular.module('mean.system')
       } else if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length <= game.playerMaxLimit)) {
         console.log('joining custom game');
         game.joinGame('joinGame', $location.search().game);
-        // console.log($scope.getMessages());
-        // socket.emit('join-chat', $scope.getMessages());
       } else if ($location.search().custom && game.players.length <= game.playerMaxLimit) {
         console.log('join game as a stranger');
         game.joinGame('joinGame', null, true);
       } else {
-        console.log(game);
         game.joinGame();
       }
     }

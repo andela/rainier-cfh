@@ -33,22 +33,22 @@ angular.module('mean.system')
       .then((data) => {
         $scope.avatars = data;
       });
+
       $scope.storeData = (response) => {
         localStorage.setItem('cfhToken', response.token);
         localStorage.setItem('cfhUser', JSON.stringify(response.user));
+        console.log(response);
         $window.location.href='/#!/dashboard';
       }
+
       $scope.signin = (userInput) => {
         $scope.error = '';
        $http.post('/api/auth/login', userInput)
        .success((response) => {
-        if(response.token) {
-          $rootScope.authenticated = true;
-        }
+         $scope.storeData(response);
        })
        .error((error) => {
         $scope.error = error.error;
-        $rootScope.authenticated = false;
        });
       };
 
@@ -81,12 +81,7 @@ angular.module('mean.system')
       if (validation) {
         $http.post('/api/auth/signup', userInput)
           .success((response) => {
-            if (response.token) {
-              $window.localStorage.setItem('cfhToken', response.token);
-                localStorage.setItem('cfhUser', JSON.stringify(userData));
-                $rootScope.authenticated = true;
-                $window.location.href = '/#!/dashboard';
-              }
+           $scope.storeData(response);
           })
           .error((error) => {
             $scope.error = error.error;

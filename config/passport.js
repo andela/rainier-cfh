@@ -8,7 +8,7 @@ const User = require('../app/models/user');
 
 const config = require('./config');
 
-module.exports = function (passport) {
+module.exports = (passport) => {
   // Serialize sessions
   // Places the user object into the session
   passport.serializeUser((user, done) => {
@@ -141,7 +141,6 @@ module.exports = function (passport) {
         if (!user) {
           user = new User({
             name: profile.displayName,
-            email: profile.emails[0].value,
             username: profile.username,
             provider: 'github',
             github: profile._json

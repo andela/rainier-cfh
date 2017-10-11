@@ -2,79 +2,80 @@
   <header>
     <div class="row navbar-fixed">
       <nav>
-          <div class="nav-wrapper row center white">
-            <a href="/#!" class="cfh-logo  col s1"><img src="../img/cfh-logo.png" alt="cfh-logo"/></a>
-          </div>
-        </nav>
+        <div class="nav-wrapper #ffffff white">
+          <a href="#" class="center brand-logo">Cards for Humanity</a>
+        </div>
+      </nav>
     </div>
   </header>
 
   <div class="container row" ng-controller="IndexController">
-      <div class="row">
-        <div class="col l8 offset-l2 s12">
-          <div  class="z-depth-1 account">
-            <div class="row">
-              <div class="col s12">
-                <p class="center big-text" >Sign Into Your Account</p>
-                <p class=" center red-text">&nbsp;{{error}}</p>
-                <form ng-submit="signin(userInput)">
-                  <div class="signup col s10 offset-s1 m8 offset-m2">
-                    <div class="input-field">
-                      <input class="validate" type="text" ng-model="userInput.email" name="email" id="email" required />
-                      <label for="email">Email</label>
-                    </div>
+    <div class="row">
+      <div class="col l8 offset-l2 s12">
+        <div class="z-depth-1 account">
+          <div class="row">
+            <div class="col s12">
+              <p class="center big-text">Sign Into Your Account</p>
+              <p class=" center red-text">&nbsp;{{error}}</p>
+              <form ng-submit="signin(userInput)">
+                <div class="signup col s10 offset-s1 m8 offset-m2">
+                  <div class="input-field">
+                    <input class="validate" type="text" ng-model="userInput.email" name="email" id="email" required />
+                    <label for="email">Email</label>
                   </div>
-                  <div class="signup">
-                    <div class="input-field col s10 offset-s1 m8 offset-m2">
-                      <input class="validate signin" type="password" ng-model="userInput.password" name="password" id="password" required />
-                      <label for="password">Password</label>
-                    </div>
+                </div>
+                <div class="signup">
+                  <div class="input-field col s10 offset-s1 m8 offset-m2">
+                    <input class="validate signin" type="password" ng-model="userInput.password" name="password" id="password" required />
+                    <label for="password">Password</label>
                   </div>
-                  <div class="center button">
-                    <button class="btn-large waves-effect waves-light" type="submit"
-                    name="action">Sign in</button>
-                  </div>  
-                </form >
-                <p class="center">or signin with one of this services</p>
-                <div class="provider">
-                  <div class="container">
-                    <div class="row">
-                        <div class="col s12 offset-s2 m12 offset-m4">
-                            <div class="col s2 m1">
-                              <a href="/auth/facebook">
-                                <img src="../img/facebook.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
-                              </a>
-                            </div>
-                            <div class="col s2 m1">
-                              <a href="/auth/twitter">
-                                <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;"/>
-                              </a>
-                            </div>
-                            <div class="col s2 m1">
-                              <a href="/auth/google">
-                                <img src="../img/google.png" width="50px" height="50px" class="left" />
-                              </a>
-                            </div>
-                            <div class="col s2 m1">
-                              <a href="/auth/github">
-                                <img src="../img/github2.png" width="50px" height="50px" class="left" />
-                              </a>
-                            </div>
-                          </div>
-                        </div>
+                </div>
+                <div class="center button">
+                  <button class="btn-large waves-effect waves-light" type="submit" name="action">Sign in</button>
+                </div>
+              </form>
+              <p class="center">or signin with one of this services</p>
+              <div class="provider">
+                <div class="container">
+                  <div class="row">
+                    <div class="col s12 offset-s2 m12 offset-m4">
+                      <div class="col s2 m1">
+                        <a href="/auth/facebook">
+                          <img src="../img/facebook.png" width="40px" height="40px" class="left" style="margin-top:6px;" />
+                        </a>
                       </div>
-                      <div class="col s12 hr center">
-                        <div class="divider"> </div>
-                        <span>Don't have an account? <a href="/#!/signup" class="red-text">  Sign Up</a></span>
+                      <div class="col s2 m1">
+                        <a href="/auth/twitter">
+                          <img src="../img/twitter.png" width="40px" height="40px" class="left" style="margin-top:6px;" />
+                        </a>
+                      </div>
+                      <div class="col s2 m1">
+                        <a href="/auth/google">
+                          <img src="../img/google.png" width="50px" height="50px" class="left" />
+                        </a>
+                      </div>
+                      <div class="col s2 m1">
+                        <a href="/auth/github">
+                          <img src="../img/github2.png" width="50px" height="50px" class="left" />
+                        </a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <div class="col s12 hr center">
+                <hr/>
+                <p>Don't have an account?
+                  <a href="/#!/signup"> Sign Up</a>
+                </p>
+              </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  </div>
+  </div>
+  </div>
 </body>
-

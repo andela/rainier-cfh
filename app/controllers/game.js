@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * Module dependencies.
  */
@@ -34,9 +33,7 @@ const GameData = {
             message: 'An error occured while trying to get result'
           });
         }
-        return res.status(200).json(
-          result
-        );
+        return res.status(200).json(result);
       });
     } else {
       return res.status(403).send({ message: 'You are not authorized to access this resource' });
@@ -51,7 +48,7 @@ const GameData = {
             message: 'An error occured while trying to get result'
           });
         }
-        return res.status(200).json( result );
+        return res.status(200).json(result);
       });
     } else {
       return res.status(403).send({ message: 'You are not authorized to access this resource' });

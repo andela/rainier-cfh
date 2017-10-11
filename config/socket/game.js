@@ -1,6 +1,3 @@
-/*
-eslint-disable
- */
 var async = require('async');
 var _ = require('underscore');
 var questions = require(__dirname + '/../../app/controllers/questions.js');
@@ -10,7 +7,7 @@ var guestNames = [
   "Silver Blister",
   "Insulated Mustard",
   "Funeral Flapjack",
-  "Toenail",
+  "Ugly Toenail",
   "Urgent Drip",
   "Raging Bagel",
   "Aggressive Pie",
@@ -233,7 +230,7 @@ Game.prototype.stateEndGame = function(winner) {
   const gamePlayers = this.players.map(player => player.username);
   this.sendUpdate();
   const saveGameData = {
-    gameID,
+    gameID: this.gameID,
     gameRound: this.round,
     gameWinner: this.players[winner].username,
     gamePlayers,

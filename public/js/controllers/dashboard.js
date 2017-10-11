@@ -1,44 +1,45 @@
-/* eslint-disable */
 (() => {
-  /**
-  * angular
-  * Description: Angular
-  */
   angular.module('mean.system')
-  /**
-  * DashboardCtrl
-  * Description: sets up a controller
-  */
   .controller('DashboardCtrl', ['$scope', '$http', 'game', 'history', '$window', '$location',
     function ($scope, $http, game, history, $window, $location) {
 
-      // get user data from local storage
-      $scope.user = JSON.parse($window.localStorage.getItem('cfhUser'));
-      $scope.username = $scope.user.username.substr(0,1).toUpperCase().concat($scope.user.username.substr(1));
+      const user = JSON.parse($window.localStorage.getItem('cfhUser'));
+      const firstName = user.name.split(' ')[0];
+      $scope.username = firstName.substr(0, 1).toUpperCase().concat(firstName.substr(1));
 
-      // initialize game history to an empty array
+      const getEmail = () => {
+        if (user.email) {
+          return user.email;
+        }
+        user.email = 'No email supplied';
+        return user.email;
+      };
+      $scope.email = getEmail();
+
+      $scope.avatar = user.avatar;
+
       $scope.stats = [];
 
       
-      if ($window.localStorage.cfhToken || window.user) {
-        // game history success ::> populate dashboard
+      if ($window.localStorage.cfhToken || $window.user) {
+        $scope.user = game.players[game.playerIndex];
+        //$scope.avatar = $scope.user.avatar;
         const onGameHistoryRes = (data) => {
           if (data === null) {
             $scope.gameLogs = [];
             return $scope.gameLogs;
           }
+          console.log('gamelog data:::::::::::', data);
           $scope.gameLogs = data;
           return $scope.gameLogs;
         }
-        // game history failure ::> notify user
+
         const onGameHistoryError = (err) => {
           $scope.gameHistoryError = 'An error occured while fetching your history';
         }
         history.getGameHistory()
           .then(onGameHistoryRes, onGameHistoryError);
 
-
-        // get game leaderboard and view on request
         history.getGameLeaderboard()
           .then((gameLogs) => {
             const leaderboard = [];
@@ -56,14 +57,13 @@
             });
             $scope.leaderboard = leaderboard;
           });
-        // user donations logic
+        
         history.userDonations()
           .then((userDonations) => {
             $scope.userDonations = userDonations.donations;
           });
       }
    
-
       // Todo: write algorithm for generating user stats, calculating user rating and level
       // $scope.getLevel = () => {
       //   const level = 0;
@@ -92,10 +92,7 @@
       //     }
       //   }
       // }
-
-      //  $scope.user[level] = getLevel(),
-      //  $scopr.user[rating] =  getRating()
-      $scope.progressMessage = "....loading"
+      $scope.progressMessage = "loading...."
       $scope.spinner = true;
 
       $scope.nextStat = () => {
@@ -103,9 +100,9 @@
           return true;
         }
       }
-      // user starts with a default level of zero
+
       $scope.level = 0;
-      // Maximum level attainable
+
       $scope.maxLevel = 15;
 
       

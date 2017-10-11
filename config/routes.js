@@ -15,6 +15,8 @@ module.exports = (app, passport, auth) => {
   app.get('/signout', users.signout);
   app.post('/api/search/users', users.search);
   app.post('/api/invite/send', users.sendInviteEmail);
+  app.post('/api/user/password', users.password);
+  app.post('/api/user/password/reset', users.resetPassword);
 
   // Setting up the users api
   app.post('/api/auth/signup', users.signup);
@@ -51,7 +53,7 @@ module.exports = (app, passport, auth) => {
     failureRedirect: '/signin'
   }), users.authCallback);
 
-  // Setting the github oauth routes
+  // Setting the github oauth route
   app.get('/auth/github', passport.authenticate('github', {
     failureRedirect: '/signin'
   }), users.signin);

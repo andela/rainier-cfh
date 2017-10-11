@@ -1,10 +1,10 @@
-/*eslint-disable */
 angular.module('mean.system')
-  .factory('game', ['socket', '$window', '$timeout', '$http', function (socket, $window, $timeout, $http) {
+  .factory('game', ['socket', '$window', '$timeout', '$http','$firebaseArray', function (socket, $window, $timeout, $http,$firebaseArray) {
   var game = {
     id: null, // This player's socket ID, so we know who this player is
     gameID: null,
     players: [],
+    messages:[],
     playerIndex: 0,
     winningCard: -1,
     winningCardPlayer: -1,
@@ -55,9 +55,15 @@ angular.module('mean.system')
     $timeout(decrementTime, 950);
   };
 
+  socket.on('message-received',function(data){
+    game.messages.push(data);
+    console.log(game);
+  })
+
   socket.on('id', function(data) {
     game.id = data.id;
   });
+
 
   socket.on('prepareGame', function(data) {
     game.playerMinLimit = data.playerMinLimit;
@@ -202,10 +208,10 @@ angular.module('mean.system')
   };
 
   game.startGame = function() {
-
     socket.emit('startGame');
 
   };
+
 
   game.leaveGame = function() {
     game.players = [];

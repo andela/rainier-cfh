@@ -16,12 +16,13 @@ const _ = require('underscore');
  */
 exports.add = (req, res, next) => {
   const answer = new Answer(req.body);
-  answer.save()
-    .then(() => res.send({
-      success: true,
-      message: 'Answer added successfully',
-    }))
-    .catch(err => next(err));
+  answer.save((err, answerResponse) => {
+    if (err) throw err;
+    res.status(201).json({
+      answer: answerResponse,
+      msg: 'Answer successfully created'
+    });
+  });
 };
 
 /**

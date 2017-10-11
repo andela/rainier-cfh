@@ -12,11 +12,13 @@ const Question = require('../models/question');
  */
 exports.add = (req, res, next) => {
   const question = new Question(req.body);
-  question.save()
-    .then(() => res.status(201).send({
-      message: 'Question added successfully'
-    }))
-    .catch(err => next(err));
+  question.save((err, questionResponse) => {
+    if (err) throw err;
+    res.status(201).json({
+      questionResponse,
+      msg: 'Question successfully created'
+    });
+  });
 };
 
 /**

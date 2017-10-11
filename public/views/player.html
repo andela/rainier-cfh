@@ -1,19 +1,20 @@
-<div id="player-container" ng-repeat="player in game.players" style="background-color:{{colors[player.color]}};" class="player-container col s6 m3 l6">
-  <div id ="above-czar-container">
-    <div id="avatar_">
+<div id="player-container" ng-repeat="player in game.players"
+  style="background-color:{{colors[player.color]}};"
+  class="player-container col s6 m3 l6">
+  <div id ="above-czar-container" style="padding:5px;">
+    <div id="avatar_" class="col s3 left" style="padding: 5px 0;">
       <span ng-show="isPremium($index)">
         <img ng-src="img/king.png" id="king">
       </span>
       <img ng-src="{{player.avatar}}" class="responsive-img"/>
     </div>
-    <di6v id="player-container-inner">
-      <div ng-show="isPlayer($index)" id="player-star" class="col s6">
-        <img src="../img/11.png"/>
-      </div>
-      <div class="col s6 m3">
+    <div id="player-container-inner" class="col s9">
+      <div class="col s8 left">
         <span>{{player.username | upperFirstLetter}}</span>
-        <br/>
         <span>{{player.points}}/{{game.pointLimit}}</span>
+      </div>
+      <div ng-show="isPlayer($index)" id="player-star" class="col s4 right">
+        <img src="../img/11.png"/>
       </div>
     </div>
   </div>

@@ -564,11 +564,13 @@ th.donation {
 }
 
 .chat-header {
-  padding: 1px 10px !important;
+  padding: 10px;
+  min-height: 50px;
   background-color: #b71c1c;
   color: white;
   vertical-align: middle !important;
-  font-family: 'Berkshire';
+  /* font-family: 'Berkshire'; */
+  font-size: 1.3rem;
 }
 
 .mute-text {

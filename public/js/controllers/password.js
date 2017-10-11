@@ -18,11 +18,13 @@ angular.module('mean.system')
       $http.post('/api/user/password', { email: $scope.email, resetLink: $scope.resetLink, resetMessage: $scope.resetMessage })
         .then((response) => {
           $scope.emailSuccess = response.data.message;
+          $scope.emailError = '';
           $scope.email = '';
           $scope.emailSent = false;
         }, (error) => {
           if (error) {
             $scope.emailError = error.data.message;
+            $scope.emailSuccess = '';
             $scope.emailSent = false;
           }
         });

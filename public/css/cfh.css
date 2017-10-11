@@ -449,10 +449,9 @@ html {
 .headline {
   margin-top: 60px;
 }
-.avatar-container {
+.avatar-container img {
   height: 140px;
   width: 140px;
-  background: #757575;
 }
   .start-screen h6 {
     font-size: 12px;

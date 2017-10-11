@@ -1,5 +1,5 @@
-<body ng-controller="DashboardCtrl">
-    
+<body>
+  <div ng-controller = "IndexController">    
   <header>
     <div class="navbar-fixed">
       <nav class="main-header">
@@ -12,7 +12,6 @@
           </a>
           <ul ng-controller="IndexController" class="nav-list right hide-on-med-and-down">
             <li class="nav-item"><a class="active" href="#!/dashboard" class="modal-trigger" >Dasboard</a></li>
-            <li class="nav-item"><a href="#friends" class="modal-trigger" >Start game</a></li>
             <li class="nav-item"><a ng-click="signout()">Logout</a></li>
             <li class="nav-item"><a href="https://www.crowdrise.com/donate/project/cfhio/cards4humanity?widget=true&redirect_to=http%3A%2F%2Flocalhost%3A3000%2F%23!%2F&stylesheet=&amounts=" target="_blank"><button class="btn brand-btn-donate">Donate</button></a></li>
           </ul>
@@ -169,9 +168,9 @@
       <section class="col s12 m5">
         <div class="headline">
           <h2>{{ username }}</h2>
-          <p><b>Email:</b> {{ user.email }}</p>
+          <p><b>Email:</b> {{ email }}</p>
           <div class="user-rating">
-            <li class="avatar-container"><img ng-src="{{ user.avatar }}"></li>
+            <li class="avatar-container"><img ng-src="{{ avatar }}"></li>
             <li class="rating-details">
               <p><b>Rating:</b>&nbsp;
                 <i class="fa fa-star"></i><i class="fa fa-star"></i>
@@ -227,7 +226,7 @@
           <h5 class="blinking">{{progressMessage}}</h5>
           <div ng-show="nextStat()">
             <ul class="pagination">
-              <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+              <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
               <li class="active"><a href="">1</a></li>
               <li class="waves-effect"><a>2</a></li>
               <li class="waves-effect"><a>3</a></li>
@@ -297,5 +296,5 @@
     </footer>
   <script type="text/javascript" src="../js/cfh.js"></script>
   <script type="text/javascript" src="../js/app.js"></script>
-
+  </div>
 </body>

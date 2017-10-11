@@ -112,7 +112,7 @@ exports.password = (req, res) => {
       user.resetPassExpiry = resetPassExpiry + 3600000; // set user token to expire in an hour
       user.save((err) => {
         if (err) {
-          return res.send({
+          return res.status(500).send({
             message: 'Database connection error. Try again'
           });
         }
@@ -140,7 +140,7 @@ exports.password = (req, res) => {
       // sends email
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          return res.send({
+          return res.status(500).send({
             message: 'Unable to send email something went wrong',
             user
           });

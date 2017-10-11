@@ -3,18 +3,33 @@
   .controller('DashboardCtrl', ['$scope', '$http', 'game', 'history', '$window', '$location',
     function ($scope, $http, game, history, $window, $location) {
 
-      $scope.user = JSON.parse($window.localStorage.getItem('cfhUser'));
-      $scope.username = $scope.user.username.substr(0,1).toUpperCase().concat($scope.user.username.substr(1));
+      const user = JSON.parse($window.localStorage.getItem('cfhUser'));
+      const firstName = user.name.split(' ')[0];
+      $scope.username = firstName.substr(0, 1).toUpperCase().concat(firstName.substr(1));
+
+      const getEmail = () => {
+        if (user.email) {
+          return user.email;
+        }
+        user.email = 'No email supplied';
+        return user.email;
+      };
+      $scope.email = getEmail();
+
+      $scope.avatar = user.avatar;
 
       $scope.stats = [];
 
       
-      if ($window.localStorage.cfhToken || window.user) {
+      if ($window.localStorage.cfhToken || $window.user) {
+        $scope.user = game.players[game.playerIndex];
+        //$scope.avatar = $scope.user.avatar;
         const onGameHistoryRes = (data) => {
           if (data === null) {
             $scope.gameLogs = [];
             return $scope.gameLogs;
           }
+          console.log('gamelog data:::::::::::', data);
           $scope.gameLogs = data;
           return $scope.gameLogs;
         }

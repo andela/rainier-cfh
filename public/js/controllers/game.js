@@ -8,7 +8,7 @@ angular.module('mean.system')
       $scope.messagebody = '';
       $scope.searchText = '';
       $scope.messages = [];
-      $scope.inviteEmailBody = `Your friend has requested you to play Card for Humanity together please 
+      $scope.inviteEmailBody = `Your friend has requested you to play Card for Humanity together please
                                 follow the link to play`;
       $scope.showMsgBody = true;
       $scope.searchedUsers = [];
@@ -216,7 +216,7 @@ angular.module('mean.system')
           scrollHeight,
         };
       };
-      //autoscroll to chat box bottom 
+      //autoscroll to chat box bottom
       $scope.scrollNow = () => {
         setTimeout(() => {
           const { chatBox, scrollHeight } = $scope.getChatBoxLength();
@@ -312,6 +312,76 @@ angular.module('mean.system')
           }
         }
       });
+
+      $scope.introJs = introJs();
+
+      $scope.IntroOptions = {
+        steps:[
+          {
+            element: 'body',
+            intro: `<h6 style='color: maroon; font-weight: 900'>Welcome to Cards For Humanity</h6>`
+          },
+          {
+            element: '#start-game-button',
+            intro: '<p>Click to start game with at least 3 people<p>',
+          },
+          {
+            element: '#invite',
+            intro: `<p>Invite your friends to join. The more, the merrier</p>`,
+            position: 'bottom'
+          },
+          {
+            element: '#abandon-game-button',
+            intro: `<p>Played enough?</p>
+              <p>Click here to leave game when at any point<p>`,
+          },
+          {
+            element: '#timer-container',
+            intro: `<p>This is the game timer.<p>
+              <p>Submit your answers before it runs out.</p>`
+          },
+          {
+            element: '#question-container-outer',
+            intro: '<p>The question for each round shows up here.</p>'
+          },
+          {
+            element: '#social-bar-container',
+            intro: '<p>Game participant avatars.</p>'
+          },
+          {
+            element: '#inner-info',
+            intro: '<p>Game instructions.</p>'
+          },
+          {
+            element: '#chat-box',
+            intro: '<p>Chat with other players with the game chat.</p>'
+          },
+          {
+            element: '#donate-btn',
+            intro: '<p>Be a do-gooder. Support the cause.</p>'
+          },
+          {
+            element: 'body',
+            intro: `<h5>That's it.</h5>
+              <p>Click <em>'Done'</em> to end tour </p>.`
+          }
+        ],
+
+        showStepNumbers: false,
+        showBullets: false,
+        exitOnOverlayClick: true,
+        exitOnEsc:true,
+        nextLabel: '<span style="color:green">Next</span>',
+        prevLabel: '<span style="color:green">Previous</span>',
+        skipLabel: '<span style="color:red">Skip</span>',
+        doneLabel: 'Done'
+    };
+
+    $scope.startTour = () => {
+      $scope.introJs.setOptions($scope.IntroOptions);
+      $scope.introJs.start();
+    };
+
       // makes sure the games users does not exceed the game user limit before user joins
       if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length > game.playerMaxLimit)) {
         const popupModal = $('#popUpModal');

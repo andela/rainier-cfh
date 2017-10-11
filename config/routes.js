@@ -3,7 +3,8 @@ const users = require('../app/controllers/users');
 const questions = require('../app/controllers/questions');
 const avatars = require('../app/controllers/avatars');
 const index = require('../app/controllers/index');
-const game = require('../app/controllers/game');
+const gameData = require('../app/controllers/game');
+const authUser = require('./middlewares/authUser');
 
 
 module.exports = (app, passport, auth) => {
@@ -14,16 +15,25 @@ module.exports = (app, passport, auth) => {
   app.get('/signout', users.signout);
   app.post('/api/search/users', users.search);
   app.post('/api/invite/send', users.sendInviteEmail);
+  app.post('/api/user/password', users.password);
+  app.post('/api/user/password/reset', users.resetPassword);
 
   // Setting up the users api
   app.post('/api/auth/signup', users.signup);
   app.post('/api/auth/login', users.login);
   app.post('/users', users.create);
   app.post('/users/avatars', users.avatars);
+  
   // Donation Routes
-  app.post('/donations', users.addDonation);
+  app.post('/donations', authUser, users.addDonation);
+  app.get('/api/donations', authUser, users.getDonations);
+  
+  // Save Game session route
+  app.post('/api/games/:id/start', authUser, gameData.create);
 
-  app.post('/api/games/:id/start', game.saveGame);
+  // Game history and leaderboard routes
+  app.get('/api/games/history', authUser, gameData.history);
+  app.get('/api/leaderboard', authUser, gameData.leaderboard);
 
   app.post('/users/session', passport.authenticate('local', {
     failureRedirect: '/signin',
@@ -43,7 +53,7 @@ module.exports = (app, passport, auth) => {
     failureRedirect: '/signin'
   }), users.authCallback);
 
-  // Setting the github oauth routes
+  // Setting the github oauth route
   app.get('/auth/github', passport.authenticate('github', {
     failureRedirect: '/signin'
   }), users.signin);

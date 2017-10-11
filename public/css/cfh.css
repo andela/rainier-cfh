@@ -41,12 +41,12 @@ html {
 	h4 {
 		font-size: 24px;
 		font-size: 2.4rem;
-		line-height: 3.8rem ;
+    line-height: 3.8rem ;
   }
 	h5 {
 		font-size: 20px;
 		font-size: 2rem;
-		line-height: 3.6rem ;
+    line-height: 3.6rem ;
 	}
 	h6 {
 		font-size: 16px;
@@ -61,11 +61,14 @@ html {
 	}
 	a {
     text-decoration: none !important;
-    color: inherit;
+    color: #d32f2f;
 	}
 	a:hover {
     cursor: pointer;
     color: #d32f2f;
+  }
+  a.active {
+    color: #d32f2f !important;
   }
   .navbar-fixed li a {
     font-size: 1.2rem;
@@ -87,7 +90,7 @@ html {
   .dimension {
     box-shadow: 0 0 10px rgba(0,0,0,0.4);
   }
-  
+
   nav .cfh-logo {
     color: #fff;
     display: inline-block;
@@ -102,11 +105,11 @@ html {
     margin-left: 15px;
     margin-right: 15px;
   }
-  
+
   nav ul a:hover {
     background-color: transparent;
   }
-  
+
   nav ul.left {
     float: left;
   }
@@ -119,7 +122,7 @@ html {
   .nav-mobile {
     display: none;
   }
-  
+
   /** Nav Mobile **/
   @media (max-width:992px){
     .mobile-nav {
@@ -134,7 +137,7 @@ html {
       background-color: #000;
       padding: 10px 0;
     }
-      
+
     #mobile-nav .nav-list {
       margin: 0;
       display: block;
@@ -152,7 +155,7 @@ html {
       margin: 0;
       padding: 10px 0;
     }
-  
+
     #mobile-nav .nav-item a {
       display: block;
       font-size: 24px;
@@ -169,7 +172,7 @@ html {
       -moz-transition: all .2s ease;
       -webkit-transition: all .2s ease;
     }
-    
+
     #mobile-nav .nav-item button {
       display: block;
       margin-top: 15px;
@@ -177,8 +180,8 @@ html {
       font-size: 14px;
       font-weight: 400;
     }
-  
-    
+
+
     .nav-mobile {
       display: block; /* Hide from browsers that dont support media queries */
       cursor: pointer;
@@ -201,7 +204,7 @@ html {
       background: #212121;
       transition: all .25s;
     }
-  
+
     .nav-mobile span:first-child {
       margin-top: 2px;
     }
@@ -247,7 +250,7 @@ html {
 		background-color: #fff;
 		transition: all .25s;
   }
-  
+
 /** cfh section **/
   .cfh-section {
     padding: 60px 0;
@@ -259,14 +262,13 @@ html {
   }
 
   /** Search box **/
- 
+
 
   /** Landing **/
   .landing {
     min-height: 768px;
     width: 90%;
     margin: 0 auto;
-    margin-top: 4rem;
   }
   .landing h1 {
     font-family: 'Satisfy', 'cursive';
@@ -299,7 +301,7 @@ html {
     }
     .hiw-image {
       text-align: center;
-    } 
+    }
   }
   /** Guest **/
   .guest > a {
@@ -369,12 +371,16 @@ html {
     color: white !important;
     background-color: #1875D2 !important;
   }
-  .brand-btn:hover, .brand-btn:focus, 
+  .brand-btn:hover, .brand-btn:focus,
   .brand-btn-donate:hover, .brand-btn-donate:focus,
   .brand-btn-invite:hover, .brand-btn-invite:focus {
     opacity: .90;
   }
-  
+  .brief-warning {
+    width: 60%;
+    margin: 0 auto;
+  }
+
   /** The team **/
   .patterned {
     text-align: center;
@@ -383,6 +389,12 @@ html {
   .patterned h3 {
     font-family: 'Satisfy', 'cursive';
     color: #000;
+  }
+  .patterned a {
+    color: #000;
+  }
+  .patterned a:hover {
+    color: #d32f2f
   }
   /** footer **/
   footer > nav {
@@ -437,10 +449,9 @@ html {
 .headline {
   margin-top: 60px;
 }
-.avatar-container {
+.avatar-container img {
   height: 140px;
   width: 140px;
-  background: #757575;
 }
   .start-screen h6 {
     font-size: 12px;
@@ -460,7 +471,7 @@ html {
   .start-control a.btn {
     margin: 15px 0;
   }
-  
+
   .authUser > * {
     color: #fff !important;
   }
@@ -487,10 +498,9 @@ html {
 }
 
 /** stats section **/
-.stats {
+.stats, .game-log {
   background: #fff;
   color: #000;
-  border-radius: 5px;
   text-align: center;
 }
 th{
@@ -500,7 +510,7 @@ th{
 td {
   text-align: center;
 }
-th.date {
+th.date, th.log-info {
   color: #fff;
   background-color: #000;
 }
@@ -511,7 +521,7 @@ th.played {
 th.won {
   background-color: #1b5e20;
   color: #fff;
-  
+
 }
 th.lost {
   background-color: #b71c1c;
@@ -520,6 +530,134 @@ th.lost {
 th.donation {
   background-color: #7b1fa2;
   color: #fff;
+}
+/** Game log **/
+.rating-details p {
+  line-height: 1rem;
+}
+.small-btn {
+  display: inline-block;
+  padding: 1px 8px;
+  background-color: #d32f2f;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 900;
+  text-shadow: 0 0 1px #000;
+}
+/** Add blinking text **/
+.blinking {
+  animation: blinker 0.9s linear infinite;
+}
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+.chat-window {
+  width: 320px;
+  padding: 0px !important;
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  border-radius: 5px;
+}
+
+.chat-header {
+  padding: 1px 10px !important;
+  background-color: #b71c1c;
+  color: white;
+  vertical-align: middle !important;
+  font-family: 'Berkshire';
+}
+
+.mute-text {
+  color: #B8B7B7;
+}
+
+.close-icon {
+  cursor: pointer;
+  float: right;
+}
+
+#chat-body {
+  padding: 0px;
+}
+
+#chat-content {
+  background-color: white;
+  padding: 0px 10px;
+  height: 200px;
+  overflow: scroll;
+  font-size: 15px;
+	width: 100%;
+}
+
+.message-list-item {
+  display: flex;
+  margin: 10px 0px;
+}
+
+.chat-message {
+  width: inherit;
+}
+
+.wrap-text {
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+.chat-avatar {
+  padding-right: 10px;
+}
+
+.chat-avatar img {
+  height: 40px;
+  width: 50px;
+}
+
+.chat-form {
+  width: 100%;
+  margin: 0px;
+  background-color: white;
+  padding: 0px !important;
+}
+
+.chat-input {
+  margin: 0px !important;
+  height: 100%;
+  width: calc(100% - 5px) !important;
+  padding-left: 5px !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.chat-box {
+  width: 100%
+}
+.input-group {
+  padding: 0px !important;
+  height: 44px !important;
+  border-top: 2px solid #F1E5D8 !important;
+}
+
+.input-group-btn {
+  padding: 0px !important;
+  height: inherit !important;
+}
+
+.input-group-btn button {
+  margin: 0px !important;
+  padding: 0px 5px !important;
+  width: 60px !important;
+  height: inherit !important;
+  background-color: #f57c00 !important;
+  color: white !important;
+  outline: none !important;
+}
+
+.input-group-btn :hover {
+  font-weight: bold;
 }
 /** HIW Start Screen **/
 

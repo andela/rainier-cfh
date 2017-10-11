@@ -51,8 +51,15 @@
 }
 
 #question-container-outer {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #757575;
+  min-height: 200px;
+}
+
+@media (min-width: 992px) {
+  #question-container-outer {
+    font-size: 1rem;
+  }
 }
 
 #question-container-outer div {
@@ -74,7 +81,7 @@
 }
 
 .game-end-btn-wrapper {
-  margin: 20px;
+  margin: 20px auto;
 }
 
 #smaller-text {
@@ -82,15 +89,57 @@
   color: #b5b5b5;
 }
 
-.questionBox {
-  font-size: 2rem;
+.question {
+  font-size: 1.5rem;
+  display: inline-block;
+  margin-top: 20px;
 }
 
-// @media (min-width: 601px) {
-//   .player-avatar-group {
-//     position: absolute;
-//     top: 10rem;
-//     right: 3rem;;
-//     max-width: calc(24vw);
-//   }
-// }
+.card {
+  min-height: 200px !important;
+  padding: 10px !important;
+}
+
+.card.smallest {
+  font: 1rem;
+  color: #b5b5b5;
+}
+
+
+#invite {
+  height: 50px;
+  padding: 15px !important;
+  vertical-align: middle;
+}
+
+@media (min-width: 601px) {
+  #invite {
+    padding: 12px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  #invite {
+    padding: 20px !important;
+    height: 60px;
+  }
+}
+
+.start-game-btn {
+  border: 1px solid #bbbbbb;
+  border-radius: 4px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.start-game-btn:hover {
+  color: #ffffff;
+  background-color: #000000;
+  border: 1px solid black;
+}
+
+
+/* charity card */
+.crImageAndTitleOuter, .startFundraiser {
+  display: none;
+}

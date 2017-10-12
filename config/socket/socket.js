@@ -73,6 +73,10 @@ module.exports = function (io) {
       joinGame(socket,data);
     });
 
+    socket.on('czarCardSelected', () => {
+      allGames[socket.gameID].startNextRound(allGames[socket.gameID]);
+    });
+    
     socket.on('startGame', () => {
       if (allGames[socket.gameID]) {
         var thisGame = allGames[socket.gameID];

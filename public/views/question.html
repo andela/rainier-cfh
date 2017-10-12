@@ -1,5 +1,5 @@
 <div id="question-container-inner">
-  <div class="questionBox" style="clear: both">
+  <div class="questionBox" style="font-weight: 900">
     <span class="question" ng-bind-html-unsafe="game.curQuestion.text" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' ||
       game.state === 'awaiting players'">
     </span>
@@ -39,13 +39,18 @@
         </div>
       </div>
 
-      <div id="invite" class="col s12 m4 start-game-btn center modal-trigger" ng-show="(game.playerIndex === 0 || game.joinOverride)" href="#searchModal"
-        style="border: 1px solid #bbbbbb;padding: 20px; border-radius: 4px; height: 60px; cursor: pointer;">
-        Invite people to join
+      <div>
+        <div class="container">
+          <div id="invite" class="col s12 m4 start-game-btn center modal-trigger right"
+            ng-show="(game.playerIndex === 0 || game.joinOverride)" href="#searchModal"
+            style="border: 1px solid #bbbbbb;padding: 20px; border-radius: 4px; height: 60px; cursor: pointer;">
+            Invite people to join
+          </div>
+        </div>
       </div>
     </div>
     <!--chat window-->
-    <div id="chat-box" class="chat-window z-depth-4">
+    <div id="chat-box" class="chat-window" style="z-index: 1007">
       <div class="chat-header">
         Game chat
         <i class="close-icon right material-icons" ng-click="toggleMessage()" ng-show="showMsgBody">arrow_drop_down</i>
@@ -53,18 +58,20 @@
       </div>
       <div class="chat-body" ng-show="showMsgBody">
         <div id="chat-content">
-          <li class="message-list-item" ng-repeat="message in messages">
-            <div class="chat-avatar">
-              <img class='chat-avatar' src='{{message.avatar}}' />
+          <div class="message-list-item" ng-repeat="message in messages">
+            <div class="row">
+              <div class="container">
+                <div class="col s12">
+                  <img src='{{message.avatar}}' class="responsive-img left" style="width: 30px; padding-right: 10px;"/>
+                  <strong class="red-text left">@{{message.sender}}</strong>
+                  <small class="text-muted right">{{message.timeSent}}</small>
+                </div>
+                <div class="col s12">
+                  <span class="mute-text" style="left: 10px !important">{{message.body}}</span>
+                </div>
+              </div>
             </div>
-            <div class="chat-message wrap-text">
-              <strong class="red-text">@{{message.sender}}</strong>
-              <span class="mute-text">
-                <small class="text-muted">{{message.timeSent}}</small>
-              </span>
-              <br/> {{message.body}}
-            </div>
-          </li>
+          </div>
         </div>
       </div>
       <!--<div class="chat-form" ng-show="showMsgBody">-->
@@ -80,16 +87,16 @@
     <!-- Game Over Stuff -->
     <div id="game-end-info">
       <div id="people-left-game-top" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">
-        <div class="game-end-headline">What the!? The game ended because too many people left! </div>
+        <div class="game-end-headline" style="padding: 30px; font-size: 1.2rem;">What the!? The game ended because too many people left! </div>
         Our sincere apologies.
       </div>
       <div ng-show="game.state === 'game ended' && game.gameWinner === game.playerIndex">
-        <div class="game-end-headline">Congratulations! You won the game, {{game.players[game.playerIndex].username | upperFirstLetter}}!</div>We hope you
+        <div class="game-end-headline" style="padding: 20px;">Congratulations! You won the game, {{game.players[game.playerIndex].username | upperFirstLetter}}!</div>We hope you
         feel special. If you'd like to share that special feeling with the world, consider donating to charity. Or just horde
         it all for youself.
       </div>
       <div ng-show="game.state === 'game ended' && game.gameWinner !== game.playerIndex">
-        <div class="game-end-headline">Aw, shucks! {{game.players[game.gameWinner].username | upperFirstLetter }} won the game!</div>
+        <div class="game-end-headline" style="padding: 30px; font-size: 1.2rem;">Aw, shucks! {{game.players[game.gameWinner].username | upperFirstLetter }} won the game!</div>
         That makes you a loser, unfortunately.
       </div>
     </div>

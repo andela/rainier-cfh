@@ -286,6 +286,25 @@ angular.module('mean.system')
         if (game.state === 'waiting for czar to decide' && $scope.showTable === false) {
           $scope.showTable = true;
         }
+        if ($scope.isCzar() && game.state === 'czar pick card' && game.table.length === 0) {
+          $('#czarModal').modal({
+            dismissible: false
+          });
+          $('#czarModal').modal('open');
+        }
+        if (game.state === 'game dissolved') {
+          $('#czarModal').modal('close');
+        }
+        if ($scope.isCzar() === false && game.state === 'czar pick card'
+          && game.state !== 'game dissolved'
+          && game.state !== 'awaiting players' && game.table.length === 0) {
+          $scope.czarHasDrawn = 'Wait! Czar is drawing Card';
+        }
+        if (game.state !== 'czar pick card'
+          && game.state !== 'awaiting players'
+          && game.state !== 'game dissolve') {
+          $scope.czarHasDrawn = '';
+        }
       });
 
       $scope.$watch('game.gameID', () => {
@@ -381,7 +400,21 @@ angular.module('mean.system')
       $scope.introJs.setOptions($scope.IntroOptions);
       $scope.introJs.start();
     };
+    $scope.shuffleCards = () => {
+      const card = $(`#${event.target.id}`);
+      card.addClass('animated flipOutY');
+      setTimeout(() => {
+        $scope.startNextRound();
+        card.removeClass('animated flipOutY');
+        $('#czarModal').modal('close');
+      }, 500);
+    };
 
+    $scope.startNextRound = () => {
+      if ($scope.isCzar()) {
+        game.startNextRound();
+      }
+    };
       // makes sure the games users does not exceed the game user limit before user joins
       if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length > game.playerMaxLimit)) {
         const popupModal = $('#popUpModal');

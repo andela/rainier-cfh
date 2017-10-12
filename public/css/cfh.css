@@ -564,11 +564,13 @@ th.donation {
 }
 
 .chat-header {
-  padding: 1px 10px !important;
+  padding: 10px;
+  min-height: 50px;
   background-color: #b71c1c;
   color: white;
   vertical-align: middle !important;
-  font-family: 'Berkshire';
+  /* font-family: 'Berkshire'; */
+  font-size: 1.3rem;
 }
 
 .mute-text {
@@ -594,26 +596,13 @@ th.donation {
 }
 
 .message-list-item {
-  display: flex;
-  margin: 10px 0px;
+	padding: 5px 0;
+	border-bottom: 1px solid #eeeeee;
 }
 
-.chat-message {
-  width: inherit;
-}
 
-.wrap-text {
-  word-wrap: break-word;
-  word-break: normal;
-}
-
-.chat-avatar {
-  padding-right: 10px;
-}
-
-.chat-avatar img {
-  height: 40px;
-  width: 50px;
+.chat-avatar-container img {
+  max-width: 30px;
 }
 
 .chat-form {
@@ -635,6 +624,7 @@ th.donation {
 .chat-box {
   width: 100%
 }
+
 .input-group {
   padding: 0px !important;
   height: 44px !important;

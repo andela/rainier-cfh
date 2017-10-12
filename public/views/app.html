@@ -20,6 +20,20 @@
     </div>
   </header>
   <div class="row">
+    <!-- czarModal --> 
+    <div id="czarModal" class="modal">
+        <div class="modal-content">
+          <p class="center" >You are the Czar - Click a card to pick the next question</p>
+            <div ng-click="shuffleCards()" ng-style="{'cursor':'pointer'}" style='margin: auto;'><center>
+                <img src='../img/czar.png' style='width: 100px;' class='animated flipInX' id='shufflecard1' />
+                <img src='../img/czar.png' style='width: 100px;' class='animated flipInX' id='shufflecard2' />
+                <img src='../img/czar.png' style='width: 100px;' class='animated flipInX' id='shufflecard3' />
+                <img src='../img/czar.png' style='width: 100px;' class='animated flipInX' id='shufflecard4' />
+                <img src='../img/czar.png' style='width: 100px;' class='animated flipInX' id='shufflecard5' />
+            </div>
+        </div>
+      </div>
+    <!-- czarModal -->
     <div class="container">
       <div class="control-game">
         <button id="tour-game" class="btn red darken-4" ng-click="startTour()" ng-show="game.joinOverride">

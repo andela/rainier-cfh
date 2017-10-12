@@ -1,3 +1,4 @@
+/* eslint-disable */
 var async = require('async');
 var _ = require('underscore');
 var questions = require(__dirname + '/../../app/controllers/questions.js');
@@ -127,8 +128,8 @@ Game.prototype.prepareGame = function() {
       if (err) {
         console.log(err);
       }
-      self.questions = results[0];
-      self.answers = results[1];
+      self.questions = results[0].filter(result => result.region === this.region);
+      self.answers = results[1].filter(result => result.region === this.region);
 
       self.startGame();
     });
@@ -154,8 +155,9 @@ Game.prototype.stateChoosing = function(self) {
   self.winnerAutopicked = false;
   self.curQuestion = self.questions.pop();
   if (!self.questions.length) {
-    self.getQuestions(function(err, data) {
-      self.questions = data;
+    self.getQuestions((err, data) => {
+      self.questions = data.filter(result =>
+        result.region === this.region);
     });
   }
   self.round++;
@@ -274,7 +276,8 @@ Game.prototype.shuffleCards = function(cards) {
 Game.prototype.dealAnswers = function(maxAnswers) {
   maxAnswers = maxAnswers || 10;
   var storeAnswers =  (err, data) => {
-    this.answers = data;
+    this.answers = data.filter(result =>
+      result.region === this.region);
   };
   for (var i = 0; i < this.players.length; i++) {
     while (this.players[i].hand.length < maxAnswers) {

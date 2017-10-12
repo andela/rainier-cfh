@@ -24,6 +24,11 @@ const AnswerSchema = new Schema({
     type: String,
     default: '',
     trim: true
+  },
+  region: {
+    type: String,
+    default: 'Africa',
+    trim: true
   }
 });
 

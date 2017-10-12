@@ -62,20 +62,21 @@ module.exports = function (io) {
       }
     });
 
-    socket.on('joinGame', (data) => {
+    socket.on('joinGame', function(data) {
       if (!allPlayers[socket.id]) {
         joinGame(socket,data);
       }
     });
 
-    socket.on('joinNewGame', (data) => {
+    socket.on('joinNewGame', function(data) {
       exitGame(socket);
       joinGame(socket,data);
     });
 
-    socket.on('startGame', () => {
+    socket.on('startGame', (data) => {
       if (allGames[socket.gameID]) {
-        var thisGame = allGames[socket.gameID];
+        const thisGame = allGames[socket.gameID];
+        thisGame.region = data.region;
         console.log('comparing',thisGame.players[0].socket.id,'with',socket.id);
         if (thisGame.players.length >= thisGame.playerMinLimit) {
           // Remove this game from gamesNeedingPlayers so new players can't join it.

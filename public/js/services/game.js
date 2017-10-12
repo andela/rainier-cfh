@@ -208,7 +208,10 @@ angular.module('mean.system')
   };
 
   game.startGame = function() {
-    socket.emit('startGame');
+    socket.emit('startGame', {
+      region: localStorage.getItem('region')
+      console.log('::::::::::::::', region);
+    });
 
   };
 

@@ -327,12 +327,12 @@ angular.module('mean.system')
         popupModal.modal('show');
       } else if ($location.search().game && !(/^\d+$/).test($location.search().game) && (game.players.length <= game.playerMaxLimit)) {
         console.log('joining custom game');
-        game.joinGame('joinGame', $location.search().game);
+        game.joinGame('joinGame', $location.search().game, localStorage.getItem('region'));
       } else if ($location.search().custom && game.players.length <= game.playerMaxLimit) {
         console.log('join game as a stranger');
-        game.joinGame('joinGame', null, true);
+        game.joinGame('joinGame', null, true, localStorage.getItem('region'));
       } else {
-        game.joinGame();
+        game.joinGame(null, null, null, localStorage.getItem('region'));
       }
     }
   ]);

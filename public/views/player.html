@@ -13,12 +13,14 @@
         <span>{{player.username | upperFirstLetter}}</span>
         <span>{{player.points}}/{{game.pointLimit}}</span>
       </div>
-      <div ng-show="isPlayer($index)" id="player-star" class="col s4 right">
-        <img src="../img/11.png"/>
+      <div class="col s4 right">
+        <div ng-show="isPlayer($index)" id="player-star" class="">
+          <img src="../img/11.png"/>
+        </div>
+        <div id="czar-container" ng-show="currentCzar($index)">
+          <span id='the-czar' style="background-color: #000; color: #ffffff; padding: 2px">CZAR</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div id="czar-container" ng-show="currentCzar($index)">
-    <span id='the-czar'>CZAR</span>
   </div>
 </div>

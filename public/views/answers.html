@@ -7,10 +7,10 @@
         <div class="col s12 l8">
           <div ng-style="{'cursor':'pointer'}" class="card col s6 m3 l2" id='answers' ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
           ng-repeat="card in game.players[game.playerIndex].hand track by $index" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
-          <div class="">
+          <div style="position: relative">
             <span ng-bind-html-unsafe="card.text"></span>
           </div>
-          <div class="">
+          <div>
             <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
             <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
           </div>
@@ -18,8 +18,10 @@
           </div>
 
           <span ng-repeat="answer in game.table track by $index">
-              <div class="card smallest" ng-style="pointerCursorStyle()" id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
-              ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}" style="background-color:{{winningColor($parent.$index)}}">
+              <div class="card smallest col s6 m3 l2" ng-style="pointerCursorStyle()"
+                id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
+              ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}"
+              style="background-color:{{winningColor($parent.$index)}}">
               <div class="">
                 <span ng-bind-html-unsafe="card.text"></span>
               </div>
@@ -98,7 +100,7 @@
 
 
 <div id="game-end-container" ng-show="game.state === 'game ended' || game.state ==='game dissolved'">
-  <div class="row">
+  <div class="row info-box">
     <div class="container">
       <div class="game-end-answer-text center" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">
         <h4 class="game-section-header">What would you like to do now?</h4>
@@ -108,9 +110,9 @@
         <h4 class="game-section-header">What would you like to do now?</h4>
         Help yourself to another game or help a child in need? Donating will also place a lovely crown on your avatar's head.
       </div>
-      <div class="col s12">
-        <div class="game-end-btn-wrapper">
-          <div class=" col s12 m8">
+      <div class="">
+        <div class="col s12 game-end-btn-wrapper">
+          <div class=" col s12 m6 game-end-buttons">
             <div id="join-new-game" ng-click="game.joinGame('joinNewGame')" class="col s12 center game-end-btn">
               <a href='/#!/app' class="btn black center">
                 Join a New Game
@@ -122,7 +124,7 @@
               </a>
             </div>
           </div>
-          <div class="col s12 m4 center">
+          <div class="col s12 m6 center">
             <!-- This is real -->
             <a href="http://www.crowdrise.com" id="crowdriseStaticLink-fundraiser-121142" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a>
             <script type="text/javascript" src="https://www.crowdrise.com/widgets/donate/fundraiser/121142/?callback=userDonationCb"></script>

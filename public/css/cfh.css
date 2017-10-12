@@ -596,26 +596,13 @@ th.donation {
 }
 
 .message-list-item {
-  display: flex;
-  margin: 10px 0px;
+	padding: 5px 0;
+	border-bottom: 1px solid #eeeeee;
 }
 
-.chat-message {
-  width: inherit;
-}
 
-.wrap-text {
-  word-wrap: break-word;
-  word-break: normal;
-}
-
-.chat-avatar {
-  padding-right: 10px;
-}
-
-.chat-avatar img {
-  height: 40px;
-  width: 50px;
+.chat-avatar-container img {
+  max-width: 30px;
 }
 
 .chat-form {
@@ -637,6 +624,7 @@ th.donation {
 .chat-box {
   width: 100%
 }
+
 .input-group {
   padding: 0px !important;
   height: 44px !important;

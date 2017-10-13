@@ -42,12 +42,16 @@ angular.module('mean.system')
       }
 
       $scope.signin = (userInput) => {
+        // disable sigin button till the request resolves
+        $scope.buttonDisabled = 'disabled';
         $scope.error = '';
        $http.post('/api/auth/login', userInput)
        .success((response) => {
          $scope.storeData(response);
+         $scope.buttonDisabled ='';
        })
        .error((error) => {
+        $scope.buttonDisabled ='';
         $scope.error = error.error;
        });
       };
@@ -77,13 +81,17 @@ angular.module('mean.system')
     $scope.signup = (userInput) => {
       // empty error variable before new validation
       $scope.error = '';
+      // disable sigup button till the request resolves
+      $scope.buttonDisabled = 'disabled';
       const validation = $scope.validateInput(userInput);
       if (validation) {
         $http.post('/api/auth/signup', userInput)
           .success((response) => {
+            $scope.buttonDisabled = '';
            $scope.storeData(response);
           })
           .error((error) => {
+            $scope.buttonDisabled = '';
             $scope.error = error.error;
           });
       }

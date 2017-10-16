@@ -1,142 +1,151 @@
 <div ng-cloak id="cards-container" ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
-
-  <div id="cards" class='hand'>
-
-    <span ng-show="winnerPicked()"></span>
-      <div class="container">
-        <div class="col s12 l8">
-          <div ng-style="{'cursor':'pointer'}" class="card col s6 m3 l2" id='answers' ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
-          ng-repeat="card in game.players[game.playerIndex].hand track by $index" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
-          <div style="position: relative">
-            <span ng-bind-html-unsafe="card.text"></span>
-          </div>
-          <div>
-            <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
-            <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
-          </div>
-
-          </div>
-
-          <span ng-repeat="answer in game.table track by $index">
-              <div class="card smallest col s6 m3 l2" ng-style="pointerCursorStyle()"
-                id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
-              ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}"
-              style="background-color:{{winningColor($parent.$index)}}">
-              <div class="">
+    
+      <div id="cards" class='hand'>
+    
+        <span ng-show="winnerPicked()"></span>
+          <div class="container">
+            <div class="col s12 l8">
+              <div ng-style="{'cursor':'pointer'}" class="card col s6 m3 l2" id='answers' ng-click="pickCard(card)" ng-hide="showTable || isCzar()"
+              ng-repeat="card in game.players[game.playerIndex].hand track by $index" ng-animate="{enter:'animated fadeInUp', leave: 'animated fadeInOut'}">
+              <div style="position: relative">
                 <span ng-bind-html-unsafe="card.text"></span>
               </div>
-              <div class="">
-                <span id='selection-number' ng-show="firstAnswer($index)"> 1 </span>
-                <span id='selection-number' ng-show="secondAnswer($index)"> 2 </span>
+              <div>
+                <span id='selection-number' ng-show="showFirst(card)"> 1 </span>
+                <span id='selection-number' ng-show="showSecond(card)"> 2 </span>
               </div>
+    
               </div>
-          </span>
+    
+              <span ng-repeat="answer in game.table track by $index">
+                  <div class="card smallest col s6 m3 l2" ng-style="pointerCursorStyle()"
+                    id='table' ng-click="pickWinning(answer)" ng-show="showTable || isCzar()"
+                  ng-repeat="card in answer.card" ng-animate="{enter:'animated bounceInLeft'}"
+                  style="background-color:{{winningColor($parent.$index)}}">
+                  <div class="">
+                    <span ng-bind-html-unsafe="card.text"></span>
+                  </div>
+                  <div class="">
+                    <span id='selection-number' ng-show="firstAnswer($index)"> 1 </span>
+                    <span id='selection-number' ng-show="secondAnswer($index)"> 2 </span>
+                  </div>
+                  </div>
+              </span>
+            </div>
+          </div>
+      </div>
+    </div>
+    
+    <div class="row info-box">
+      <!-- <div class="container"> -->
+      <div class="col s12 l8 center" ng-show="!isCzar() && game.state === 'czar pick card'" style="min-height: 300px; padding:40px;">
+        <div class="col s5">
+          <img src='../img/czar.png' style="max-width: 130px" class='spining-card'/>
+        </div>
+        <div class="col s7" style="padding-top: 30px;">
+          <p style="font-size: 1.3rem">Waiting for Czar to pick card.</p>
         </div>
       </div>
-  </div>
-</div>
-
-<div class="row info-box">
-  <!-- <div class="container"> -->
-    <div class="col s12 l8" id="info-container" ng-show="game.state === 'awaiting players'">
-      <div id="inner-info">
-        <div class="center game-section-header" id="lobby-how-to-play">
-          <h3>How To Play</h3>
+        <div class="col s12 l8" id="info-container" ng-show="game.state === 'awaiting players'">
+          <div id="inner-info">
+            <div class="center game-section-header" id="lobby-how-to-play">
+              <h3>How To Play</h3>
+            </div>
+            <div class="container">
+              <ol id="oh-el" class="justify" style="font-size: 1.2rem;">
+                <li>Each player begins with, and will always have, 10 white answer cards.</li>
+                <li>For each round, one player is randomly chosen as the Card Czar.</li>
+                <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
+                <li>The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</li>
+                <li>*Want to adorn your avatar with a glorious crown? Donate to charity after the game!</li>
+              </ol>
+            </div>
+          </div>
         </div>
         <div class="container">
-          <ol id="oh-el" class="justify" style="font-size: 1.2rem;">
-            <li>Each player begins with, and will always have, 10 white answer cards.</li>
-            <li>For each round, one player is randomly chosen as the Card Czar.</li>
-            <li>Everyone else answers the black question card by clicking on the answer card they want to use.</li>
-            <li>The Card Czar then picks a favorite answer, and whoever played that answer wins the round.</li>
-            <li>*Want to adorn your avatar with a glorious crown? Donate to charity after the game!</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div id="czar-blank-container" style="color: #3a3a3a" class="col s12 m8" ng-show="isCzar() && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
-        <div id="czar-blank-inner" class="">
-          <p>
-            You are the Card Czar. </br>
-            <span id="smaller-text">
-              Players are choosing their answers. Prepare to select a winner.
-            </span>
-          </p>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="col s12 l4" id="social-bar-container"  ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
-      <div class="">
-        <player></player>
-      </div>
-    </div>
-
-  <!-- </div> -->
-</div>
-
-<div class="row">
-  <div class="container">
-    <div id='charity-fact-container' class="col s12 l8">
-      <div id='charity-fact-tagline'>
-        <h4 class="center game-section-header">
-          Did you know?
-        </h4>
-      </div>
-
-      <div id='charity-fact' class="container game-instructions space-beneath" style="font-size: 1.2rem;">
-         {{ makeAWishFact }}
-      </div>
-
-      <div id='charity-logo-container' class="center">
-        <img src='/img/make-a-wish-logo.png'/>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div id="game-end-container" ng-show="game.state === 'game ended' || game.state ==='game dissolved'">
-  <div class="row info-box">
-    <div class="container">
-      <div class="game-end-answer-text center" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">
-        <h4 class="game-section-header">What would you like to do now?</h4>
-        You might consider donating to charity to atone for the horrifying answers you've submitted. Donating will also place a lovely crown on your avatar's head.
-      </div>
-      <div class="game-end-answer-text center" ng-show="game.state === 'game ended' || game.gameWinner !== -1">
-        <h4 class="game-section-header">What would you like to do now?</h4>
-        Help yourself to another game or help a child in need? Donating will also place a lovely crown on your avatar's head.
-      </div>
-      <div class="">
-        <div class="col s12 game-end-btn-wrapper">
-          <div class=" col s12 m6 game-end-buttons">
-            <div id="join-new-game" ng-click="game.joinGame('joinNewGame')" class="col s12 center game-end-btn">
-              <a href='/#!/app' class="btn black center">
-                Join a New Game
-              </a>
-            </div>
-            <div id="exit-match" class="col s12 center game-end-btn">
-              <a href='/' class="btn black center">
-                Return to Lobby
-              </a>
+          <div id="czar-blank-container" style="color: #3a3a3a" class="col s12 m8"
+            ng-show="isCzar() && game.table.length===0 && game.state !== 'game dissolved' && game.state !== 'awaiting players'">
+            <div id="czar-blank-inner" class="">
+              <p>
+                You are the Card Czar. </br>
+                <span id="smaller-text">
+                  Players are choosing their answers. Prepare to select a winner.
+                </span>
+              </p>
             </div>
           </div>
-          <div class="col s12 m6 center">
-            <!-- This is real -->
-            <a href="http://www.crowdrise.com" id="crowdriseStaticLink-fundraiser-121142" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a>
-            <script type="text/javascript" src="https://www.crowdrise.com/widgets/donate/fundraiser/121142/?callback=userDonationCb"></script>
+    
+        </div>
+    
+        <div class="col s12 l4" id="social-bar-container"  ng-hide="game.state === 'game ended' || game.state ==='game dissolved'">
+          <div class="">
+            <player></player>
+          </div>
+        </div>
+    
+      <!-- </div> -->
+    </div>
+    
+    <div class="row">
+      <div class="container">
+        <div id='charity-fact-container' class="col s12 l8">
+          <div id='charity-fact-tagline'>
+            <h4 class="center game-section-header">
+              Did you know?
+            </h4>
+          </div>
+    
+          <div id='charity-fact' class="container game-instructions space-beneath" style="font-size: 1.2rem;">
+             {{ makeAWishFact }}
+          </div>
+    
+          <div id='charity-logo-container' class="center">
+            <img src='/img/make-a-wish-logo.png'/>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="container center">
-
+    
+    
+    
+    <div id="game-end-container" ng-show="game.state === 'game ended' || game.state ==='game dissolved'">
+      <div class="row info-box">
+        <div class="container">
+          <div class="game-end-answer-text center" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">
+            <h4 class="game-section-header">What would you like to do now?</h4>
+            You might consider donating to charity to atone for the horrifying answers you've submitted. Donating will also place a lovely crown on your avatar's head.
+          </div>
+          <div class="game-end-answer-text center" ng-show="game.state === 'game ended' || game.gameWinner !== -1">
+            <h4 class="game-section-header">What would you like to do now?</h4>
+            Help yourself to another game or help a child in need? Donating will also place a lovely crown on your avatar's head.
+          </div>
+          <div class="">
+            <div class="col s12 game-end-btn-wrapper">
+              <div class=" col s12 m6 game-end-buttons">
+                <div id="join-new-game" ng-click="game.joinGame('joinNewGame')" class="col s12 center game-end-btn">
+                  <a href='/#!/app' class="btn black center">
+                    Join a New Game
+                  </a>
+                </div>
+                <div id="exit-match" class="col s12 center game-end-btn">
+                  <a href='/' class="btn black center">
+                    Return to Lobby
+                  </a>
+                </div>
+              </div>
+              <div class="col s12 m6 center">
+                <!-- This is real -->
+                <a href="http://www.crowdrise.com" id="crowdriseStaticLink-fundraiser-121142" title="Fundraising Websites on Crowdrise">Fundraising Websites - Crowdrise</a>
+                <script type="text/javascript" src="https://www.crowdrise.com/widgets/donate/fundraiser/121142/?callback=userDonationCb"></script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="container center">
+    
+        </div>
+      </div>
     </div>
-  </div>
-</div>

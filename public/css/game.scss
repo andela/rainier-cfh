@@ -161,3 +161,18 @@
   margin-bottom: 10px;
   color: #757575;
 }
+@media (min-width: 991px) {
+  #czar-blank-container {
+    min-width: 66%;
+  }
+}
+
+.spining-card {
+  -webkit-animation:spin 2.5s linear infinite;
+   -moz-animation:spin 2.5s linear infinite;
+   animation:spin 2.5s linear infinite;
+ }
+
+ @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+ @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+ @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

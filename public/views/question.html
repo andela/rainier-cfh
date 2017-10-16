@@ -49,41 +49,6 @@
         </div>
       </div>
     </div>
-    <!--chat window-->
-    <div id="chat-box" class="chat-window" style="z-index: 1007">
-      <div class="chat-header">
-        Game chat
-        <i class="close-icon right material-icons" ng-click="toggleMessage()" ng-show="showMsgBody">arrow_drop_down</i>
-        <i class="close-icon right material-icons" ng-click="toggleMessage()" ng-hide="showMsgBody">arrow_drop_up</i>
-      </div>
-      <div class="chat-body" ng-show="showMsgBody">
-        <div id="chat-content">
-          <div class="message-list-item" ng-repeat="message in messages">
-            <div class="row">
-              <div class="container">
-                <div class="col s12">
-                  <img src='{{message.avatar}}' class="responsive-img left" style="width: 30px; padding-right: 10px;"/>
-                  <strong class="red-text left">@{{message.sender}}</strong>
-                  <small class="text-muted right">{{message.timeSent}}</small>
-                </div>
-                <div class="col s12">
-                  <span class="mute-text" style="left: 10px !important">{{message.body}}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--<div class="chat-form" ng-show="showMsgBody">-->
-      <form class="chat-form" ng-show="showMsgBody">
-        <div class="input-group">
-          <input class="chat-input" type="text" ng-model="messageBody" placeholder="Enter message here..." id="emojionearea2" required
-            emojinit/>
-        </div>
-      </form>
-      <!--</div>-->
-    </div>
-    <!--/chat window-->
     <!-- Game Over Stuff -->
     <div id="game-end-info">
       <div id="people-left-game-top" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">
@@ -102,6 +67,8 @@
     </div>
   </div>
 </div>
+
+
 <!--Error modal for users trying to start a game with less than 3 or greater than 12 players -->
 <div id="popUpModal" class="modal">
   <!-- Modal content-->

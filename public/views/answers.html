@@ -98,8 +98,10 @@
             </div>
           </div>
           <div id='charity-logo-container' class="col s12 m6 center">
-            <img src='/img/make-a-wish-logo.png' class="responsive-img"
-              style="min-width: 300px; margin-top: 40px;"/>
+            <a target="_blank" href="http://wish.org/#sm.00001gf5d24mfxfa3uhr55q4es2ph">
+              <img src='/img/make-a-wish-logo.png' class="responsive-img"
+                style="min-width: 300px; margin-top: 40px;"/>
+            </a>
           </div>
         </div>
       </div>
@@ -158,7 +160,7 @@
       </div>
       <div class="chat-body" ng-show="showMsgBody">
         <div id="chat-content">
-          <div class="message-list-item" ng-repeat="message in messages">
+          <div class="message-list-item" ng-repeat="message in messages track by $index">
             <div class="row">
               <div class="container">
                 <div class="col s12">

@@ -1,8 +1,8 @@
-[![Coverage Status](https://coveralls.io/repos/github/andela/rainier-cfh/badge.svg?branch=staging)](https://coveralls.io/github/andela/rainier-cfh?branch=staging)
 
 Cards for Humanity - [http://cfh.io](http://cfh.io)
 ===========
 [![Build Status](https://travis-ci.org/andela/rainier-cfh.svg?branch=chore%2F151168124%2Fintegrate-travis-with-readme-badge)](https://travis-ci.org/andela/rainier-cfh)
+[![Coverage Status](https://coveralls.io/repos/github/andela/rainier-cfh/badge.svg?branch=feature%2F151247719%2Fsearch-for-other-users)](https://coveralls.io/github/andela/rainier-cfh?branch=feature%2F151247719%2Fsearch-for-other-users)
 
 Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally are.
 

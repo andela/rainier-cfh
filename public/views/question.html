@@ -11,7 +11,7 @@
         Finding Players
         <!-- spinner -->
         <div class="" id="loading-container center">
-          <div class="preloader-wrapper small active">
+          <div class="preloader-wrapper small active" style="margin-top: 20px;">
             <div class="spinner-layer spinner-red-only">
               <div class="circle-clipper left">
                 <div class="circle"></div>
@@ -42,8 +42,7 @@
       <div>
         <div class="container">
           <div id="invite" class="col s12 m4 start-game-btn center modal-trigger right"
-            ng-show="(game.playerIndex === 0 || game.joinOverride)" href="#searchModal"
-            style="border: 1px solid #bbbbbb;padding: 20px; border-radius: 4px; height: 60px; cursor: pointer;">
+            ng-show="(game.playerIndex === 0 || game.joinOverride)" href="#searchModal">
             Invite people to join
           </div>
         </div>
@@ -84,7 +83,7 @@
 
 </div>
 <!-- Modal to search and invite other users -->
-<div id="searchModal" class="modal">
+<div id="searchModal" class="modal black-text">
   <div class="modal-content">
     <div class="modal-footer">
       <i class="material-icons modal-close">close</i>

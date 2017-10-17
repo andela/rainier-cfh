@@ -92,7 +92,7 @@
 
                       <tbody>
                         <tr ng-repeat="gameLog in gameLogs track by $index">
-                          <td>{{ gameLog.gameDate }}</td>
+                          <td>{{ gameLog.gameDate.slice(0, gameLog.gameDate.indexOf('T')) }}</td>
                           <td>{{gameLog.gameRound}}</td>
                           <td>{{gameLog.gamePlayers.join(', ')}}</td>
                           <td>{{gameLog.gameWinner}}</td>
@@ -207,18 +207,16 @@
               <tr>
                 <th class="date">Game Date</th>
                 <th class="played">Games Played</th>
-                <th class="won">Games Won</th>
-                <th class="lost">Games Lost</th>
+                <th class="won">Games Winner</th>
                 <th class="donation">Donation</th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="stat in stats | limitTo:8">
-                <td >{{stat.gameDate}}</td>
-                <td>{{stat.gameRound}}</td>
-                <td>{{stat.gameWon}}</td>
-                <td>{{stat.gameLost}}</td>
-                <td>{{stat.donation | currency}}</td>
+              <tr ng-repeat="gameLog in gameLogs track by $index">
+                <td>{{ gameLog.gameDate.slice(0, gameLog.gameDate.indexOf('T')) }}</td>
+                <td>{{gameLog.gameRound}}</td>
+                <td>{{gameLog.gameWinner}}</td>
+                <td>-</td>
               </tr>
             </tbody>
           </table>

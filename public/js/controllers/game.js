@@ -264,7 +264,11 @@ angular.module('mean.system')
 
       $scope.abandonGame = function () {
         game.leaveGame();
-        $location.path('/dashboard');
+        if (localStorage.getItem('cfhUser') || localStorage.getItem('cfhUser')) {
+          $location.path('/dashboard');
+        } else {
+          $location.path('/');
+        }
       };
 
 

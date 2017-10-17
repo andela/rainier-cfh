@@ -264,7 +264,7 @@ angular.module('mean.system')
 
       $scope.abandonGame = function () {
         game.leaveGame();
-        $location.path('/dashboard');
+        $location.path('/app');
       };
 
 
